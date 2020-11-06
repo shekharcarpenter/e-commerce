@@ -1,0 +1,136 @@
+{% extends 'common/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">Your Magic Cart</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            </div>
+        </div>
+    </div>
+    <main class="site-main main-container no-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="page-main-content">
+                        <div class="lynessa">
+                            <div class="lynessa-notices-wrapper"></div>
+                            <div class="lynessa-cart-form">
+                                <table class="shop_table shop_table_responsive cart lynessa-cart-form__contents"
+                                       cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        {#                                        <th class="product-thumbnail">&nbsp;</th>#}
+                                        <th class="product-name">Your Magic Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="lynessa-cart-form__cart-item cart_item">
+                                        <td class="product-name" data-title="Product">
+                                            <a href="#">{{ product_name }}</a></td>
+                                        <td class="product-price" data-title="Price">
+                                        <span class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ price }}</span></td>
+                                        <td class="product-quantity" data-title="Quantity">
+                                            <div class="quantity">
+                                                <span class="qty-label">Quantiy:</span>
+                                                <div class="control">
+                                                    <input type="number" id="quantity_input" class="quantity_input"
+                                                           onchange="updateCart(this)" max="10" min="1"
+                                                           value="{{ cart.quantity }}"
+                                                           title="Qty"
+                                                           class="input-qty input-text qty text">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal" data-title="Total">
+                                        <span class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol"
+                                                id="total_price">₹ {{ cart.price }}</span></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="actions">
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="cart-collaterals">
+                                <div class="cart_totals ">
+                                    <h2>Investments</h2>
+                                    <table class="shop_table shop_table_responsive" cellspacing="0">
+                                        <tbody>
+                                        <tr class="order-total">
+                                            <th>Total Investment</th>
+                                            <td data-title="Total Investment"><strong><span
+                                                    class="lynessa-Price-amount amount"><span
+                                                    class="lynessa-Price-currencySymbol"
+                                                    id="cart_total">₹ {{ cart.price }}</span></span></strong>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="lynessa-proceed-to-checkout">
+                                        <a href="{% url 'ecommerce:checkout' %}">
+                                            <button>Checkout</button>
+                                        </a>
+                                        {#                                        <form action="{% url 'ecommerce:cache_payment' %}"#}
+                                        {#                                              method="POST">#}
+                                        {#                                            <script#}
+                                        {#                                                    src="https://checkout.razorpay.com/v1/checkout.js"#}
+                                        {#                                                    data-key="rzp_test_TF1tA8adBOjAEx"#}
+                                        {#                                                    data-amount="{{ cart.price_in_paise }}"#}
+                                        {#                                                    data-buttontext="Buy Now"#}
+                                        {#                                                    data-name="Think Maximum"#}
+                                        {#                                                    data-description="Purchase Description"#}
+                                        {#                                                    data-prefill.name="{{ request.user.name }}"#}
+                                        {#                                                    data-prefill.email="{{ request.user.email }}"#}
+                                        {#                                                    data-theme.color="#256d7b"#}
+                                        {#                                            ></script>#}
+                                        {#                                            {% csrf_token %}#}
+                                        {#                                            <input type="hidden" value="{{ cart.id }}" name="cart">#}
+                                        {#                                            <input type="hidden" value="{{ cart.price_in_paise }}" name="amount">#}
+                                        {#                                            <input type="hidden" value="Hidden Element" name="hidden">#}
+                                        {#                                        </form>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include 'common/footer.html' %}
+    <script>
+        function updateCart(e) {
+            var xhttp = new XMLHttpRequest();
+            var params = 'quantity=' + e.value;
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    e.value = this.responseText
+                    document.getElementById("total_price").innerHTML = "";
+                    document.getElementById("cart_total").innerHTML = "";
+                    var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});
+                    document.getElementById("total_price").innerHTML = x;
+                    document.getElementById("cart_total").innerHTML = x;
+                }
+            };
+            xhttp.open("POST", "update-cart", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+    </script>
+    </body>
+{% endblock %}
+
+</html>

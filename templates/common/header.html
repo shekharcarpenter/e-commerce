@@ -1,0 +1,324 @@
+{% load static %}
+<header id="header" class="header style-02 header-dark header-sticky header-transparent">
+    <div class="header-wrap-stick">
+        <div class="header-position">
+            <div class="header-middle">
+                <div class="lynessa-menu-wapper"></div>
+                <div class="header-middle-inner">
+                    <div class="header-search-menu">
+                        <div class="block-menu-bar">
+                            <a class="menu-bar menu-toggle" href="#">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="header-logo-nav">
+                        <div class="header-logo">
+                            <a href="{% url 'home:home' %}"><img style="height: 100px" alt="lynessa"
+                                                                 src="{% static 'images/logo.png' %}"
+                                                                 class="logo"></a></div>
+                    </div>
+                    <div class="header-control">
+                        <div class="header-control-inner">
+                            <div class="meta-dreaming">
+                                <div class="header-search lynessa-dropdown">
+                                    <div class="block-search">
+                                        <form role="search" method="get"
+                                              class="form-search block-search-form lynessa-live-search-form">
+                                            <div class="form-content search-box results-search">
+                                                <div class="inner">
+                                                    <input autocomplete="off" class="searchfield txt-livesearch input"
+                                                           name="s" value="" placeholder="Search here..." type="text">
+                                                </div>
+                                            </div>
+                                            <input name="post_type" value="product" type="hidden">
+                                            <input name="taxonomy" value="product_cat" type="hidden">
+                                            <div class="category">
+                                                <select title="product_cat" name="product_cat" id="64788262"
+                                                        class="category-search-option"
+                                                        tabindex="-1" style="display: none;">
+                                                    <option value="0">All Categories</option>
+                                                    <option class="level-0" value="light">Just In</option>
+                                                    <option class="level-0" value="chair">Restock</option>
+                                                    <option class="level-0" value="table">Dresses</option>
+                                                    <option class="level-0" value="bed">Shirts</option>
+                                                    <option class="level-0" value="new-arrivals">New arrivals</option>
+                                                    <option class="level-0" value="lamp">Leggings</option>
+                                                    <option class="level-0" value="specials">Knit Tops</option>
+                                                    <option class="level-0" value="sofas">Bodysuits</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn-submit">
+                                                <span class="pe-7s-search"></span>
+                                            </button>
+                                        </form><!-- block search -->
+                                    </div>
+                                </div>
+                                <div class="lynessa-dropdown-close">x</div>
+                                {% if request.user.is_authenticated %}
+                                    Welcome {{ request.user.full_name }}
+                                    <div class="menu-item block-user block-dreaming lynessa-dropdown">
+                                        <a class="block-link" href="#">
+                                            <span class="pe-7s-user"></span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders">
+{#                                                <a href="{% url 'ecommerce:view_orders' %}">My Orders</a>#}
+                                            </li>
+                                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
+{#                                                <a href="{% url 'home:address' %}">Addresses</a>#}
+                                            </li>
+                                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account">
+{#                                                <a href="{% url 'my_account' %}">My Account</a>#}
+                                            </li>
+                                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
+{#                                                <a href="{% url 'logout' %}">Logout</a>#}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
+{#                                        <a class="block-link " href="{% url 'ecommerce:cart' %}">#}
+{#                                            <span class="pe-7s-shopbag"></span>#}
+{#                                            <span class="count">{{ request.user.cart.quantity }}</span>#}
+{#                                        </a>#}
+                                    </div>
+                                {% else %}
+                                    <a href="{% url 'users:login' %}"> Login / Register </a>
+                                    <div class="menu-item block-user block-dreaming">
+                                        <span id="myBtn" class="pe-7s-user block-link">
+                                                <div class="modal">
+                                                    <div class="modal-content modal-body">
+                                                    <div class="modal-body">
+                                                        <span class="closeModal">&times;</span>
+                                                            <main class="site-main main-container no-sidebar">
+                                                                <div class="container">
+                                                                    <div class="row">
+                                                                        <div class="main-content  col-md-12">
+                                                                            <div class="page-main-content">
+                                                                                <div class="lynessa">
+                                                                                    <div class="lynessa-notices-wrapper"></div>
+                                                                                        <div class="u-columns col2-set"
+                                                                                             id="customer_login">
+                                                                                            <div class="u-column1 col-1">
+                                                                                                <h2>Login</h2>
+                                                                                                <form class="lynessa-form lynessa-form-login login"
+                                                                                                      method="post"
+                                                                                                      action="{% url 'users:login' %}">
+                                                                                                    {% csrf_token %}
+                                                                                                    <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                                                                                        <label for="username"
+                                                                                                               class="labelText">Username or email address&nbsp;</label>
+                                                                                                    <input type="text"
+                                                                                                           class="input-text"
+                                                                                                           name="email"
+                                                                                                           id="username"
+                                                                                                           autocomplete="email"
+                                                                                                           value=""
+                                                                                                           required>
+                                                                                                    </p>
+                                                                                                    <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                                                                                        <label for="password"
+                                                                                                               class="labelText">Password&nbsp;</label>
+                                                                                                        <input class="input-text"
+                                                                                                               type="password"
+                                                                                                               name="password"
+                                                                                                               id="password"
+                                                                                                               autocomplete="current-password"
+                                                                                                               required>
+                                                                                                    </p>
+                                                                                                    <p class="form-row">
+                                                                                                        <button type="submit"
+                                                                                                                name="login"
+                                                                                                                value="Log in"
+                                                                                                                class="lynessa-Button button">Log in
+                                                                                                        </button>
+                                                                                                    </p>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                            <div class="u-column2 col-2">
+                                                                                                <h2>Register</h2>
+                                                                                                <form method="post"
+                                                                                                      class="lynessa-form lynessa-form-register register"
+                                                                                                      action="{% url 'users:register' %}">
+                                                                                                    <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                                                                                        {% csrf_token %}
+                                                                                                        <input type="text"
+                                                                                                               name="full_name"
+                                                                                                               autocomplete="name"
+                                                                                                               value=""
+                                                                                                               placeholder="Full Name"
+                                                                                                               required>
+                                                                                                        <input type="email"
+                                                                                                               name="email"
+                                                                                                               autocomplete="email"
+                                                                                                               value=""
+                                                                                                               placeholder="Email"
+                                                                                                               required>
+                                                                                                        <input type="number"
+                                                                                                               name="number"
+                                                                                                               autocomplete="number"
+                                                                                                               value=""
+                                                                                                               placeholder="Mobile Number"
+                                                                                                               required>
+                                                                                                        <input type="password"
+                                                                                                               name="password"
+                                                                                                               autocomplete="password"
+                                                                                                               value=""
+                                                                                                               placeholder="Password"
+                                                                                                               required>
+                                                                                                        <input type="password"
+                                                                                                               name="confirm_password"
+                                                                                                               autocomplete="confirm_password"
+                                                                                                               value=""
+                                                                                                               placeholder="Confirm Password"
+                                                                                                               required>
+                                                                                                    </p>
+                                                                                                    <p class="lynessa-FormRow form-row">
+                                                                                                        <button type="submit"
+                                                                                                                class="lynessa-Button button"
+                                                                                                                name="register"
+                                                                                                                value="Register">Register
+                                                                                                        </button>
+                                                                                                    </p>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                         </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                            </main>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    <div class="header-mobile">#}
+    {#        <div class="header-mobile-left">#}
+    {#            <div class="block-menu-bar">#}
+    {#                <a class="menu-bar menu-toggle" href="#">#}
+    {#                    <span></span>#}
+    {#                    <span></span>#}
+    {#                    <span></span>#}
+    {#                </a>#}
+    {#            </div>#}
+    {#            <div class="header-search lynessa-dropdown">#}
+    {#                <div class="header-search-inner" data-lynessa="lynessa-dropdown">#}
+    {#                    <a href="#" class="link-dropdown block-link">#}
+    {#                        <span class="pe-7s-search"></span>#}
+    {#                    </a>#}
+    {#                </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#        <div class="header-mobile-mid">#}
+    {#            <div class="header-logo">#}
+    {#                <a href="index.html"><img alt="lynessa" src="../../static/images/logo.png" class="logo"></a>#}
+    {#            </div>#}
+    {#        </div>#}
+
+    {#        <div class="header-mobile-right">#}
+    {#            <div class="header-control-inner">#}
+    {#                <div class="meta-dreaming">#}
+    {#                    <div class="menu-item block-user block-dreaming lynessa-dropdown">#}
+    {#                        <a class="block-link">#}
+    {#                            <span class="pe-7s-user"></span>#}
+    {#                        </a>#}
+    {##}
+    {##}
+    {#                        <ul class="sub-menu">#}
+    {#                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--dashboard is-active">#}
+    {#                                <a href="#">Dashboard</a>#}
+    {#                            </li>#}
+    {#                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders">#}
+    {#                                <a href="#">Orders</a>#}
+    {#                            </li>#}
+    {#                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--downloads">#}
+    {#                                <a href="#">Downloads</a>#}
+    {#                            </li>#}
+    {#                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">#}
+    {#                                <a href="#">Addresses</a>#}
+    {#                            </li>#}
+    {#                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account">#}
+    {#                                <a href="#">Account details</a>#}
+    {#                            </li>#}
+    {#                            <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">#}
+    {#                                <a href="{% url 'logout' %}">Logout</a>#}
+    {#                            </li>#}
+    {#                        </ul>#}
+    {#                    </div>#}
+    {##}
+    {#                    <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">#}
+    {#                        <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">#}
+    {#                            <a class="block-link link-dropdown" href="cart.html">#}
+    {#                                <span class="pe-7s-shopbag"></span>#}
+    {#                                <span class="count">3</span>#}
+    {#                            </a>#}
+    {#                        </div>#}
+    {#                        <div class="widget lynessa widget_shopping_cart">#}
+    {#                            <div class="widget_shopping_cart_content">#}
+    {#                                <h3 class="minicart-title">Your Cart<span class="minicart-number-items">3</span></h3>#}
+    {#                                <ul class="lynessa-mini-cart cart_list product_list_widget">#}
+    {#                                    <li class="lynessa-mini-cart-item mini_cart_item">#}
+    {#                                        <a href="#" class="remove remove_from_cart_button">×</a>#}
+    {#                                        <a href="#">#}
+    {#                                            <img src="assets/images/apro134-1-600x778.jpg"#}
+    {#                                                 class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
+    {#                                                 alt="img" width="600" height="778">T-shirt with skirt – Pink&nbsp;#}
+    {#                                        </a>#}
+    {#                                        <span class="quantity">1 × <span#}
+    {#                                                class="lynessa-Price-amount amount"><span#}
+    {#                                                class="lynessa-Price-currencySymbol">$</span>150.00</span></span>#}
+    {#                                    </li>#}
+    {#                                    <li class="lynessa-mini-cart-item mini_cart_item">#}
+    {#                                        <a href="#" class="remove remove_from_cart_button">×</a>#}
+    {#                                        <a href="#">#}
+    {#                                            <img src="assets/images/apro1113-600x778.jpg"#}
+    {#                                                 class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
+    {#                                                 alt="img" width="600" height="778">Abstract Sweatshirt&nbsp;#}
+    {#                                        </a>#}
+    {#                                        <span class="quantity">1 × <span#}
+    {#                                                class="lynessa-Price-amount amount"><span#}
+    {#                                                class="lynessa-Price-currencySymbol">$</span>129.00</span></span>#}
+    {#                                    </li>#}
+    {#                                    <li class="lynessa-mini-cart-item mini_cart_item">#}
+    {#                                        <a href="#" class="remove remove_from_cart_button">×</a>#}
+    {#                                        <a href="#">#}
+    {#                                            <img src="assets/images/apro201-1-600x778.jpg"#}
+    {#                                                 class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
+    {#                                                 alt="img" width="600" height="778">ELOISE SHIRRED&nbsp;#}
+    {#                                        </a>#}
+    {#                                        <span class="quantity">1 × <span#}
+    {#                                                class="lynessa-Price-amount amount"><span#}
+    {#                                                class="lynessa-Price-currencySymbol">$</span>139.00</span></span>#}
+    {#                                    </li>#}
+    {#                                </ul>#}
+    {#                                <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>#}
+    {#                                    <span class="lynessa-Price-amount amount"><span#}
+    {#                                            class="lynessa-Price-currencySymbol">$</span>418.00</span>#}
+    {#                                </p>#}
+    {#                                <p class="lynessa-mini-cart__buttons buttons">#}
+    {#                                    <a href="cart.html" class="button lynessa-forward">Viewcart</a>#}
+    {#                                    <a href="checkout.html" class="button checkout lynessa-forward">Checkout</a>#}
+    {#                                </p>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+</header>

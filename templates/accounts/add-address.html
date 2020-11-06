@@ -1,0 +1,277 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block body %}
+    {#<body>#}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Float four columns side by side */
+        .column {
+            float: left;
+            width: 33%;
+            padding: 0 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Remove extra left and right margins, due to padding */
+        .row {
+            margin: 0 -5px;
+        }
+
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive columns */
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+                display: block;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Style the counter cards */
+        .card {
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            background-color: #fff;
+            border: 2px solid #CF9163;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            text-align: left;
+            background-color: #fff;
+            border: 2px solid #CF9163;
+        }
+
+        .heading {
+            border-bottom: 2px solid #CF9163;
+        }
+
+        .heading h3 {
+            color: #0b0b0b;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .card p {
+            color: #898989;
+            font-size: 14px;
+        }
+
+        .card a {
+            color: #106399;
+        }
+
+        .editLink {
+
+        }
+
+    </style>
+    <body>
+    {% include 'common/header.html' %}
+
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">My Account</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            </div>
+        </div>
+    </div>
+    <main class="site-main  main-container no-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="page-main-content">
+                        <div class="lynessa">
+                            <nav class="lynessa-MyAccount-navigation">
+                                <ul>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders">
+                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>
+                                    </li>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
+                                        <a href="{% url 'home:address' %}">Addresses</a>
+                                    </li>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account is-active">
+                                        <a href="{% url 'my_account' %}">Account details</a>
+                                    </li>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
+                                        <a href="{% url 'logout' %}">Logout</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            {% if errors %}
+                                {% for error in errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            {% endif %}
+                            {% if address %}
+                                <div class="lynessa-MyAccount-content">
+                                    <div class="lynessa-notices-wrapper"></div>
+                                    <form class="lynessa-EditAccountForm edit-account"
+                                          action="{% url 'home:add_address' %}" method="post">
+                                        <div class="clear"></div>
+                                        {% csrf_token %}
+                                        <input type="hidden" name="_method" value="put"/>
+                                        <input type="hidden"
+                                               name="address_id" id="full_name" value="{{ address.id }}">
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_display_name">Full name&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--text input-text"
+                                                   name="full_name" id="full_name" value="{{ address.full_name }}">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">House Number&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="house_number" id="house_number"
+                                                   value="{{ address.house_number }}">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">Street&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="street" id="street"
+                                                   value="{{ address.street }}">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">City<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="city" id="city"
+                                                   value="{{ address.city }}">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">PIN<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="pin_code" id="pin_code"
+                                                   value="{{ address.pin_code }}">
+                                        </p>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">State<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="state" id="state"
+                                                   value="{{ address.city }}">
+                                        </p>
+
+                                        <div class="clear"></div>
+                                        <p>
+                                            <button type="submit" class="lynessa-Button button"
+                                                    name="save_account_details"
+                                                    value="Save changes">Save changes
+                                            </button>
+                                            <input type="hidden" name="action" value="save_account_details">
+                                        </p>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <div class="lynessa-MyAccount-content">
+                                    <div class="lynessa-notices-wrapper"></div>
+                                    <form class="lynessa-EditAccountForm edit-account"
+                                          action="{% url 'home:add_address' %}" method="post">
+                                        <div class="clear"></div>
+                                        {% csrf_token %}
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_display_name">Full name&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--text input-text"
+                                                   name="full_name" id="full_name" value="">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">House Number&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="house_number" id="house_number"
+                                                   value="">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">Street&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="street" id="street"
+                                                   value="">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">City<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="city" id="city"
+                                                   value="">
+                                        </p>
+                                        <div class="clear"></div>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="account_email">State<span
+                                                    class="required">*</span></label>
+                                            <input type="text" class="lynessa-Input lynessa-Input--email input-text"
+                                                   name="state" id="state"
+                                                   value="">
+                                        </p>
+
+                                        <div class="clear"></div>
+                                        <p>
+                                            <input type="hidden" id="save-account-details-nonce"
+                                                   name="save-account-details-nonce" value="">
+                                            <input type="hidden" name="_wp_http_referer" value="">
+                                            <button type="submit" class="lynessa-Button button"
+                                                    name="save_account_details"
+                                                    value="Save changes">Save changes
+                                            </button>
+                                            <input type="hidden" name="action" value="save_account_details">
+                                        </p>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include 'common/footer.html' %}
+    </body>
+
+    {#<a class="backtotop active" href="#">#}
+    {#    <i class="fa fa-angle-up"></i>#}
+    {#</a>#}
+    {#<script src="assets/js/jquery-1.12.4.min.js"></script>#}
+    {#<script src="assets/js/bootstrap.min.js"></script>#}
+    {#<script src="assets/js/chosen.min.js"></script>#}
+    {#<script src="assets/js/countdown.min.js"></script>#}
+    {#<script src="assets/js/jquery.scrollbar.min.js"></script>#}
+    {#<script src="assets/js/lightbox.min.js"></script>#}
+    {#<script src="assets/js/magnific-popup.min.js"></script>#}
+    {#<script src="assets/js/slick.js"></script>#}
+    {#<script src="assets/js/jquery.zoom.min.js"></script>#}
+    {#<script src="assets/js/threesixty.min.js"></script>#}
+    {#<script src="assets/js/jquery-ui.min.js"></script>#}
+    {#<script src="assets/js/mobilemenu.js"></script>#}
+    {#<script src="assets/js/functions.js"></script>#}
+    {#</body>#}
+{% endblock %}
+</html>
