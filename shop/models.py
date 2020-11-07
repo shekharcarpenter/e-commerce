@@ -295,6 +295,9 @@ class Product(models.Model):
     def get_all_images(self):
         return ProductImages.objects.filter(product=self)
 
+    def all_images(self):
+        return self.get_all_images()
+
     def primary_image(self):
         """
         Returns the primary image for a product. Usually used when one can

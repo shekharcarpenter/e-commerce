@@ -260,7 +260,7 @@
                                             <div class="product-inner tooltip-left">
                                                 <div class="product-thumb">
                                                     <a class="thumb-link"
-                                                       href="#">
+                                                       href="{% url 'shop:view_product' product.slug%}">
                                                         <img class="img-responsive"
                                                              src="{% get_media_prefix %}{{ product.primary_image.original }}"
                                                              alt="{{ product.primary_image.caption }}" width="270" height="350">
@@ -283,7 +283,7 @@
                                                 <div class="product-info equal-elem">
                                                     <h3 class="product-name product_title">
 
-                                                        <a href="#">{{ product.name }}</a>
+                                                        <a href="{% url 'shop:view_product' product.slug%}">{{ product.name }}</a>
                                                     </h3>
                                                     <div class="rating-wapper nostar">
                                                         {#                                                <div class="star-rating"><span style="width:0%">Rated <strong#}
