@@ -466,6 +466,10 @@ class Cart(models.Model):
             entry.quantity = quantity
             entry.save()
 
+    @property
+    def quantity(self):
+        return self.all_products().count()
+
     # ========
     # Strategy
     # ========

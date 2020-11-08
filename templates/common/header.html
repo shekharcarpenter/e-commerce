@@ -68,7 +68,7 @@
                                                 <a href="">My Orders</a>
                                             </li>
                                             <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
-                                                <a href="">Addresses</a>
+                                                <a href="{% url 'users:address' %}">Addresses</a>
                                             </li>
                                             <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account">
                                                 <a href="{% url 'users:my_account' %}">My Account</a>
@@ -79,10 +79,10 @@
                                         </ul>
                                     </div>
                                     <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
-{#                                        <a class="block-link " href="{% url 'ecommerce:cart' %}">#}
-{#                                            <span class="pe-7s-shopbag"></span>#}
-{#                                            <span class="count">{{ request.user.cart.quantity }}</span>#}
-{#                                        </a>#}
+                                        <a class="block-link " href="">
+                                            <span class="pe-7s-shopbag"></span>
+                                            <span class="count">{{ request.user.cart.quantity }}</span>
+                                        </a>
                                     </div>
                                 {% else %}
                                     <a href="{% url 'users:login' %}"> Login / Register </a>
