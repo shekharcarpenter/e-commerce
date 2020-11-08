@@ -36,6 +36,7 @@
 
 
 
+
                                                                      {% get_media_prefix %}{{ product_image.original }}">
                                                     </div>
                                                 {% endfor %}
@@ -98,31 +99,30 @@
                                             </div>
                                         </div>
                                     </form>
+{#                                    todo make it red when added to wishlist#}
                                     <div class="yith-wcwl-add-to-wishlist">
                                         <div class="yith-wcwl-add-button show">
                                             <a href="#" rel="nofollow"
-                                               data-product-id="27" data-product-type="variable"
-                                               class="add_to_wishlist">
-                                                Add to Wishlist</a>
+                                               product_id="{{ product.id }}" data-product-type="variable"
+                                               class="add_to_wishlist" onclick="addToWishlist(this, {{ product.id }})">
+                                                Add to Wishlist </a>
                                         </div>
                                     </div>
                                     <div class="clear"></div>
-                                    <a href="#"
-                                       class="compare button" data-product_id="27" rel="nofollow">Compare</a>
                                     <div class="product_meta">
                                         <div class="wcml-dropdown product wcml_currency_switcher">
                                             <ul>
                                                 <li class="wcml-cs-active-currency">
-                                                    <a class="wcml-cs-item-toggle">USD</a>
+                                                    <a class="wcml-cs-item-toggle"></a>
                                                     <ul class="wcml-cs-submenu">
                                                         <li>
-                                                            <a>EUR</a>
+                                                            <a></a>
                                                         </li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <span class="sku_wrapper">SKU: <span class="sku">885B712</span></span>
+                                        <span class="sku_wrapper">SKU: <span class="sku">{{ product.sku }}</span></span>
                                         <span class="posted_in">Categories: <a
                                                 href="#"
                                                 rel="tag">Dresses</a>, <a
@@ -778,23 +778,25 @@
 
     {% include 'common/footer.html' %}
     <script>
-        function updateCart(e) {
+        function addToWishlist(e, product_id) {
             console.log(e)
-            return
-            {#var xhttp = new XMLHttpRequest();#}
-            {#var params = 'quantity=' + e.value;#}
-            {#xhttp.onreadystatechange = function () {#}
-            {#    if (this.readyState == 4 && this.status == 200) {#}
-            {#        e.value = this.responseText#}
-            {#        document.getElementById("total_price").innerHTML = "";#}
-            {#        document.getElementById("cart_total").innerHTML = "";#}
-            {#        var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});#}
-            {#        document.getElementById("total_price").innerHTML = x;#}
-            {#        document.getElementById("cart_total").innerHTML = x;#}
-            {#    }#}
-            {#xhttp.open("POST", "update-cart", true);#}
-            {#xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');#}
-            {#xhttp.send(params);#}
+            var xhttp = new XMLHttpRequest();
+            var params = 'product_id=' + product_id;
+            {#var params = 'product_id=' + e.product_id;#}
+            console.log(params)
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    e.value = this.responseText
+                    {#document.getElementById("total_price").innerHTML = "";#}
+                    {#document.getElementById("cart_total").innerHTML = "";#}
+                    {#var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});#}
+                    {#document.getElementById("total_price").innerHTML = x;#}
+                    {#document.getElementById("cart_total").innerHTML = x;#}
+                }
+            };
+            xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
         }
     </script>
     </body>

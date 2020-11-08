@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render,redirect
+from django.http.response import HttpResponse
+from django.shortcuts import render, redirect
 
 from shop.models import Product
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -21,4 +23,14 @@ def add_to_cart(request):
     cart = request.user.cart
     product = Product.objects.get(id=int(request.POST.get('product_id')))
     cart.add_product(product, int(request.POST.get('quantity', 1)))
+    return redirect('shop:view_product', slug=product.slug)
+
+
+@login_required(login_url='user.login')
+@csrf_exempt
+def add_to_wishlist(request):
+    wish_list = request.user.wish_list
+    product = Product.objects.get(id=int(request.POST.get('product_id')))
+    wish_list.add_product(product)
+    return HttpResponse(status=200)
     return redirect('shop:view_product', slug=product.slug)

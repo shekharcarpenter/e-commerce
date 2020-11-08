@@ -460,7 +460,7 @@ class Cart(models.Model):
                   'owner': self.owner,
                   'num_products': self.num_products}
 
-    def add_product(self, product, quantity):
+    def add_product(self, product, quantity=1):
         entry, created = self.products.get_or_create(cart=self, product=product)
         if not created:
             entry.quantity = quantity
