@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def product_view(request, slug):
     product = Product.objects.get(slug=slug)
-    quantity = 0
+    quantity = 1
     if request.user and request.user.is_authenticated:
         cart_product = request.user.cart.all_products().filter(product=product).first()
         if cart_product:
@@ -33,4 +33,3 @@ def add_to_wishlist(request):
     product = Product.objects.get(id=int(request.POST.get('product_id')))
     wish_list.add_product(product)
     return HttpResponse(status=200)
-    return redirect('shop:view_product', slug=product.slug)
