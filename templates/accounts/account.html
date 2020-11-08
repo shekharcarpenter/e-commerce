@@ -103,16 +103,16 @@
                             <nav class="lynessa-MyAccount-navigation">
                                 <ul>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders">
-                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>
+{#                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>#}
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
-                                        <a href="{% url 'home:address' %}">Addresses</a>
+{#                                        <a href="{% url 'home:address' %}">Addresses</a>#}
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account is-active">
-                                        <a href="{% url 'my_account' %}">Account details</a>
+                                        <a href="{% url 'users:my_account' %}">Account details</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
-                                        <a href="{% url 'logout' %}">Logout</a>
+                                        <a href="{% url 'users:logout' %}">Logout</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -123,7 +123,7 @@
                             {% endif %}
                             <div class="lynessa-MyAccount-content">
                                 <div class="lynessa-notices-wrapper"></div>
-                                <form class="lynessa-EditAccountForm edit-account" action="{% url 'my_account' %}" method="post">
+                                <form class="lynessa-EditAccountForm edit-account" action="{% url 'users:my_account' %}" method="post">
                                     <div class="clear"></div>
                                     {% csrf_token %}
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
@@ -133,7 +133,7 @@
                                                name="account_display_name" id="account_display_name" value="{{ request.user.full_name }}">
                                         <span><em>This will be how your name will be displayed in the account section and in reviews</em></span>
                                     </p>
-                                    <div class="clear"></div>
+                                    <div class="clear"></div>u.fu
                                     <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
                                         <label for="account_email">Email address&nbsp;<span
                                                 class="required">*</span></label>
