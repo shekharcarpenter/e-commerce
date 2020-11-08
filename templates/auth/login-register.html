@@ -25,7 +25,7 @@
                                 <div class="u-column1 col-1">
 
                                     <h2>Login</h2>
-                                    <form class="lynessa-form lynessa-form-login login" action="/login" method="post">
+                                    <form class="lynessa-form lynessa-form-login login" action="{% url 'users:login' %}" method="post">
                                         {% csrf_token %}
 
                                         <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="u-column2 col-2">
                                     <h2>Register</h2>
-                                    <form method="post" action="{% url 'register' %}"
+                                    <form method="post" action="{% url 'users:register' %}"
                                           class="lynessa-form lynessa-form-register register">
                                         {% csrf_token %}
                                         <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
