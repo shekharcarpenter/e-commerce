@@ -8,11 +8,17 @@ class User(AbstractUser):
     last_name = None
     first_name = None
 
-    # @property
-    # def cart(self):
-    #     from ecommerce.models import Cart
-    #     cart, created = Cart.objects.get_or_create(user=self, status=constants.CART_ACTIVE)
-    #     return cart
+    @property
+    def cart(self):
+        from shop.models import Cart, OPEN
+        cart, created = Cart.objects.get_or_create(owner=self, status=OPEN)
+        return cart
+
+    @property
+    def wish_list(self):
+        from shop.models import Cart, SAVED
+        cart, created = Cart.objects.get_or_create(owner=self, status=SAVED)
+        return cart
 
 
 class Address(models.Model):

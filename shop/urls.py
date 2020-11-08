@@ -17,7 +17,10 @@ Including another URLconf
 from django.urls import path
 
 from . import views
+
 app_name = 'shop'
 urlpatterns = [
+    path('add-to-cart', views.add_to_cart, name='add_to_cart'),
     path('<str:slug>', views.product_view, name='view_product'),
+
 ]

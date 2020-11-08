@@ -32,6 +32,10 @@
 
                                                         <img alt="img"
                                                              src="
+
+
+
+
                                                                      {% get_media_prefix %}{{ product_image.original }}">
                                                     </div>
                                                 {% endfor %}
@@ -54,16 +58,19 @@
                                         <span class="onnew"><span class="text">New</span></span></div>
                                     <h1 class="product_title entry-title">{{ product.name }}</h1>
                                     <p class="price"><span class="lynessa-Price-amount amount"><span
-                                            class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>  <span
-                                            class="lynessa-Price-amount amount"><span
-                                            class="lynessa-Price-currencySymbol"></span></span></p>
+                                            class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>
+                                        <span
+                                                class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol"></span></span></p>
                                     <p class="stock in-stock">
                                         Availability: <span> In stock</span>
                                     </p>
                                     <div class="lynessa-product-details__short-description">
                                         <p>{{ product.description }}</p>
                                     </div>
-                                    <form class="variations_form cart">
+                                    <form class="variations_form cart" action="{% url 'shop:add_to_cart' %}"
+                                          method="post">
+                                        {% csrf_token %}
                                         <div class="single_variation_wrap">
                                             <div class="lynessa-variation single_variation"></div>
                                             <div class="lynessa-variation-add-to-cart variations_button ">
@@ -72,14 +79,19 @@
                                                     <div class="control">
                                                         <a class="btn-number qtyminus quantity-minus" href="#">-</a>
                                                         <input type="text" data-step="1" min="0" max=""
-                                                               name="quantity[25]"
-                                                               value="0" title="Qty"
+                                                               name="quantity"
+                                                               value="{{ quantity }}" title="Qty"
                                                                class="input-qty input-text qty text"
                                                                size="4" pattern="[0-9]*" inputmode="numeric">
                                                         <a class="btn-number qtyplus quantity-plus" href="#">+</a>
                                                     </div>
                                                 </div>
-                                                <button type="submit"
+                                                <input name="product_id"
+                                                       value="{{ product.id }}"
+                                                       type="hidden"
+                                                >
+
+                                                <button onclick="updateCart()" type="submit"
                                                         class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
                                                     Add to cart
                                                 </button>
@@ -765,6 +777,26 @@
     </div>
 
     {% include 'common/footer.html' %}
+    <script>
+        function updateCart(e) {
+            console.log(e)
+            return
+            {#var xhttp = new XMLHttpRequest();#}
+            {#var params = 'quantity=' + e.value;#}
+            {#xhttp.onreadystatechange = function () {#}
+            {#    if (this.readyState == 4 && this.status == 200) {#}
+            {#        e.value = this.responseText#}
+            {#        document.getElementById("total_price").innerHTML = "";#}
+            {#        document.getElementById("cart_total").innerHTML = "";#}
+            {#        var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});#}
+            {#        document.getElementById("total_price").innerHTML = x;#}
+            {#        document.getElementById("cart_total").innerHTML = x;#}
+            {#    }#}
+            {#xhttp.open("POST", "update-cart", true);#}
+            {#xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');#}
+            {#xhttp.send(params);#}
+        }
+    </script>
     </body>
 {% endblock %}
 </html>

@@ -1,9 +1,14 @@
+import zlib
+from decimal import Decimal as D
+
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import models
 from django.db.models import Exists, OuterRef
 from django.template.defaultfilters import striptags
 from django.urls import reverse
+from django.utils.timezone import now
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from treebeard.mp_tree import MP_Node
@@ -382,3 +387,306 @@ class ProductRecommendation(models.Model):
         unique_together = ('primary', 'recommendation')
         verbose_name = _('Product recommendation')
         verbose_name_plural = _('Product recomendations')
+
+
+OPEN, MERGED, SAVED, FROZEN, SUBMITTED = (
+    "Open", "Merged", "Saved", "Frozen", "Submitted")
+
+
+class Cart(models.Model):
+    """
+    cart object
+    """
+    # carts can be anonymously owned - hence this field is nullable.  When a
+    # anon user signs in, their two carts are merged.
+    owner = models.ForeignKey(
+        'users.User',
+        null=True,
+        related_name='carts',
+        on_delete=models.CASCADE,
+        verbose_name=_("Owner"))
+
+    # cart statuses
+    # - Frozen is for when a cart is in the process of being submitted
+    #   and we need to prevent any changes to it.
+    STATUS_CHOICES = (
+        (OPEN, _("Open - currently active")),
+        (SAVED, _("Saved - for items to be purchased later")),
+        (FROZEN, _("Frozen - the cart cannot be modified")),
+        (SUBMITTED, _("Submitted - has been ordered at the checkout")),
+    )
+    status = models.CharField(
+        _("Status"), max_length=128, default=OPEN, choices=STATUS_CHOICES)
+
+    # A cart can have many vouchers attached to it.  However, it is common
+    # for sites to only allow one voucher per cart - this will need to be
+    # enforced in the project's codebase.
+    # vouchers = models.ManyToManyField(
+    #     'voucher.Voucher', verbose_name=_("Vouchers"), blank=True)
+
+    date_created = models.DateTimeField(_("Date created"), auto_now_add=True)
+    date_merged = models.DateTimeField(_("Date merged"), null=True, blank=True)
+    date_submitted = models.DateTimeField(_("Date submitted"), null=True,
+                                          blank=True)
+
+    # Only if a cart is in one of these statuses can it be edited
+    editable_statuses = (OPEN, SAVED)
+
+    class Meta:
+        app_label = 'shop'
+        verbose_name = _('Cart')
+        verbose_name_plural = _('Carts')
+
+    # objects = models.Manager()
+
+    # open = OpencartManager()
+    # saved = SavedcartManager()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # We keep a cached copy of the cart products as we refer to them often
+        # within the same request cycle.  Also, applying offers will append
+        # discount data to the cart products which isn't persisted to the DB and
+        # so we want to avoid reloading them as this would drop the discount
+        # information.
+        self._products = None
+        # self.offer_applications = OfferApplications()
+
+    def __str__(self):
+        return _(
+            "%(status)s cart (owner: %(owner)s, products: %(num_products)d)") \
+               % {'status': self.status,
+                  'owner': self.owner,
+                  'num_products': self.num_products}
+
+    def add_product(self, product, quantity):
+        entry, created = self.products.get_or_create(cart=self, product=product)
+        if not created:
+            entry.quantity = quantity
+            entry.save()
+
+    # ========
+    # Strategy
+    # ========
+
+    def all_products(self):
+        """
+        Return a cached set of cart products.
+        This is important for offers as they alter the line models and you
+        don't want to reload them from the DB as that information would be
+        lost.
+        """
+        if self.id is None:
+            return self.products.none()
+        if self._products is None:
+            self._products = (
+                self.products
+                    .select_related('product')
+                    # .prefetch_related(
+                    # 'attributes', 'product__images')
+                    .order_by(self._meta.pk.name))
+        return self._products
+
+    # ============
+    # Manipulation
+    # ============
+
+    def flush(self):
+        """
+        Remove all products from cart.
+        """
+        if self.status == self.FROZEN:
+            raise PermissionDenied("A frozen cart cannot be flushed")
+        self.products.all().delete()
+        self._products = None
+
+    def freeze(self):
+        """
+        Freezes the cart so it cannot be modified.
+        """
+        self.status = self.FROZEN
+        self.save()
+
+    freeze.alters_data = True
+
+    def thaw(self):
+        """
+        Unfreezes a cart so it can be modified again
+        """
+        self.status = self.OPEN
+        self.save()
+
+    thaw.alters_data = True
+
+    def submit(self):
+        """
+        Mark this cart as submitted
+        """
+        self.status = self.SUBMITTED
+        self.date_submitted = now()
+        self.save()
+
+    submit.alters_data = True
+
+    # Kept for backwards compatibility
+    set_as_submitted = submit
+
+    def is_shipping_required(self):
+        """
+        Test whether the cart contains physical products that require
+        shipping.
+        """
+        for line in self.all_products():
+            if line.product.is_shipping_required:
+                return True
+        return False
+
+    # =======
+    # Helpers
+    # =======
+
+    def _create_line_reference(self, product, stockrecord, options):
+        """
+        Returns a reference string for a line based on the item
+        and its options.
+        """
+        base = '%s_%s' % (product.id, stockrecord.id)
+        if not options:
+            return base
+        repr_options = [{'option': repr(option['option']),
+                         'value': repr(option['value'])} for option in options]
+        return "%s_%s" % (base, zlib.crc32(repr(repr_options).encode('utf8')))
+
+    def _get_total(self, property):
+        """
+        For executing a named method on each line of the cart
+        and returning the total.
+        """
+        total = D('0.00')
+        for line in self.all_products():
+            try:
+                total += getattr(line, property)
+            except ObjectDoesNotExist:
+                # Handle situation where the product may have been deleted
+                pass
+            except TypeError:
+                # Handle Unavailable products with no known price
+                info = self.get_stock_info(line.product, line.attributes.all())
+                if info.availability.is_available_to_buy:
+                    raise
+                pass
+        return total
+
+    # ==========
+    # Properties
+    # ==========
+
+    @property
+    def is_empty(self):
+        """
+        Test if this cart is empty
+        """
+        return self.id is None or self.num_products == 0
+
+    @property
+    def total_discount(self):
+        return self._get_total('discount_value')
+
+    @property
+    def total_excl_tax_excl_discounts(self):
+        """
+        Return total price excluding tax and discounts
+        """
+        return self._get_total('line_price_excl_tax')
+
+    @property
+    def num_products(self):
+        """Return number of products"""
+        return self.all_products().count()
+
+    @property
+    def num_items(self):
+        """Return number of items"""
+        return sum(line.quantity for line in self.products.all())
+
+    @property
+    def num_items_without_discount(self):
+        num = 0
+        for line in self.all_products():
+            num += line.quantity_without_discount
+        return num
+
+    @property
+    def num_items_with_discount(self):
+        num = 0
+        for line in self.all_products():
+            num += line.quantity_with_discount
+        return num
+
+    @property
+    def time_before_submit(self):
+        if not self.date_submitted:
+            return None
+        return self.date_submitted - self.date_created
+
+    @property
+    def time_since_creation(self, test_datetime=None):
+        if not test_datetime:
+            test_datetime = now()
+        return test_datetime - self.date_created
+
+    @property
+    def is_submitted(self):
+        return self.status == self.SUBMITTED
+
+    @property
+    def can_be_edited(self):
+        """
+        Test if a cart can be edited
+        """
+        return self.status in self.editable_statuses
+
+
+class CartProduct(models.Model):
+    cart = models.ForeignKey(
+        'shop.Cart',
+        on_delete=models.CASCADE,
+        related_name='products',
+        verbose_name=_("Cart"))
+
+    product = models.ForeignKey(
+        'shop.Product',
+        on_delete=models.CASCADE,
+        related_name='cart_product',
+        verbose_name=_("Product"))
+
+    quantity = models.PositiveIntegerField(_('Quantity'), default=1)
+
+    # Track date of first addition
+    date_created = models.DateTimeField(_("Date Created"), auto_now_add=True, db_index=True)
+    date_updated = models.DateTimeField(_("Date Updated"), auto_now=True, db_index=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        app_label = 'shop'
+        ordering = ['date_created', 'pk']
+        unique_together = ("cart", "product")
+        verbose_name = _('Cart Product')
+        verbose_name_plural = _('Cart Product')
+
+    def __str__(self):
+        return _(
+            "cart #%(cart_id)d, Product #%(product_id)d, quantity"
+            " %(quantity)d") % {'cart_id': self.cart.pk,
+                                'product_id': self.product.pk,
+                                'quantity': self.quantity}
+
+    def save(self, *args, **kwargs):
+        if not self.cart.can_be_edited:
+            raise PermissionDenied(
+                _("You cannot modify a %s cart") % (
+                    self.cart.status.lower(),))
+        return super().save(*args, **kwargs)
