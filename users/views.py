@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.shortcuts import render, redirect
 
-from .models import User
+from .models import User, Address
 
 
 # Create your views here.
@@ -93,3 +93,91 @@ def my_account(request):
         request.user.email = account_email
         request.user.save()
         return render(request, 'accounts/account.html')
+
+
+@login_required(login_url='/login')
+def address_view(request, address_id=None):
+    if request.method == 'GET':
+        try:
+            if address_id:
+                address_object = Address.objects.get(id=address_id)
+                context = {'address': address_object}
+                return render(request, 'accounts/add-address.html', context=context)
+            else:
+                address_object = Address.objects.filter(user=request.user)
+                context = {'addresses': address_object}
+
+        except Address.DoesNotExist:
+            context = {}
+
+        return render(request, 'accounts/address.html', context=context)
+    else:
+
+        errors = []
+        required_fields = ['full_name', 'house_number', 'street', 'city', 'state']
+        for field in required_fields:
+            if not request.POST.get(field):
+                errors.append(f'{field} is required.')
+        if errors:
+            return render(request, 'auth/address.html', context={"error": errors}, status=400)
+        address_object = Address.objects.create(house_number=request.POST.get('house_number'),
+                                                street=request.POST.get('street'),
+                                                city=request.POST.get('city'),
+                                                state=request.POST.get('state'),
+                                                user=request.user)
+
+        context = {'address': address_object}
+        return render(request, 'auth/address.html', context=context)
+
+
+@login_required(login_url='/login')
+def add_address(request, address_id=None):
+    # if not address_id:
+    #     address_object = Address.objects.filter(user=request.user)
+    #     context = {'addresses': address_object}
+    #     print(context)
+    #     return render(request, 'accounts/address.html', context=context)
+    if request.method == 'GET':
+        return render(request, 'accounts/add-address.html')
+    else:
+        update = request.POST.get('_method')
+        errors = []
+        required_fields = ['full_name', 'house_number', 'street', 'city', 'state']
+        for field in required_fields:
+            if not request.POST.get(field):
+                errors.append(f'{field} is required.')
+        if errors:
+            print(errors)
+            return render(request, 'accounts/add-address.html', context={"error": errors}, status=400)
+        if not update:
+            Address.objects.create(house_number=request.POST.get('house_number'),
+                                   street=request.POST.get('street'),
+                                   city=request.POST.get('city'),
+                                   state=request.POST.get('state'),
+                                   user=request.user)
+            return redirect('users:address')
+
+        else:
+            address_id = request.POST.get('address_id')
+            full_name = request.POST.get('full_name')
+            house_number = request.POST.get('house_number')
+            street = request.POST.get('street')
+            city = request.POST.get('city')
+            pin_code = request.POST.get('pin_code')
+            state = request.POST.get('state')
+
+            address_object = Address.objects.get(id=address_id)
+            address_object.house_number = house_number
+            address_object.full_name = full_name
+            address_object.street = street
+            address_object.city = city
+            address_object.state = state
+            address_object.pin_code = pin_code
+            address_object.save()
+        return redirect('home:single_address', address_id=address_object.id)
+
+
+@login_required(login_url='/login')
+def delete_address(request, address_id):
+    deleted = Address.objects.filter(id=address_id, user=request.user).delete()
+    return redirect('home:address')

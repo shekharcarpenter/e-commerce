@@ -23,4 +23,8 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
     path('my-account', views.my_account, name='my_account'),
     path('register', views.register_view, name='register'),
+    path('address', views.address_view, name='address'),
+    path('address/<int:pk>', views.address_view, name='address'),
+    path('add-address', views.add_address, name='add_address'),
+    path('delete-address/<int:pk>', views.delete_address, name='delete-address'),
 ]

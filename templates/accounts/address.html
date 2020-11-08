@@ -2,7 +2,7 @@
 {% load static %}
 {% block body %}
     {#<body>#}
-    <style>
+<style>
         * {
             box-sizing: border-box;
         }
@@ -103,20 +103,20 @@
                             <nav class="lynessa-MyAccount-navigation">
                                 <ul>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders ">
-                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>
+{#                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>#}
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address is-active">
-                                        <a href="{% url 'home:address' %}">Addresses</a>
+                                        <a href="{% url 'users:address' %}">Addresses</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account ">
-                                        <a href="{% url 'my_account' %}">Account details</a>
+                                        <a href="{% url 'users:my_account' %}">Account details</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
-                                        <a href="{% url 'logout' %}">Logout</a>
+                                        <a href="{% url 'users:logout' %}">Logout</a>
                                     </li>
                                 </ul>
                             </nav>
-                            <a href="{% url 'home:add_address' %}">Add Address</a>
+                            <a href="{% url 'users:add_address' %}">Add Address</a>
                             <div class="lynessa-MyAccount-content">
                                 <div class="lynessa-notices-wrapper"></div>
                                 <div>
@@ -126,7 +126,7 @@
                                                 <div class="card">
                                                     <div class="heading"><h3>{{ address.full_name }}</h3></div>
                                                     <p>{{ address.house_number }}, {{ address.street }}, {{ address.city }}, {{ address.state }}, {{ address.pin_code }}</p>
-                                                    <p class="editLink"><a href="{% url 'home:single_address' address.id %}"> Edit </a> | <a href="{% url 'home:delete-address' address.id %}"> Remove </a></p>
+                                                    <p class="editLink"><a href="{% url 'users:address' address.id %}"> Edit </a> | <a href="{% url 'users:delete-address' address.id %}"> Remove </a></p>
                                                 </div>
                                             </div>
                                         {% endfor %}

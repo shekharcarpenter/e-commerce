@@ -2,86 +2,6 @@
 {% load static %}
 {% block body %}
     {#<body>#}
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        /* Float four columns side by side */
-        .column {
-            float: left;
-            width: 33%;
-            padding: 0 10px;
-            margin-bottom: 20px;
-        }
-
-        /* Remove extra left and right margins, due to padding */
-        .row {
-            margin: 0 -5px;
-        }
-
-
-        /* Clear floats after the columns */
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        /* Responsive columns */
-        @media screen and (max-width: 600px) {
-            .column {
-                width: 100%;
-                display: block;
-                margin-bottom: 20px;
-            }
-        }
-
-        /* Style the counter cards */
-        .card {
-            padding: 15px;
-            border-radius: 5px;
-            text-align: left;
-            background-color: #fff;
-            border: 2px solid #CF9163;
-        }
-
-        .card:hover {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            text-align: left;
-            background-color: #fff;
-            border: 2px solid #CF9163;
-        }
-
-        .heading {
-            border-bottom: 2px solid #CF9163;
-        }
-
-        .heading h3 {
-            color: #0b0b0b;
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        .card p {
-            color: #898989;
-            font-size: 14px;
-        }
-
-        .card a {
-            color: #106399;
-        }
-
-        .editLink {
-
-        }
-
-    </style>
     <body>
     {% include 'common/header.html' %}
 
@@ -103,16 +23,16 @@
                             <nav class="lynessa-MyAccount-navigation">
                                 <ul>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders">
-                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>
+{#                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>#}
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
-                                        <a href="{% url 'home:address' %}">Addresses</a>
+                                        <a href="{% url 'users:address' %}">Addresses</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account is-active">
-                                        <a href="{% url 'my_account' %}">Account details</a>
+                                        <a href="{% url 'users:my_account' %}">Account details</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
-                                        <a href="{% url 'logout' %}">Logout</a>
+                                        <a href="{% url 'users:logout' %}">Logout</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -125,7 +45,7 @@
                                 <div class="lynessa-MyAccount-content">
                                     <div class="lynessa-notices-wrapper"></div>
                                     <form class="lynessa-EditAccountForm edit-account"
-                                          action="{% url 'home:add_address' %}" method="post">
+                                          action="{% url 'users:add_address' %}" method="post">
                                         <div class="clear"></div>
                                         {% csrf_token %}
                                         <input type="hidden" name="_method" value="put"/>
@@ -191,7 +111,7 @@
                                 <div class="lynessa-MyAccount-content">
                                     <div class="lynessa-notices-wrapper"></div>
                                     <form class="lynessa-EditAccountForm edit-account"
-                                          action="{% url 'home:add_address' %}" method="post">
+                                          action="{% url 'users:address' %}" method="post">
                                         <div class="clear"></div>
                                         {% csrf_token %}
                                         <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
