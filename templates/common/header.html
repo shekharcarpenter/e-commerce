@@ -79,7 +79,7 @@
                                         </ul>
                                     </div>
                                     <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
-                                        <a class="block-link " href="">
+                                        <a class="block-link " href="{% url 'shop:cart' %}">
                                             <span class="pe-7s-shopbag"></span>
                                             <span class="count">{{ request.user.cart.quantity }}</span>
                                         </a>

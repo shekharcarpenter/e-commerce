@@ -470,6 +470,10 @@ class Cart(models.Model):
     def quantity(self):
         return self.all_products().count()
 
+    @property
+    def total_price(self):
+        return sum([product.price for product in self.all_products()])
+
     # ========
     # Strategy
     # ========
@@ -694,3 +698,7 @@ class CartProduct(models.Model):
                 _("You cannot modify a %s cart") % (
                     self.cart.status.lower(),))
         return super().save(*args, **kwargs)
+
+    @property
+    def price(self):
+        return self.product.price * self.quantity

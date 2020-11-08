@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from shop.models import Product
-from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -33,3 +33,10 @@ def add_to_wishlist(request):
     product = Product.objects.get(id=int(request.POST.get('product_id')))
     wish_list.add_product(product)
     return HttpResponse(status=200)
+
+
+@login_required(login_url='user.login')
+def cart_view(request):
+    cart = request.user.cart
+    context = {'cart_products': cart.all_products(), 'cart':cart}
+    return render(request, 'ecommerce/cart.html', context=context)
