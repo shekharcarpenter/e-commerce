@@ -214,6 +214,8 @@ class ProductImages(models.Model):
         help_text=_("An image with a display order of zero will be the primary"
                     " image for a product"))
     date_created = models.DateTimeField(_("Date created"), auto_now_add=True)
+    from colorfield.fields import ColorField
+    color = ColorField(null=True, blank=True)
 
     class Meta:
         app_label = 'shop'
