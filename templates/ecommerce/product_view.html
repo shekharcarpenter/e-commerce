@@ -37,7 +37,8 @@
 
 
 
-                                                                     {% get_media_prefix %}{{ product_image.original }}">
+                                                                     {{ product_image.original.url }}">
+{#                                                                     {% get_media_prefix %}{{ product_image.original.url }}">#}
                                                     </div>
                                                 {% endfor %}
 
@@ -47,7 +48,8 @@
                                             {% for product_image in product.get_all_images %}
 
                                                 <li><img
-                                                        src="{% get_media_prefix %}{{ product_image.original }}"
+                                                        src="{{ product_image.original.url }}"
+{#                                                        src="{% get_media_prefix %}{{ product_image.original }}"#}
                                                         alt="img">
                                                 </li>
                                             {% endfor %}

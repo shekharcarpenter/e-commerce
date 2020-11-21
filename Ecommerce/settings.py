@@ -146,3 +146,7 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_FILE_STORAGE = 'Ecommerce.dropbox_storage.DropBoxStorage'  # todo: Should be in env variable
+DROPBOX_OAUTH2_TOKEN = 'vBel3u_iN2YAAAAAAAAAAYVYy83AllB3R4MA5xJZgiUu2PmTbsxJWJQIxpogdgnz'
+

@@ -44,7 +44,8 @@
                                         <td class="product-thumbnail">
 {#                                            todo show the image which was baught insted of primary one#}
                                             <a href="#"><img
-                                                    src="{% get_media_prefix %}{{ product.product.primary_image.original }}"
+                                                    src="{{ product.product.primary_image.original.url }}"
+{#                                                    src="{% get_media_prefix %}{{ product.product.primary_image.original }}"#}
                                                     class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
                                                     alt="img" width="600" height="778"></a></td>
                                         <td class="product-name" data-title="Product">
