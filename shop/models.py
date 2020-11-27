@@ -480,6 +480,10 @@ class Cart(models.Model):
     def total_price(self):
         return sum([product.price for product in self.all_products()])
 
+    @property
+    def total_price_in_paise(self):
+            return sum([product.price for product in self.all_products()]) * 100
+
     # ========
     # Strategy
     # ========
@@ -708,3 +712,22 @@ class CartProduct(models.Model):
     @property
     def price(self):
         return self.product.price * self.quantity
+from . import constants
+class Order(models.Model):
+    ORDER_STATUS_CHOICES = (
+        (constants.TO_BE_SHIPPED, 'Shipping Pending'),
+        (constants.SHIPPED, 'Shipped'),
+        (constants.CANCELED, 'Cancelled'),
+        (constants.DELIVERED, 'Delivered')
+    )
+    customer = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    status = models.CharField(choices=ORDER_STATUS_CHOICES, max_length=2, default=constants.TO_BE_SHIPPED)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def status_text(self):
+        return dict(self.ORDER_STATUS_CHOICES)[int(self.status)]
+
+    class Meta:
+        ordering = ('-created_at',)

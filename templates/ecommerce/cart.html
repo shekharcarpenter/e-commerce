@@ -52,7 +52,7 @@
                                             <a href="#">{{ product.product.name }}</a></td>
                                         <td class="product-price" data-title="Price">
                                         <span class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">$</span>{{ product.product.price }}</span></td>
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ product.product.price }}</span></td>
                                         <td class="product-quantity" data-title="Quantity">
                                             <div class="quantity">
                                                 <span class="qty-label">Quantiy:</span>
@@ -66,7 +66,7 @@
                                         </td>
                                         <td class="product-subtotal" data-title="Total">
                                         <span class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">$</span>{{ product.price }}</span></td>
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span></td>
                                     </tr>
                                     {% endfor %}
                                     </tbody>
@@ -80,19 +80,19 @@
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
                                             <td data-title="Subtotal"><span class="lynessa-Price-amount amount"><span
-                                                    class="lynessa-Price-currencySymbol">$</span>{{ cart.total_price }}</span></td>
+                                                    class="lynessa-Price-currencySymbol">₹</span>{{ cart.total_price }}</span></td>
                                         </tr>
                                         <tr class="order-total">
                                             <th>Total</th>
                                             <td data-title="Total"><strong><span
                                                     class="lynessa-Price-amount amount"><span
-                                                    class="lynessa-Price-currencySymbol">$</span>{{ cart.total_price }}</span></strong>
+                                                    class="lynessa-Price-currencySymbol">₹</span>{{ cart.total_price }}</span></strong>
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
                                     <div class="lynessa-proceed-to-checkout">
-                                        <a href="#"
+                                        <a href="{% url 'shop:checkout' %}"
                                            class="checkout-button button alt lynessa-forward">
                                             Proceed to checkout</a>
                                     </div>
@@ -151,9 +151,9 @@
                                                     <span class="review">(0)</span></div>
                                                 <span class="price"><del><span
                                                         class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>125.00</span></del> <ins><span
+                                                        class="lynessa-Price-currencySymbol">₹</span>125.00</span></del> <ins><span
                                                         class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>99.00</span></ins></span>
+                                                        class="lynessa-Price-currencySymbol">₹</span>99.00</span></ins></span>
                                             </div>
                                         </div>
                                     </div>
@@ -200,9 +200,9 @@
                                                     <span class="review">(0)</span></div>
                                                 <span class="price"><del><span
                                                         class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>109.00</span></del> <ins><span
+                                                        class="lynessa-Price-currencySymbol">₹</span>109.00</span></del> <ins><span
                                                         class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>89.00</span></ins></span>
+                                                        class="lynessa-Price-currencySymbol">₹</span>89.00</span></ins></span>
                                             </div>
                                         </div>
                                     </div>
@@ -248,9 +248,9 @@
                                                     <span class="review">(0)</span></div>
                                                 <span class="price"><span
                                                         class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>89.00</span> – <span
+                                                        class="lynessa-Price-currencySymbol">₹</span>89.00</span> – <span
                                                         class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>139.00</span></span>
+                                                        class="lynessa-Price-currencySymbol">₹</span>139.00</span></span>
                                             </div>
                                         </div>
                                     </div>

@@ -65,7 +65,7 @@
                                         </a>
                                         <ul class="sub-menu">
                                             <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders">
-                                                <a href="">My Orders</a>
+                                                <a href="{% url 'shop:orders_view' %}">My Orders</a>
                                             </li>
                                             <li class="menu-item lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
                                                 <a href="{% url 'users:address' %}">Addresses</a>
@@ -281,7 +281,7 @@
     {#                                        </a>#}
     {#                                        <span class="quantity">1 × <span#}
     {#                                                class="lynessa-Price-amount amount"><span#}
-    {#                                                class="lynessa-Price-currencySymbol">$</span>150.00</span></span>#}
+    {#                                                class="lynessa-Price-currencySymbol">₹</span>150.00</span></span>#}
     {#                                    </li>#}
     {#                                    <li class="lynessa-mini-cart-item mini_cart_item">#}
     {#                                        <a href="#" class="remove remove_from_cart_button">×</a>#}
@@ -292,7 +292,7 @@
     {#                                        </a>#}
     {#                                        <span class="quantity">1 × <span#}
     {#                                                class="lynessa-Price-amount amount"><span#}
-    {#                                                class="lynessa-Price-currencySymbol">$</span>129.00</span></span>#}
+    {#                                                class="lynessa-Price-currencySymbol">₹</span>129.00</span></span>#}
     {#                                    </li>#}
     {#                                    <li class="lynessa-mini-cart-item mini_cart_item">#}
     {#                                        <a href="#" class="remove remove_from_cart_button">×</a>#}
@@ -303,12 +303,12 @@
     {#                                        </a>#}
     {#                                        <span class="quantity">1 × <span#}
     {#                                                class="lynessa-Price-amount amount"><span#}
-    {#                                                class="lynessa-Price-currencySymbol">$</span>139.00</span></span>#}
+    {#                                                class="lynessa-Price-currencySymbol">₹</span>139.00</span></span>#}
     {#                                    </li>#}
     {#                                </ul>#}
     {#                                <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>#}
     {#                                    <span class="lynessa-Price-amount amount"><span#}
-    {#                                            class="lynessa-Price-currencySymbol">$</span>418.00</span>#}
+    {#                                            class="lynessa-Price-currencySymbol">₹</span>418.00</span>#}
     {#                                </p>#}
     {#                                <p class="lynessa-mini-cart__buttons buttons">#}
     {#                                    <a href="cart.html" class="button lynessa-forward">Viewcart</a>#}

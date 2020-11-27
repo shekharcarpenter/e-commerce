@@ -23,16 +23,16 @@
                             <nav class="lynessa-MyAccount-navigation">
                                 <ul>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders is-active">
-                                        <a href="{% url 'ecommerce:view_orders' %}">Orders</a>
+                                        <a href="{% url 'shop:orders_view' %}">Orders</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
-                                        <a href="{% url 'home:address' %}">Addresses</a>
+                                        <a href="{% url 'users:address' %}">Addresses</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account ">
-                                        <a href="{% url 'my_account' %}">Account details</a>
+                                        <a href="{% url 'users:my_account' %}">Account details</a>
                                     </li>
                                     <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
-                                        <a href="{% url 'logout' %}">Logout</a>
+                                        <a href="{% url 'users:logout' %}">Logout</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -71,11 +71,11 @@
                                         <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-total"
                                             data-title="Total">
                                         <span class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">₹</span>{{ order.cart.price }}</span> for {{ order.cart.quantity }} items
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ order.cart.total_price }}</span> for {{ order.cart.quantity }} items
                                         </td>
                                         <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-actions"
                                             data-title="Actions">
-                                            <a href="{% url 'ecommerce:view_order' order.id %}" class="lynessa-button button view">View</a>
+                                            <a href="{% url 'shop:orders_view' order.id %}" class="lynessa-button button view">View</a>
                                         </td>
                                     </tr>
                                     {% endfor %}

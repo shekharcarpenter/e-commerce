@@ -33,28 +33,30 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="lynessa-cart-form__cart-item cart_item">
-                                        <td class="product-name" data-title="Product">
-                                            <a href="#">{{ product_name }}</a></td>
-                                        <td class="product-price" data-title="Price">
+                                    {% for product in cart_products %}
+                                        <tr class="lynessa-cart-form__cart-item cart_item">
+                                            <td class="product-name" data-title="Product">
+                                                <a href="#">{{ product.product.name }} * {{ product.quantity }}</a></td>
+                                            <td class="product-price" data-title="Price">
                                         <span class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">₹</span>{{ price }}</span></td>
-                                        <td class="product-price" data-title="Quantity">
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span></td>
+                                            <td class="product-price" data-title="Quantity">
                                                 <div class="control">
                                                     <span
-                                                          class="lynessa-Price-currencySymbol">{{ order.cart.quantity }}</span>
+                                                            class="lynessa-Price-currencySymbol">{{ order.cart.quantity }}</span>
                                                 </div>
-                                        </td>
-                                        <td class="product-subtotal" data-title="Total">
+                                            </td>
+                                            <td class="product-subtotal" data-title="Total">
                                         <span class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">₹</span>{{ order.cart.price }}</span>
-                                        </td>
-                                    </tr>
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                     <tr>
                                         <td colspan="6" class="actions">
                                             </h4>
                                             <button type="submit" class="button" name="update_cart" value="Update cart"
-                                                    disabled="">Total Invested : {{ order.cart.price }}
+                                                    disabled="">Total : {{ order.cart.total_price }}
                                             </button>
                                         </td>
                                     </tr>
