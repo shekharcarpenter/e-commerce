@@ -214,6 +214,7 @@ class ProductImages(models.Model):
         help_text=_("An image with a display order of zero will be the primary"
                     " image for a product"))
     date_created = models.DateTimeField(_("Date created"), auto_now_add=True)
+
     # from colorfield.fields import ColorField
     # color = ColorField(null=True, blank=True)
 
@@ -287,6 +288,9 @@ class Product(models.Model):
             self.slug = slugify(self.get_title())
         super().save(*args, **kwargs)
         # self.attr.save()
+
+    def __str__(self):
+        return self.name
 
     @property
     def has_stockrecords(self):

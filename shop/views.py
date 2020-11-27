@@ -14,7 +14,7 @@ def product_view(request, slug):
         cart_product = request.user.cart.all_products().filter(product=product).first()
         if cart_product:
             quantity = cart_product.quantity
-    context = {'product': product, 'quantity': quantity}
+    context = {'product': product, 'quantity': quantity, 'related_products': product.recommended_products.all()}
     return render(request, 'ecommerce/product_view.html', context=context)
 
 
