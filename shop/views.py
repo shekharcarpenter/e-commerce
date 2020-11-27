@@ -73,7 +73,7 @@ def cache_payment(request):
     cart.status = constants.FROZEN
     cart.save()
     # OrderStatusUpdate.objects.create(status='Order Placed', order=order)
-    return redirect('home:home', order_id=order.id)
+    return redirect('home:home')
 
 
 @login_required(login_url='user.login')

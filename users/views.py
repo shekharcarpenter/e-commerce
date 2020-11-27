@@ -96,11 +96,11 @@ def my_account(request):
 
 
 @login_required(login_url='/login')
-def address_view(request, address_id=None):
+def address_view(request, pk=None):
     if request.method == 'GET':
         try:
-            if address_id:
-                address_object = Address.objects.get(id=address_id)
+            if pk:
+                address_object = Address.objects.get(id=pk)
                 context = {'address': address_object}
                 return render(request, 'accounts/add-address.html', context=context)
             else:
@@ -147,7 +147,6 @@ def add_address(request, address_id=None):
             if not request.POST.get(field):
                 errors.append(f'{field} is required.')
         if errors:
-            print(errors)
             return render(request, 'accounts/add-address.html', context={"error": errors}, status=400)
         if not update:
             Address.objects.create(house_number=request.POST.get('house_number'),
@@ -174,10 +173,10 @@ def add_address(request, address_id=None):
             address_object.state = state
             address_object.pin_code = pin_code
             address_object.save()
-        return redirect('home:single_address', address_id=address_object.id)
+        return redirect('users:address')
 
 
 @login_required(login_url='/login')
-def delete_address(request, address_id):
-    deleted = Address.objects.filter(id=address_id, user=request.user).delete()
-    return redirect('home:address')
+def delete_address(request, pk):
+    deleted = Address.objects.filter(id=pk, user=request.user).delete()
+    return redirect('users:address')
