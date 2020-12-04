@@ -20,13 +20,15 @@ def product_view(request, slug):
             quantity = cart_product.quantity
     context = {'product': product, 'quantity': quantity, 'related_products': product.recommended_products.all()}
     return render(request, 'ecommerce/product_view.html', context=context)
-
-
+from django.http.response import JsonResponse
+@csrf_exempt
 @login_required(login_url='user.login')
 def add_to_cart(request):
     cart = request.user.cart
     product = Product.objects.get(id=int(request.POST.get('product_id')))
     cart.add_product(product, int(request.POST.get('quantity', 1)))
+    if request.is_ajax() or request.POST.get('is_ajax'):
+        return HttpResponse(cart.all_products().count())
     return redirect('shop:view_product', slug=product.slug)
 
 
