@@ -76,6 +76,16 @@ class Category(models.Model):
         return ProductCategory.objects.filter(category=self)
 
 
+class Occasion(models.Model):
+    title = models.CharField(max_length=30)
+    slug = models.SlugField()
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.slug = slugify(self.title)
+        super().save()
+
+
 class ProductImages(models.Model):
     """
         An image of a product
@@ -135,6 +145,11 @@ class Product(models.Model):
     description = models.TextField(_('Description'), blank=True)
 
     sku = models.CharField(max_length=20)
+    material = models.CharField(max_length=100, null=True, blank=True)
+    fabrics = models.CharField(max_length=100, null=True, blank=True)
+    fit_type = models.CharField(max_length=100, null=True, blank=True)
+    fabric_composition = models.CharField(max_length=100, null=True, blank=True)
+    model_height = models.CharField(max_length=100, null=True, blank=True)
     tags = models.TextField()
 
     is_public = models.BooleanField(
@@ -248,6 +263,29 @@ class ProductCategory(models.Model):
 
     def __str__(self):
         return "<productcategory for product '%s'>" % self.product
+
+class ProductOccasion(models.Model):
+    """
+    Joining model between products and categories. Exists to allow customising.
+    """
+    product = models.ForeignKey(
+        'shop.Product',
+        on_delete=models.CASCADE,
+        verbose_name=_("Product"))
+    occasion = models.ForeignKey(
+        'shop.Occasion',
+        on_delete=models.CASCADE,
+        verbose_name=_("Occasion"))
+
+    class Meta:
+        app_label = 'shop'
+        ordering = ['product', 'occasion']
+        unique_together = ('product', 'occasion')
+        verbose_name = _('Product Occasion')
+        verbose_name_plural = _('Product Occasions')
+
+    # def __str__(self):
+    #     return "<productcategory for product '%s'>" % self.product
 
 
 class ProductRecommendation(models.Model):

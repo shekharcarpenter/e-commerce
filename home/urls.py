@@ -19,4 +19,5 @@ from . import views
 app_name = 'home'
 urlpatterns = [
     path('', views.home_view, name='home'),
+    path('test-page', views.test_page, name='test'),
 ]
