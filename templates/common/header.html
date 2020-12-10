@@ -664,44 +664,23 @@
                                             <h3 class="minicart-title">Your Cart<span
                                                     class="minicart-number-items">3</span></h3>
                                             <ul class="lynessa-mini-cart cart_list product_list_widget">
+                                                {% for item in request.user.cart.productss %}
                                                 <li class="lynessa-mini-cart-item mini_cart_item">
                                                     <a href="#" class="remove remove_from_cart_button">×</a>
                                                     <a href="#">
-                                                        <img src="/static/images/apro134-1-600x778.jpg"
+                                                        <img src="{{ product.primary_image.original.url }}"
                                                              class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">T-shirt with skirt –
-                                                        Pink&nbsp;
+                                                             alt="img" width="600" height="778">{{ item.product.name }}
                                                     </a>
                                                     <span class="quantity">1 × <span
                                                             class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">$</span>150.00</span></span>
+                                                            class="lynessa-Price-currencySymbol">₹</span>{{ item.price }}</span></span>
                                                 </li>
-                                                <li class="lynessa-mini-cart-item mini_cart_item">
-                                                    <a href="#" class="remove remove_from_cart_button">×</a>
-                                                    <a href="#">
-                                                        <img src="/static/images/apro1113-600x778.jpg"
-                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">Abstract Sweatshirt&nbsp;
-                                                    </a>
-                                                    <span class="quantity">1 × <span
-                                                            class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">$</span>129.00</span></span>
-                                                </li>
-                                                <li class="lynessa-mini-cart-item mini_cart_item">
-                                                    <a href="#" class="remove remove_from_cart_button">×</a>
-                                                    <a href="#">
-                                                        <img src="/static/images/apro201-1-600x778.jpg"
-                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">ELOISE SHIRRED&nbsp;
-                                                    </a>
-                                                    <span class="quantity">1 × <span
-                                                            class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">$</span>139.00</span></span>
-                                                </li>
+                                                {% endfor %}
                                             </ul>
                                             <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>
                                                 <span class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>418.00</span>
+                                                        class="lynessa-Price-currencySymbol">₹</span>{{ request.user.cart.total_price }}</span>
                                             </p>
                                             <p class="lynessa-mini-cart__buttons buttons">
                                                 <a href="cart.html" class="button lynessa-forward">Viewcart</a>
@@ -837,50 +816,20 @@
                                             <h3 class="minicart-title">Your Wishlist<span
                                                     class="minicart-number-items">3</span></h3>
                                             <ul class="lynessa-mini-cart cart_list product_list_widget">
+                                                {% for item in request.user.wish_list.productss %}
                                                 <li class="lynessa-mini-cart-item mini_cart_item">
                                                     <a href="#" class="remove remove_from_cart_button">×</a>
                                                     <a href="#">
-                                                        <img src="/static/images/apro134-1-600x778.jpg"
+                                                        <img src="{{ product.primary_image.original.url }}"
                                                              class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">T-shirt with skirt –
-                                                        Pink&nbsp;
+                                                             alt="img" width="600" height="778">{{ item.product.name }}
                                                     </a>
                                                     <span class="quantity">1 × <span
                                                             class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">$</span>150.00</span></span>
+                                                            class="lynessa-Price-currencySymbol">₹</span>{{ item.price }}</span></span>
                                                 </li>
-                                                <li class="lynessa-mini-cart-item mini_cart_item">
-                                                    <a href="#" class="remove remove_from_cart_button">×</a>
-                                                    <a href="#">
-                                                        <img src="/static/images/apro1113-600x778.jpg"
-                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">Abstract Sweatshirt&nbsp;
-                                                    </a>
-                                                    <span class="quantity">1 × <span
-                                                            class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">$</span>129.00</span></span>
-                                                </li>
-                                                <li class="lynessa-mini-cart-item mini_cart_item">
-                                                    <a href="#" class="remove remove_from_cart_button">×</a>
-                                                    <a href="#">
-                                                        <img src="/static/images/apro201-1-600x778.jpg"
-                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">ELOISE SHIRRED&nbsp;
-                                                    </a>
-                                                    <span class="quantity">1 × <span
-                                                            class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">$</span>139.00</span></span>
-                                                </li>
+                                                {% endfor %}
                                             </ul>
-                                            <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>
-                                                <span class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">$</span>418.00</span>
-                                            </p>
-                                            <p class="lynessa-mini-cart__buttons buttons">
-                                                <a href="cart.html" class="button lynessa-forward">Viewcart</a>
-                                                <a href="checkout.html"
-                                                   class="button checkout lynessa-forward">Checkout</a>
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -906,7 +855,7 @@
 {#                                                    </a>#}
 {#                                                    <span class="quantity">1 × <span#}
 {#                                                            class="lynessa-Price-amount amount"><span#}
-{#                                                            class="lynessa-Price-currencySymbol">$</span>150.00</span></span>#}
+{#                                                            class="lynessa-Price-currencySymbol">₹</span>150.00</span></span>#}
 {#                                                </li>#}
 {#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
 {#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
@@ -917,7 +866,7 @@
 {#                                                    </a>#}
 {#                                                    <span class="quantity">1 × <span#}
 {#                                                            class="lynessa-Price-amount amount"><span#}
-{#                                                            class="lynessa-Price-currencySymbol">$</span>129.00</span></span>#}
+{#                                                            class="lynessa-Price-currencySymbol">₹</span>129.00</span></span>#}
 {#                                                </li>#}
 {#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
 {#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
@@ -928,12 +877,12 @@
 {#                                                    </a>#}
 {#                                                    <span class="quantity">1 × <span#}
 {#                                                            class="lynessa-Price-amount amount"><span#}
-{#                                                            class="lynessa-Price-currencySymbol">$</span>139.00</span></span>#}
+{#                                                            class="lynessa-Price-currencySymbol">₹</span>139.00</span></span>#}
 {#                                                </li>#}
 {#                                            </ul>#}
 {#                                            <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>#}
 {#                                                <span class="lynessa-Price-amount amount"><span#}
-{#                                                        class="lynessa-Price-currencySymbol">$</span>418.00</span>#}
+{#                                                        class="lynessa-Price-currencySymbol">₹</span>418.00</span>#}
 {#                                            </p>#}
 {#                                            <p class="lynessa-mini-cart__buttons buttons">#}
 {#                                                <a href="cart.html" class="button lynessa-forward">Viewcart</a>#}
@@ -1084,7 +1033,7 @@
                                         </a>
                                         <span class="quantity">1 × <span
                                                 class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">$</span>150.00</span></span>
+                                                class="lynessa-Price-currencySymbol">₹</span>150.00</span></span>
                                     </li>
                                     <li class="lynessa-mini-cart-item mini_cart_item">
                                         <a href="#" class="remove remove_from_cart_button">×</a>
@@ -1095,7 +1044,7 @@
                                         </a>
                                         <span class="quantity">1 × <span
                                                 class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">$</span>129.00</span></span>
+                                                class="lynessa-Price-currencySymbol">₹</span>129.00</span></span>
                                     </li>
                                     <li class="lynessa-mini-cart-item mini_cart_item">
                                         <a href="#" class="remove remove_from_cart_button">×</a>
@@ -1106,12 +1055,12 @@
                                         </a>
                                         <span class="quantity">1 × <span
                                                 class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">$</span>139.00</span></span>
+                                                class="lynessa-Price-currencySymbol">₹</span>139.00</span></span>
                                     </li>
                                 </ul>
                                 <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>
                                     <span class="lynessa-Price-amount amount"><span
-                                            class="lynessa-Price-currencySymbol">$</span>418.00</span>
+                                            class="lynessa-Price-currencySymbol">₹</span>418.00</span>
                                 </p>
                                 <p class="lynessa-mini-cart__buttons buttons">
                                     <a href="cart.html" class="button lynessa-forward">Viewcart</a>

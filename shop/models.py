@@ -264,6 +264,7 @@ class ProductCategory(models.Model):
     def __str__(self):
         return "<productcategory for product '%s'>" % self.product
 
+
 class ProductOccasion(models.Model):
     """
     Joining model between products and categories. Exists to allow customising.
@@ -425,164 +426,204 @@ class Cart(models.Model):
                     .order_by(self._meta.pk.name))
         return self._products
 
-    # ============
-    # Manipulation
-    # ============
-
-    def flush(self):
-        """
-        Remove all products from cart.
-        """
-        if self.status == self.FROZEN:
-            raise PermissionDenied("A frozen cart cannot be flushed")
-        self.products.all().delete()
-        self._products = None
-
-    def freeze(self):
-        """
-        Freezes the cart so it cannot be modified.
-        """
-        self.status = self.FROZEN
-        self.save()
-
-    freeze.alters_data = True
-
-    def thaw(self):
-        """
-        Unfreezes a cart so it can be modified again
-        """
-        self.status = self.OPEN
-        self.save()
-
-    thaw.alters_data = True
-
-    def submit(self):
-        """
-        Mark this cart as submitted
-        """
-        self.status = self.SUBMITTED
-        self.date_submitted = now()
-        self.save()
-
-    submit.alters_data = True
-
-    # Kept for backwards compatibility
-    set_as_submitted = submit
-
-    def is_shipping_required(self):
-        """
-        Test whether the cart contains physical products that require
-        shipping.
-        """
-        for line in self.all_products():
-            if line.product.is_shipping_required:
-                return True
-        return False
-
-    # =======
-    # Helpers
-    # =======
-
-    def _create_line_reference(self, product, stockrecord, options):
-        """
-        Returns a reference string for a line based on the item
-        and its options.
-        """
-        base = '%s_%s' % (product.id, stockrecord.id)
-        if not options:
-            return base
-        repr_options = [{'option': repr(option['option']),
-                         'value': repr(option['value'])} for option in options]
-        return "%s_%s" % (base, zlib.crc32(repr(repr_options).encode('utf8')))
-
-    def _get_total(self, property):
-        """
-        For executing a named method on each line of the cart
-        and returning the total.
-        """
-        total = D('0.00')
-        for line in self.all_products():
-            try:
-                total += getattr(line, property)
-            except ObjectDoesNotExist:
-                # Handle situation where the product may have been deleted
-                pass
-            except TypeError:
-                # Handle Unavailable products with no known price
-                info = self.get_stock_info(line.product, line.attributes.all())
-                if info.availability.is_available_to_buy:
-                    raise
-                pass
-        return total
-
-    # ==========
-    # Properties
-    # ==========
-
     @property
-    def is_empty(self):
+    def productss(self):
         """
-        Test if this cart is empty
+        Return a cached set of cart products.
+        This is important for offers as they alter the line models and you
+        don't want to reload them from the DB as that information would be
+        lost.
         """
-        return self.id is None or self.num_products == 0
+        if self.id is None:
+            return self.products.none()
+        if self._products is None:
+            self._products = (
+                self.products
+                    .select_related('product')
+                    # .prefetch_related(
+                    # 'attributes', 'product__images')
+                    .order_by(self._meta.pk.name))
+        return self._products
 
-    @property
-    def total_discount(self):
-        return self._get_total('discount_value')
 
-    @property
-    def total_excl_tax_excl_discounts(self):
-        """
-        Return total price excluding tax and discounts
-        """
-        return self._get_total('line_price_excl_tax')
+# ============
+# Manipulation
+# ============
 
-    @property
-    def num_products(self):
-        """Return number of products"""
-        return self.all_products().count()
+def flush(self):
+    """
+    Remove all products from cart.
+    """
+    if self.status == self.FROZEN:
+        raise PermissionDenied("A frozen cart cannot be flushed")
+    self.products.all().delete()
+    self._products = None
 
-    @property
-    def num_items(self):
-        """Return number of items"""
-        return sum(line.quantity for line in self.products.all())
 
-    @property
-    def num_items_without_discount(self):
-        num = 0
-        for line in self.all_products():
-            num += line.quantity_without_discount
-        return num
+def freeze(self):
+    """
+    Freezes the cart so it cannot be modified.
+    """
+    self.status = self.FROZEN
+    self.save()
 
-    @property
-    def num_items_with_discount(self):
-        num = 0
-        for line in self.all_products():
-            num += line.quantity_with_discount
-        return num
 
-    @property
-    def time_before_submit(self):
-        if not self.date_submitted:
-            return None
-        return self.date_submitted - self.date_created
+freeze.alters_data = True
 
-    @property
-    def time_since_creation(self, test_datetime=None):
-        if not test_datetime:
-            test_datetime = now()
-        return test_datetime - self.date_created
 
-    @property
-    def is_submitted(self):
-        return self.status == self.SUBMITTED
+def thaw(self):
+    """
+    Unfreezes a cart so it can be modified again
+    """
+    self.status = self.OPEN
+    self.save()
 
-    @property
-    def can_be_edited(self):
-        """
-        Test if a cart can be edited
-        """
-        return self.status in self.editable_statuses
+
+thaw.alters_data = True
+
+
+def submit(self):
+    """
+    Mark this cart as submitted
+    """
+    self.status = self.SUBMITTED
+    self.date_submitted = now()
+    self.save()
+
+
+submit.alters_data = True
+
+# Kept for backwards compatibility
+set_as_submitted = submit
+
+
+def is_shipping_required(self):
+    """
+    Test whether the cart contains physical products that require
+    shipping.
+    """
+    for line in self.all_products():
+        if line.product.is_shipping_required:
+            return True
+    return False
+
+
+# =======
+# Helpers
+# =======
+
+def _create_line_reference(self, product, stockrecord, options):
+    """
+    Returns a reference string for a line based on the item
+    and its options.
+    """
+    base = '%s_%s' % (product.id, stockrecord.id)
+    if not options:
+        return base
+    repr_options = [{'option': repr(option['option']),
+                     'value': repr(option['value'])} for option in options]
+    return "%s_%s" % (base, zlib.crc32(repr(repr_options).encode('utf8')))
+
+
+def _get_total(self, property):
+    """
+    For executing a named method on each line of the cart
+    and returning the total.
+    """
+    total = D('0.00')
+    for line in self.all_products():
+        try:
+            total += getattr(line, property)
+        except ObjectDoesNotExist:
+            # Handle situation where the product may have been deleted
+            pass
+        except TypeError:
+            # Handle Unavailable products with no known price
+            info = self.get_stock_info(line.product, line.attributes.all())
+            if info.availability.is_available_to_buy:
+                raise
+            pass
+    return total
+
+
+# ==========
+# Properties
+# ==========
+
+@property
+def is_empty(self):
+    """
+    Test if this cart is empty
+    """
+    return self.id is None or self.num_products == 0
+
+
+@property
+def total_discount(self):
+    return self._get_total('discount_value')
+
+
+@property
+def total_excl_tax_excl_discounts(self):
+    """
+    Return total price excluding tax and discounts
+    """
+    return self._get_total('line_price_excl_tax')
+
+
+@property
+def num_products(self):
+    """Return number of products"""
+    return self.all_products().count()
+
+
+@property
+def num_items(self):
+    """Return number of items"""
+    return sum(line.quantity for line in self.products.all())
+
+
+@property
+def num_items_without_discount(self):
+    num = 0
+    for line in self.all_products():
+        num += line.quantity_without_discount
+    return num
+
+
+@property
+def num_items_with_discount(self):
+    num = 0
+    for line in self.all_products():
+        num += line.quantity_with_discount
+    return num
+
+
+@property
+def time_before_submit(self):
+    if not self.date_submitted:
+        return None
+    return self.date_submitted - self.date_created
+
+
+@property
+def time_since_creation(self, test_datetime=None):
+    if not test_datetime:
+        test_datetime = now()
+    return test_datetime - self.date_created
+
+
+@property
+def is_submitted(self):
+    return self.status == self.SUBMITTED
+
+
+@property
+def can_be_edited(self):
+    """
+    Test if a cart can be edited
+    """
+    return self.status in self.editable_statuses
 
 
 class CartProduct(models.Model):
