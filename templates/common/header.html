@@ -649,7 +649,7 @@
                                     </div>
                                     <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
                                     <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">
-                                        <a class="block-link link-dropdown" href="cart.html">
+                                        <a class="block-link link-dropdown" href="{% url 'shop:cart' %}">
                                             <span class="pe-7s-shopbag"></span>
                                             <span class="count">{{ request.user.cart.quantity }}</span>
                                         </a>
@@ -683,8 +683,8 @@
                                                         class="lynessa-Price-currencySymbol">₹</span>{{ request.user.cart.total_price }}</span>
                                             </p>
                                             <p class="lynessa-mini-cart__buttons buttons">
-                                                <a href="cart.html" class="button lynessa-forward">Viewcart</a>
-                                                <a href="checkout.html"
+                                                <a href="{% url 'shop:cart' %}" class="button lynessa-forward">Viewcart</a>
+                                                <a href="{% url 'shop:checkout' %}"
                                                    class="button checkout lynessa-forward">Checkout</a>
                                             </p>
                                         </div>
@@ -808,7 +808,7 @@
                                     <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">
                                         <a class="block-link link-dropdown" href="cart.html">
                                             <span class="pe-7s-like2"></span>
-                                            <span class="count">5</span>
+                                            <span title="Your Wishlist" class="count">{{ request.user.wish_list.quantity }}</span>
                                         </a>
                                     </div>
                                     <div class="widget lynessa widget_shopping_cart">
@@ -1063,8 +1063,8 @@
                                             class="lynessa-Price-currencySymbol">₹</span>418.00</span>
                                 </p>
                                 <p class="lynessa-mini-cart__buttons buttons">
-                                    <a href="cart.html" class="button lynessa-forward">Viewcart</a>
-                                    <a href="checkout.html" class="button checkout lynessa-forward">Checkout</a>
+                                    <a href="{% url 'shop:cart' %}" class="button lynessa-forward">Viewcart</a>
+                                    <a href="{% url 'shop:checkout' %}" class="button checkout lynessa-forward">Checkout</a>
                                 </p>
                             </div>
                         </div>
