@@ -1,0 +1,121 @@
+{% extends 'common/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">Wishlist</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            </div>
+        </div>
+    </div>
+    <main class="site-main  main-container no-sidebar">
+    <div class="container">
+        <div class="row">
+            <div class="main-content col-md-12">
+                <div class="page-main-content">
+                    <form id="yith-wcwl-form" class="lynessa">
+                        <!-- TITLE -->
+                        <!-- WISHLIST TABLE -->
+                        <table class="shop_table cart wishlist_table" data-pagination="no" data-per-page="5" data-page="1" data-id="" data-token="">
+                            <thead>
+                            <tr>
+                                <th class="product-remove"></th>
+                                <th class="product-thumbnail"></th>
+                                <th class="product-name">
+                                    <span class="nobr">Product Name</span>
+                                </th>
+                                <th class="product-price">
+                    <span class="nobr">
+                        Unit Price                    </span>
+                                </th>
+                                <th class="product-stock-status">
+                    <span class="nobr">
+                        Stock Status                    </span>
+                                </th>
+                                <th class="product-add-to-cart"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in request.user.wish_list.productss %}
+                            <tr id="yith-wcwl-row-29" data-row-id="29">
+                                <td class="product-remove">
+                                    <div>
+                                        <a href="#" class="remove remove_from_wishlist" title="Remove this product">×</a>
+                                    </div>
+                                </td>
+                                <td class="product-thumbnail">
+                                    <a href="">
+                                    <a href="{% url 'shop:view_product' product.product.slug %}">
+                                        <img src="{{ product.product.primary_image.original.url }}" class="attachment-lynessa_thumbnail size-lynessa_thumbnail" alt="img" width="600" height="778"> </a>
+                                </td>
+                                <td class="product-name">
+                                    <a href="{% url 'shop:view_product' product.product.slug %}">{{ product.product.name }}</a>
+                                    <a href="#" class="button yith-wcqv-button" data-product_id="29">Quick View</a></td>
+                                <td class="product-price">
+                                    <span class="lynessa-Price-amount amount"><span class="lynessa-Price-currencySymbol">₹</span>{{ product.product.price }}</span></td>
+                                <td class="product-stock-status">
+                                    <span class="wishlist-in-stock">In Stock</span></td>
+                                <td class="product-add-to-cart">
+                                    <!-- Date added -->
+                                    <!-- Add to cart button -->
+                                    <a onclick="add_to_cart({{ product.product.id }})" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart add_to_cart button alt" data-product_id="29" data-product_sku="003D754" aria-label="Add “Abstract Sweatshirt” to your cart" rel="nofollow"> Add to
+                                        Cart</a>
+                                    <!-- Change wishlist -->
+                                    <!-- Remove from wishlist -->
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+    {% include 'common/footer.html' %}
+    <script>
+        function add_to_cart(product_id) {
+            var xhttp = new XMLHttpRequest();
+            var params = 'product_id=' + product_id + ';is_ajax=1';
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this)
+                    document.getElementById('header_count').innerHTML = this.response
+                }
+            };
+            {#xhttp.open("POST", "add-to-cart", true);#}
+            xhttp.open("POST", "{% url 'shop:add_to_cart' %}", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+    </script>
+    <script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/chosen.min.js' %}"></script>
+    <script src="{% static 'js/countdown.min.js' %}"></script>
+    <script src="{% static 'js/jquery.scrollbar.min.js' %}"></script>
+    <script src="{% static 'js/lightbox.min.js' %}"></script>
+    <script src="{% static 'js/magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/slick.js' %}"></script>
+    <script src="{% static 'js/jquery.zoom.min.js' %}"></script>
+    <script src="{% static 'js/threesixty.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/mobilemenu.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
+    </body>
+{% endblock %}
+</html>
