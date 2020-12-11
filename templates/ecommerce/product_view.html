@@ -24,14 +24,7 @@
                                                     <div class="lynessa-product-gallery__image">
 
                                                         <img alt="img"
-                                                             src="
-
-
-
-
-
-                                                                     {{ product_image.original.url }}">
-                                                        {#                                                                     {% get_media_prefix %}{{ product_image.original.url }}">#}
+                                                             src="{{ product_image.original.url }}">
                                                     </div>
                                                 {% endfor %}
 
@@ -123,9 +116,12 @@
                                                 rel="tag">Dresses</a>, <a
                                                 href="#" rel="tag">New arrivals</a>, <a
                                                 href="#" rel="tag">Leggings</a></span>
-                                        <span class="tagged_as">Tags: <a href="#"
-                                                                         rel="tag">Dresses</a>, <a
-                                                href="#" rel="tag">Sock</a></span>
+                                        <span class="tagged_as">Fit Type:
+                                            <a href="#" rel="tag">Dresses</a>,
+                                            <a href="#" rel="tag">Sock</a>
+                                        </span>
+
+
                                     </div>
                                     <div class="lynessa-share-socials">
                                         <h5 class="social-heading">Share: </h5>
@@ -225,11 +221,6 @@
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     e.value = this.responseText
-                    {#document.getElementById("total_price").innerHTML = "";#}
-                    {#document.getElementById("cart_total").innerHTML = "";#}
-                    {#var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});#}
-                    {#document.getElementById("total_price").innerHTML = x;#}
-                    {#document.getElementById("cart_total").innerHTML = x;#}
                 }
             };
             xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);

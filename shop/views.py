@@ -6,6 +6,9 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from shop.models import Product, ProductCategory, Category
+from . import constants
+from .models import Order
+
 default_context = {'categories': Category.objects.filter(is_public=True)}
 
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_API_KEY))
@@ -58,10 +61,6 @@ def checkout(request):
     context = {'cart_products': cart.all_products(), 'cart': cart}
     context.update(default_context)
     return render(request, 'ecommerce/checkout.html', context=context)
-
-
-from .models import Order
-from . import constants
 
 
 @login_required(login_url='user.login')

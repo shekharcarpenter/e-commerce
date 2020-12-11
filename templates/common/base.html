@@ -4,45 +4,131 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png"/>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/animate.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/chosen.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/pe-icon-7-stroke.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/jquery.scrollbar.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/lightbox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/magnific-popup.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/fonts/flaticon.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/megamenu.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/dreaming-attribute.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/model.css' %}"/>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css.map' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/chosen.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/pe-icon-7-stroke.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.scrollbar.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/lightbox.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/magnific-popup.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/magnific-popup.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/slick.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'fonts/flaticon.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/megamenu.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/dreaming-attribute.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
-    <title>Ayush Ecomm </title>
+        /* Float four columns side by side */
+        .column {
+            float: left;
+            width: 50%;
+            padding: 0 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Remove extra left and right margins, due to padding */
+        .row {
+            margin: 0 -5px;
+        }
+
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+
+        /* Responsive columns */
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+                display: block;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Style the counter cards */
+        .card {
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            background-color: #fff;
+            border: 2px solid #CF9163;
+        }
+
+
+        .card:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            text-align: left;
+            background-color: #fff;
+            border: 2px solid #CF9163;
+        }
+
+        .heading {
+            border-bottom: 2px solid #CF9163;
+        }
+
+        .heading h3 {
+            color: #0b0b0b;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .card p {
+            padding: 10px;
+            color: #4c4c4c;
+            font-size: 20px;
+            font-family: 'Hind', sans-serif;;
+        }
+
+        .card li {
+            margin-top: 8px;
+            margin-left: 12px;
+            color: #4c4c4c;
+            font-size: 20px;
+            font-family: 'Hind', sans-serif;;
+        }
+
+        .card a {
+            color: #106399;
+        }
+
+        .editLink {
+
+        }
+
+    </style>
+    <title>Lynessa - HTML Template </title>
 </head>
 {% block body %}
 {% endblock %}
 
-<script src="{% static 'js/model.js' %}"></script>
-
-<script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/chosen.min.js' %}"></script>
-<script src="{% static 'js/countdown.min.js' %}"></script>
-<script src="{% static 'js/jquery.scrollbar.min.js' %}"></script>
-<script src="{% static 'js/lightbox.min.js' %}"></script>
-<script src="{% static 'js/magnific-popup.min.js' %}"></script>
-<script src="{% static 'js/slick.js' %}"></script>
-<script src="{% static 'js/jquery.zoom.min.js' %}"></script>
-<script src="{% static 'js/threesixty.min.js' %}"></script>
-<script src="{% static 'js/jquery-ui.min.js' %}"></script>
-<script src="{% static 'js/mobilemenu.js' %}"></script>
-<script src="{% static 'js/functions.js' %}"></script>
+<script src="/static/js/jquery-1.12.4.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/chosen.min.js"></script>
+<script src="/static/js/countdown.min.js"></script>
+<script src="/static/js/jquery.scrollbar.min.js"></script>
+<script src="/static/js/lightbox.min.js"></script>
+<script src="/static/js/magnific-popup.min.js"></script>
+<script src="/static/js/slick.js"></script>
+<script src="/static/js/jquery.zoom.min.js"></script>
+<script src="/static/js/threesixty.min.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
+<script src="/static/js/mobilemenu.js"></script>
+<script src="/static/js/functions.js"></script>
