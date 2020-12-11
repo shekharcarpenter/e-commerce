@@ -1,5 +1,6 @@
 (function ($) {
     "use strict";
+
     function lynessa_form() {
         $('.showbtn').on('click', function (e) {
             $(this).parents('.lynessa-form-toggle').siblings('.lynessa-form-show').slideToggle();
@@ -15,8 +16,7 @@
             }
             if ($this.hasClass('mode-grid')) {
                 $('.product-item').addClass('col-bg-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-ts-6 style-01').removeClass('col-md-12 list');
-            }
-            else {
+            } else {
                 $('.product-item').removeClass('col-bg-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-ts-6 style-01').addClass('col-md-12 list');
             }
             $('.has-sidebar .grid-view-mode .modes-mode').removeClass('active');
@@ -33,8 +33,7 @@
             }
             if ($this.hasClass('mode-grid')) {
                 $('.product-item').addClass('col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01').removeClass('list');
-            }
-            else {
+            } else {
                 $('.product-item').removeClass('col-bg-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-ts-6 style-01').addClass('col-md-12 list');
             }
 
@@ -366,6 +365,34 @@
                 placement: 'right'
             });
         });
+    }
+
+    function add_to_cart(product_id) {
+        var xhttp = new XMLHttpRequest();
+        var params = 'product_id=' + product_id + ';is_ajax=1';
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this)
+                document.getElementById('header_count').innerHTML = this.response
+            }
+        };
+        xhttp.open("POST", "{% url 'shop:add_to_cart' %}", true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.send(params);
+    }
+
+    function add_to_wishlist(product_id) {
+        var xhttp = new XMLHttpRequest();
+        var params = 'product_id=' + product_id;
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+            }
+        };
+        xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.send(params);
     }
 
     function lynessa_threesixty(ev) {
