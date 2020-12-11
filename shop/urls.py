@@ -27,6 +27,8 @@ urlpatterns = [
     path('cache_payment', views.cache_payment, name='cache_payment'),
     path('orders', views.orders_view, name='orders_view'),
     path('orders/<int:order_id>', views.orders_view, name='orders_view'),
+    path('wishlist', views.wishlist_view, name='wishlist_view'),
+    path('category/<str:category_slug>', views.list_category, name='list_category'),
     path('<str:slug>', views.product_view, name='view_product'),
 
 ]

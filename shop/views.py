@@ -5,7 +5,8 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from shop.models import Product
+from shop.models import Product, ProductCategory, Category
+default_context = {'categories': Category.objects.filter(is_public=True)}
 
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_API_KEY))
 
@@ -19,8 +20,10 @@ def product_view(request, slug):
         if cart_product:
             quantity = cart_product.quantity
     context = {'product': product, 'quantity': quantity, 'related_products': product.recommended_products.all()}
+    context.update(default_context)
     return render(request, 'ecommerce/product_view.html', context=context)
-from django.http.response import JsonResponse
+
+
 @csrf_exempt
 @login_required(login_url='user.login')
 def add_to_cart(request):
@@ -45,6 +48,7 @@ def add_to_wishlist(request):
 def cart_view(request):
     cart = request.user.cart
     context = {'cart_products': cart.all_products(), 'cart': cart}
+    context.update(default_context)
     return render(request, 'ecommerce/cart.html', context=context)
 
 
@@ -52,6 +56,7 @@ def cart_view(request):
 def checkout(request):
     cart = request.user.cart
     context = {'cart_products': cart.all_products(), 'cart': cart}
+    context.update(default_context)
     return render(request, 'ecommerce/checkout.html', context=context)
 
 
@@ -83,10 +88,30 @@ def orders_view(request, order_id=None):
     if order_id:
         try:
             order = Order.objects.get(customer=request.user, id=order_id)
-            context = {'order': order, 'cart_products':order.cart.all_products()}
+            context = {'order': order, 'cart_products': order.cart.all_products()}
             return render(request, 'ecommerce/order.html', context=context)
         except Order.DoesNotExist:
             pass
     orders = Order.objects.filter(customer=request.user)
-    context = {'orders':orders}
+    context = {'orders': orders}
+    context.update(default_context)
     return render(request, 'accounts/orders.html', context=context)
+
+
+@login_required()
+def wishlist_view(request):
+    context = {}
+    context.update(default_context)
+
+    return render(request, 'ecommerce/wishlist.html')
+
+
+def list_category(request, category_slug):
+    try:
+        category = Category.objects.get(slug=category_slug)
+        context = {'products': ProductCategory.objects.filter(category=category)}
+        context.update(default_context)
+        return render(request, 'ecommerce/products_list.html', context=context)
+    except Category.DoesNotExist:
+        pass
+#     todo add 404

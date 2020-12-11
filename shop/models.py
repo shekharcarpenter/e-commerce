@@ -404,6 +404,9 @@ class Cart(models.Model):
     def total_price_in_paise(self):
         return sum([product.price for product in self.all_products()]) * 100
 
+    @property
+    def can_be_edited(self):
+        return self.status in self.editable_statuses
     # ========
     # Strategy
     # ========
