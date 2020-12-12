@@ -1,11 +1,15 @@
 import uuid
 import zlib
+from datetime import datetime
 from decimal import Decimal as D
+from string import Template
 
+import pytz
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import models
 from django.template.defaultfilters import striptags
+from django.utils import timezone
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
@@ -683,12 +687,6 @@ class Order(models.Model):
 
     class Meta:
         ordering = ('-created_at',)
-
-
-from datetime import datetime
-from django.utils import timezone
-import pytz
-from string import Template
 
 
 class DeltaTemplate(Template):

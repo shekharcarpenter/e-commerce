@@ -22,7 +22,6 @@
                                             <figure class="lynessa-product-gallery__wrapper">
                                                 {% for product_image in product.get_all_images %}
                                                     <div class="lynessa-product-gallery__image">
-
                                                         <img alt="img"
                                                              src="{{ product_image.original.url }}">
                                                     </div>
@@ -64,7 +63,7 @@
                                             <div class="lynessa-variation single_variation"></div>
                                             <div class="lynessa-variation-add-to-cart variations_button ">
                                                 <div class="quantity">
-                                                    <span class="qty-label">Quantiy:</span>
+                                                    <span class="qty-label">Quantity:</span>
                                                     <div class="control">
                                                         <a class="btn-number qtyminus quantity-minus" href="#">-</a>
                                                         <input type="text" data-step="1" min="0" max=""
@@ -116,10 +115,31 @@
                                                 rel="tag">Dresses</a>, <a
                                                 href="#" rel="tag">New arrivals</a>, <a
                                                 href="#" rel="tag">Leggings</a></span>
-                                        <span class="tagged_as">Fit Type:
-                                            <a href="#" rel="tag">Dresses</a>,
-                                            <a href="#" rel="tag">Sock</a>
-                                        </span>
+                                        {% if product.material %}
+                                            <span class="tagged_as">Material Type:
+                                                <a href="#" rel="tag">{{ product.material }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.fabrics %}
+                                            <span class="tagged_as">Fabrics:
+                                                <a href="#" rel="tag">{{ product.fabrics }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.fit_type %}
+                                            <span class="tagged_as">Fit Type:
+                                                <a href="#" rel="tag">{{ product.fit_type }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.fabric_composition %}
+                                            <span class="tagged_as">Fabric Composition:
+                                                <a href="#" rel="tag">{{ product.fabric_composition }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.model_height %}
+                                            <span class="tagged_as">Model Height:
+                                                <a href="#" rel="tag">{{ product.model_height }}</a>
+                                            </span>
+                                        {% endif %}
 
 
                                     </div>
@@ -168,7 +188,7 @@
                                         <a class="thumb-link"
                                            href="{% url 'shop:view_product' recommended_product.slug %}" tabindex="0">
                                             <img class="img-responsive"
-                                                 src="{{ product.primary_image.original.url }}"
+                                                 src="{{ recommended_product.primary_image.original.url }}"
                                                  width="600" height="778">
                                         </a>
                                         <div class="flash"><span class="onnew"><span class="text">New</span></span>
