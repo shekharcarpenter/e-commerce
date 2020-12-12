@@ -1,6 +1,6 @@
 from django.shortcuts import render
-
-from shop.models import Product, Category
+from django.utils import timezone
+from shop.models import Product, Category, DealOfDay
 
 default_context = {'categories': Category.objects.filter(is_public=True)}
 
@@ -9,7 +9,8 @@ default_context = {'categories': Category.objects.filter(is_public=True)}
 def home_view(request):
     products = Product.objects.all()
     context = {'products': products, 'product_categories': Category.objects.filter(is_public=True),
-               'new_arrivals': Product.objects.filter(is_public=True).order_by('-date_created')[:20]}
+               'new_arrivals': Product.objects.filter(is_public=True).order_by('-date_created')[:20],
+               'deals_of_the_day': DealOfDay.objects.filter(date=timezone.now().date()) }
     context.update(default_context)
     print(context)
     return render(request, 'home/test-index.html', context=context)

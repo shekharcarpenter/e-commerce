@@ -1,8 +1,6 @@
 from django.contrib import admin
-from treebeard.admin import TreeAdmin
-from treebeard.forms import movenodeform_factory
 
-from .models import Product, Category, ProductRecommendation, ProductImages, ProductCategory
+from .models import Product, Category, ProductRecommendation, ProductImages, ProductCategory, DealOfDay
 
 
 class ProductRecommendationInline(admin.TabularInline):
@@ -10,9 +8,11 @@ class ProductRecommendationInline(admin.TabularInline):
     fk_name = 'primary'
     raw_id_fields = ['primary', 'recommendation']
 
+
 class CategoryInline(admin.TabularInline):
     model = ProductCategory
     extra = 1
+
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImages
@@ -36,4 +36,5 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Category,CategoryAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(DealOfDay)

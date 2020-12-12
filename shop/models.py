@@ -141,7 +141,8 @@ class ProductImages(models.Model):
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=128)
     slug = models.SlugField(_('Slug'), max_length=255, unique=False)
-    price = models.PositiveIntegerField()
+    actual_price = models.PositiveIntegerField()
+    discounted_price = models.PositiveIntegerField(null=True, blank=True)
     description = models.TextField(_('Description'), blank=True)
 
     sku = models.CharField(max_length=20)
@@ -187,6 +188,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def price(self):
+        return self.discounted_price if self.discounted_price else self.actual_price
 
     @property
     def has_stockrecords(self):
@@ -407,6 +412,7 @@ class Cart(models.Model):
     @property
     def can_be_edited(self):
         return self.status in self.editable_statuses
+
     # ========
     # Strategy
     # ========
@@ -448,185 +454,164 @@ class Cart(models.Model):
                     .order_by(self._meta.pk.name))
         return self._products
 
+    # ============
+    # Manipulation
+    # ============
 
-# ============
-# Manipulation
-# ============
+    def flush(self):
+        """
+        Remove all products from cart.
+        """
+        if self.status == self.FROZEN:
+            raise PermissionDenied("A frozen cart cannot be flushed")
+        self.products.all().delete()
+        self._products = None
 
-def flush(self):
-    """
-    Remove all products from cart.
-    """
-    if self.status == self.FROZEN:
-        raise PermissionDenied("A frozen cart cannot be flushed")
-    self.products.all().delete()
-    self._products = None
+    def freeze(self):
+        """
+        Freezes the cart so it cannot be modified.
+        """
+        self.status = self.FROZEN
+        self.save()
 
+    freeze.alters_data = True
 
-def freeze(self):
-    """
-    Freezes the cart so it cannot be modified.
-    """
-    self.status = self.FROZEN
-    self.save()
+    def thaw(self):
+        """
+        Unfreezes a cart so it can be modified again
+        """
+        self.status = self.OPEN
+        self.save()
 
+    thaw.alters_data = True
 
-freeze.alters_data = True
+    def submit(self):
+        """
+        Mark this cart as submitted
+        """
+        self.status = self.SUBMITTED
+        self.date_submitted = now()
+        self.save()
 
+    submit.alters_data = True
 
-def thaw(self):
-    """
-    Unfreezes a cart so it can be modified again
-    """
-    self.status = self.OPEN
-    self.save()
+    # Kept for backwards compatibility
+    set_as_submitted = submit
 
+    def is_shipping_required(self):
+        """
+        Test whether the cart contains physical products that require
+        shipping.
+        """
+        for line in self.all_products():
+            if line.product.is_shipping_required:
+                return True
+        return False
 
-thaw.alters_data = True
+    # =======
+    # Helpers
+    # =======
 
+    def _create_line_reference(self, product, stockrecord, options):
+        """
+        Returns a reference string for a line based on the item
+        and its options.
+        """
+        base = '%s_%s' % (product.id, stockrecord.id)
+        if not options:
+            return base
+        repr_options = [{'option': repr(option['option']),
+                         'value': repr(option['value'])} for option in options]
+        return "%s_%s" % (base, zlib.crc32(repr(repr_options).encode('utf8')))
 
-def submit(self):
-    """
-    Mark this cart as submitted
-    """
-    self.status = self.SUBMITTED
-    self.date_submitted = now()
-    self.save()
+    def _get_total(self, property):
+        """
+        For executing a named method on each line of the cart
+        and returning the total.
+        """
+        total = D('0.00')
+        for line in self.all_products():
+            try:
+                total += getattr(line, property)
+            except ObjectDoesNotExist:
+                # Handle situation where the product may have been deleted
+                pass
+            except TypeError:
+                # Handle Unavailable products with no known price
+                info = self.get_stock_info(line.product, line.attributes.all())
+                if info.availability.is_available_to_buy:
+                    raise
+                pass
+        return total
 
+    # ==========
+    # Properties
+    # ==========
 
-submit.alters_data = True
+    @property
+    def is_empty(self):
+        """
+        Test if this cart is empty
+        """
+        return self.id is None or self.num_products == 0
 
-# Kept for backwards compatibility
-set_as_submitted = submit
+    @property
+    def total_discount(self):
+        return self._get_total('discount_value')
 
+    @property
+    def total_excl_tax_excl_discounts(self):
+        """
+        Return total price excluding tax and discounts
+        """
+        return self._get_total('line_price_excl_tax')
 
-def is_shipping_required(self):
-    """
-    Test whether the cart contains physical products that require
-    shipping.
-    """
-    for line in self.all_products():
-        if line.product.is_shipping_required:
-            return True
-    return False
+    @property
+    def num_products(self):
+        """Return number of products"""
+        return self.all_products().count()
 
+    @property
+    def num_items(self):
+        """Return number of items"""
+        return sum(line.quantity for line in self.products.all())
 
-# =======
-# Helpers
-# =======
+    @property
+    def num_items_without_discount(self):
+        num = 0
+        for line in self.all_products():
+            num += line.quantity_without_discount
+        return num
 
-def _create_line_reference(self, product, stockrecord, options):
-    """
-    Returns a reference string for a line based on the item
-    and its options.
-    """
-    base = '%s_%s' % (product.id, stockrecord.id)
-    if not options:
-        return base
-    repr_options = [{'option': repr(option['option']),
-                     'value': repr(option['value'])} for option in options]
-    return "%s_%s" % (base, zlib.crc32(repr(repr_options).encode('utf8')))
+    @property
+    def num_items_with_discount(self):
+        num = 0
+        for line in self.all_products():
+            num += line.quantity_with_discount
+        return num
 
+    @property
+    def time_before_submit(self):
+        if not self.date_submitted:
+            return None
+        return self.date_submitted - self.date_created
 
-def _get_total(self, property):
-    """
-    For executing a named method on each line of the cart
-    and returning the total.
-    """
-    total = D('0.00')
-    for line in self.all_products():
-        try:
-            total += getattr(line, property)
-        except ObjectDoesNotExist:
-            # Handle situation where the product may have been deleted
-            pass
-        except TypeError:
-            # Handle Unavailable products with no known price
-            info = self.get_stock_info(line.product, line.attributes.all())
-            if info.availability.is_available_to_buy:
-                raise
-            pass
-    return total
+    @property
+    def time_since_creation(self, test_datetime=None):
+        if not test_datetime:
+            test_datetime = now()
+        return test_datetime - self.date_created
 
+    @property
+    def is_submitted(self):
+        return self.status == self.SUBMITTED
 
-# ==========
-# Properties
-# ==========
-
-@property
-def is_empty(self):
-    """
-    Test if this cart is empty
-    """
-    return self.id is None or self.num_products == 0
-
-
-@property
-def total_discount(self):
-    return self._get_total('discount_value')
-
-
-@property
-def total_excl_tax_excl_discounts(self):
-    """
-    Return total price excluding tax and discounts
-    """
-    return self._get_total('line_price_excl_tax')
-
-
-@property
-def num_products(self):
-    """Return number of products"""
-    return self.all_products().count()
-
-
-@property
-def num_items(self):
-    """Return number of items"""
-    return sum(line.quantity for line in self.products.all())
-
-
-@property
-def num_items_without_discount(self):
-    num = 0
-    for line in self.all_products():
-        num += line.quantity_without_discount
-    return num
-
-
-@property
-def num_items_with_discount(self):
-    num = 0
-    for line in self.all_products():
-        num += line.quantity_with_discount
-    return num
-
-
-@property
-def time_before_submit(self):
-    if not self.date_submitted:
-        return None
-    return self.date_submitted - self.date_created
-
-
-@property
-def time_since_creation(self, test_datetime=None):
-    if not test_datetime:
-        test_datetime = now()
-    return test_datetime - self.date_created
-
-
-@property
-def is_submitted(self):
-    return self.status == self.SUBMITTED
-
-
-@property
-def can_be_edited(self):
-    """
-    Test if a cart can be edited
-    """
-    return self.status in self.editable_statuses
+    @property
+    def can_be_edited(self):
+        """
+        Test if a cart can be edited
+        """
+        return self.status in self.editable_statuses
 
 
 class CartProduct(models.Model):
@@ -698,3 +683,44 @@ class Order(models.Model):
 
     class Meta:
         ordering = ('-created_at',)
+
+
+from datetime import datetime
+from django.utils import timezone
+import pytz
+from string import Template
+
+
+class DeltaTemplate(Template):
+    delimiter = "%"
+
+
+def strfdelta(tdelta, fmt):
+    d = {"D": tdelta.days}
+    d["H"], rem = divmod(tdelta.seconds, 3600)
+    d["M"], d["S"] = divmod(rem, 60)
+    t = DeltaTemplate(fmt)
+    return t.substitute(**d)
+
+
+class DealOfDay(models.Model):
+    product = models.ForeignKey('shop.Product', on_delete=models.CASCADE)
+    date = models.DateField()
+
+    @property
+    def end_time(self):
+        return datetime.combine(self.date, datetime.max.time()).replace(tzinfo=pytz.timezone("Asia/Calcutta"))
+
+    @property
+    def remaining_time(self):
+        return self.end_time - timezone.now() if self.end_time > timezone.now() else None
+
+    @property
+    def remaining_hours(self):
+        hour, minutes = strfdelta(self.remaining_time, "%H,%M").split(',')
+        return hour
+
+    @property
+    def remaining_minutes(self):
+        hour, minutes = strfdelta(self.remaining_time, "%H,%M").split(',')
+        return minutes
