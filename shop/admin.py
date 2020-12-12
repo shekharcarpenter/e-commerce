@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Product, Category, ProductRecommendation, ProductImages, ProductCategory, DealOfDay
+from .models import Product, Category, ProductRecommendation, ProductImages, ProductCategory, DealOfDay, \
+    OrderStatusUpdate, Order
 
 
 class ProductRecommendationInline(admin.TabularInline):
@@ -35,6 +36,21 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
 
 
+class OrderStatusUpdateInline(admin.TabularInline):
+    model = OrderStatusUpdate
+    extra = 1
+
+
+class OrderAdmin(admin.ModelAdmin):
+    date_hierarchy = 'created_at'
+    list_display = ('customer', 'status', 'created_at')
+    # list_filter = ['is_discountable']
+    # prepopulated_fields = {"slug": ("name",)}
+    inlines = [OrderStatusUpdateInline]
+    # search_fields = ['sku', 'name']
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(DealOfDay)
+admin.site.register(Order, OrderAdmin)

@@ -13,6 +13,7 @@ from django.utils import timezone
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
+from . import constants
 from .fields import slugify
 
 
@@ -397,9 +398,8 @@ class Cart(models.Model):
 
     def add_product(self, product, quantity=1):
         entry, created = self.products.get_or_create(cart=self, product=product)
-        if not created:
-            entry.quantity = quantity
-            entry.save()
+        entry.quantity = quantity
+        entry.save()
 
     @property
     def quantity(self):
@@ -666,7 +666,14 @@ class CartProduct(models.Model):
         return self.product.price * self.quantity
 
 
-from . import constants
+class OrderStatusUpdate(models.Model):
+    status_text = models.CharField(max_length=50)
+    updated_at = models.DateTimeField(auto_now=True)
+    order = models.ForeignKey('shop.Order', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('-updated_at',)
+        verbose_name_plural = 'Order Status Updates'
 
 
 class Order(models.Model):
@@ -683,7 +690,11 @@ class Order(models.Model):
 
     @property
     def status_text(self):
-        return dict(self.ORDER_STATUS_CHOICES)[int(self.status)]
+        return dict(self.ORDER_STATUS_CHOICES)[self.status]
+
+    @property
+    def order_histories(self):
+        return OrderStatusUpdate.objects.filter(order=self)
 
     class Meta:
         ordering = ('-created_at',)

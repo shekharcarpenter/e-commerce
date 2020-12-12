@@ -68,12 +68,13 @@
                                     <h2>Order Status</h2>
                                     <table class="shop_table shop_table_responsive" cellspacing="0">
                                         <tbody>
-                                        {% for status_update in order_histories %}
+
+                                        {% for status_update in order.order_histories %}
                                             <tr class="order-total">
-                                                <th>{{ status_update.status }}</th>
+                                                <th>{{ status_update.status_text }}</th>
                                                 <td data-title="Total Investment"><strong><span
                                                         class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol"></span>{{ status_update.date_created }}</span></strong>
+                                                        class="lynessa-Price-currencySymbol"></span>{{ status_update.updated_at }}</span></strong>
                                                 </td>
                                             </tr>
                                         {% endfor %}

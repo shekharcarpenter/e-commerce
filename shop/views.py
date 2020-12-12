@@ -5,7 +5,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from shop.models import Product, ProductCategory, Category
+from shop.models import Product, ProductCategory, Category, OrderStatusUpdate
 from . import constants
 from .models import Order
 
@@ -32,6 +32,7 @@ def product_view(request, slug):
 def add_to_cart(request):
     cart = request.user.cart
     product = Product.objects.get(id=int(request.POST.get('product_id')))
+    print(request.POST.get('quantity', 1))
     cart.add_product(product, int(request.POST.get('quantity', 1)))
     if request.is_ajax() or request.POST.get('is_ajax'):
         return HttpResponse(cart.all_products().count())
