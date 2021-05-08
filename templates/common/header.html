@@ -103,7 +103,8 @@
                                 <li id="menu-item-996"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu menu-item-has-children">
                                     <a class="lynessa-menu-item-title" title="Blog"
-                                       href="blog.html">Blog</a>
+{#                                       href="blog.html">Blog</a>#}
+                                       href="#">Blog</a>
                                 </li>
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
@@ -402,11 +403,17 @@
                                                 </li>
                                                 {% endfor %}
                                             </ul>
+                                        {% if user.is_authenticated %}
                                         <p class="lynessa-mini-cart__buttons buttons">
                                                 <a href="{% url 'shop:wishlist_view' %}" class="button lynessa-forward">My Wishlist</a>
 {#                                                <a href="checkout.html"#}
 {#                                                   class="button checkout lynessa-forward">Checkout</a>#}
-                                            </p>
+                                        </p>
+                                        {% else %}
+                                        <p class="lynessa-mini-cart__buttons buttons">
+                                            <a href="{% url 'users:login' %}" class="button lynessa-forward">Login first</a>
+                                        </p>
+                                        {% endif %}
                                         </div>
                                     </div>
                                 </div>
