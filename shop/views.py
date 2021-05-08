@@ -10,7 +10,7 @@ from . import constants
 from .models import Order
 
 default_context = {'categories': Category.objects.filter(is_public=True)}
-
+print(default_context)
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_API_KEY))
 
 

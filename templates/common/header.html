@@ -18,25 +18,29 @@
                                 </li>
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Track Order" href="#">Categories</a>
+                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">Categories</a>
                                     <span class="toggle-submenu"></span>
                                     <div class="submenu megamenu megamenu-elements">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="lynessa-listitem style-01">
                                                     <div class="listitem-inner">
-                                                        <h4 class="title">Categories </h4>
+                                                        <h4 class="title">Categories</h4>
                                                         <ul class="listitem-list">
+                                                        {% if categories %}
                                                             {% for category in categories %}
                                                             <li>
                                                                 <a href="{% url 'shop:list_category' category.slug %}"
                                                                    target="_self">{{ category.name }} </a>
                                                             </li>
                                                             {% endfor %}
+                                                        {% endif %}
                                                         </ul>
+
                                                     </div>
                                                 </div>
                                             </div>
+                                        {% comment %}
                                             <div class="col-md-4">
                                                 <div class="lynessa-listitem style-01">
                                                     <div class="listitem-inner">
@@ -97,18 +101,19 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        {% endcomment %}
                                         </div>
                                     </div>
                                 </li>
                                 <li id="menu-item-996"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu menu-item-has-children">
                                     <a class="lynessa-menu-item-title" title="Blog"
-{#                                       href="blog.html">Blog</a>#}
-                                       href="#">Blog</a>
+                                       href="{% url 'home:blog' %}">Blog</a>
+
                                 </li>
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
-                                    <a class="lynessa-menu-item-title" title="About Us" href="#">About Us</a>
+                                    <a class="lynessa-menu-item-title" title="About Us" href="{% url 'home:about-us' %}">About Us</a>
                                     <span class="toggle-submenu"></span>
                                 </li>
                             </ul>
@@ -379,10 +384,12 @@
                                 {% endif %}
                                 <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
                                     <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">
+                                         {% if user.is_authenticated %}
                                         <a class="block-link link-dropdown" href="cart.html">
                                             <span class="pe-7s-like2"></span>
                                             <span title="Your Wishlist" class="count">{{ request.user.wish_list.quantity }}</span>
                                         </a>
+                                        {% endif %}
                                     </div>
                                     <div class="widget lynessa widget_shopping_cart">
                                         <div class="widget_shopping_cart_content">

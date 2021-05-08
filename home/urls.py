@@ -20,4 +20,7 @@ app_name = 'home'
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('test-page', views.test_page, name='test'),
+    path('blog', views.blog, name='blog'),
+    path('about-us', views.about_us, name='about-us'),
+
 ]
