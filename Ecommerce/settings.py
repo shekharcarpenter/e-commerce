@@ -143,8 +143,15 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DEFAULT_FILE_STORAGE = 'Ecommerce.dropbox_storage.DropBoxStorage'  # todo: Should be in env variable
-DROPBOX_OAUTH2_TOKEN = 'vBel3u_iN2YAAAAAAAAAAYVYy83AllB3R4MA5xJZgiUu2PmTbsxJWJQIxpogdgnz'
+# DEFAULT_FILE_STORAGE = 'Ecommerce.dropbox_storage.DropBoxStorage'  # todo: Should be in env variable
+# DROPBOX_OAUTH2_TOKEN = 'vBel3u_iN2YAAAAAAAAAAYVYy83AllB3R4MA5xJZgiUu2PmTbsxJWJQIxpogdgnz'
 
 RAZORPAY_KEY_ID = 'rzp_test_TF1tA8adBOjAEx'
 RAZORPAY_API_KEY = 'IPix3tA19KcJeFlitEI6dhPj'
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

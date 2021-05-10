@@ -22,7 +22,8 @@ class Category(models.Model):
     description = models.TextField(_('Description'), blank=True)
     meta_title = models.CharField(_('Meta title'), max_length=255, blank=True, null=True)
     meta_description = models.TextField(_('Meta description'), blank=True, null=True)
-    image = models.ImageField(_('Image'), upload_to='categories', blank=True,
+    image = models.ImageField(_('Image'), upload_to='categories',
+                              blank=True,
                               null=True, max_length=255)
     slug = models.SlugField(_('Slug'), max_length=255, db_index=True)
     cat_uuid = models.UUIDField(null=True, blank=True, default=uuid.uuid4)
@@ -166,8 +167,7 @@ class Product(models.Model):
     recommended_products = models.ManyToManyField(
         'shop.Product', through='ProductRecommendation', blank=True,
         verbose_name=_("Recommended products"),
-        help_text=_("These are products that are recommended to accompany the "
-                    "main product."))
+        help_text=_("These are products that are recommended to accompany the" "main product."))
     rating = models.FloatField(_('Rating'), null=True, editable=False)
     date_created = models.DateTimeField(
         _("Date created"), auto_now_add=True, db_index=True)

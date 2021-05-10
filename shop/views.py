@@ -51,7 +51,7 @@ def add_to_wishlist(request):
 @login_required(login_url='user.login')
 def cart_view(request):
     cart = request.user.cart
-    context = {'cart_products': cart.all_products(), 'cart': cart}
+    context = {'cart_products': cart.all_products(), 'cart': cart, 'product_categories': Category.objects.filter(is_public=True)}
     context.update(default_context)
     return render(request, 'ecommerce/cart.html', context=context)
 
@@ -109,9 +109,14 @@ def wishlist_view(request):
 def list_category(request, category_slug):
     try:
         category = Category.objects.get(slug=category_slug)
-        context = {'products': ProductCategory.objects.filter(category=category)}
+        context = {'products': ProductCategory.objects.filter(category=category),
+                   'product_categories': Category.objects.filter(is_public=True)}
         context.update(default_context)
+        print(context)
         return render(request, 'ecommerce/products_list.html', context=context)
     except Category.DoesNotExist:
-        pass
+        return HttpResponse('404')
+
+
 #     todo add 404
+

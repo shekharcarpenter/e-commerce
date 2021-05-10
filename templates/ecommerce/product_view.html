@@ -20,24 +20,37 @@
                                                  src="https://s.w.org/images/core/emoji/11/svg/1f50d.svg"></a>
                                         <div class="flex-viewport">
                                             <figure class="lynessa-product-gallery__wrapper">
-                                                {% for product_image in product.get_all_images %}
+                                                {% if product.get_all_images %}
+                                                    {% for product_image in product.get_all_images %}
+                                                        <div class="lynessa-product-gallery__image">
+                                                            <img alt="img"
+                                                                 src="{{ product_image.original.url }}">
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
                                                     <div class="lynessa-product-gallery__image">
                                                         <img alt="img"
-                                                             src="{{ product_image.original.url }}">
+                                                             src="{% static 'images/default.png' %}">
                                                     </div>
-                                                {% endfor %}
-
+                                                {% endif %}
                                             </figure>
                                         </div>
                                         <ol class="flex-control-nav flex-control-thumbs">
-                                            {% for product_image in product.get_all_images %}
 
-                                                <li><img
-                                                        src="{{ product_image.original.url }}"
-                                                        {#                                                        src="{% get_media_prefix %}{{ product_image.original }}"#}
-                                                        alt="img">
-                                                </li>
-                                            {% endfor %}
+                                            {% if product.get_all_images %}
+                                                {% for product_image in product.get_all_images %}
+                                                    <li>
+                                                        <img
+                                                                src="{{ product_image.original.url }}"
+                                                                {#                                                        src="{% get_media_prefix %}{{ product_image.original }}"#}
+                                                                alt="img">
+                                                    </li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <img src="{% static 'images/default.png' %}"
+                                                     alt="">
+                                            {% endif %}
+
                                         </ol>
                                     </div>
                                 </div>

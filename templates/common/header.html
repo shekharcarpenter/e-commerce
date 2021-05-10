@@ -10,15 +10,21 @@
                                 class="clone-main-menu lynessa-clone-mobile-menu lynessa-nav main-menu">
                                 <li id="menu-item-230"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-230 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Home" href="{% url 'home:home' %}">Home</a>
+                                    <a class="lynessa-menu-item-title" title="Home"
+                                       href="{% url 'home:home' %}">Home</a>
                                 </li>
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Track Order" href="#">Track Order</a>
+                                    {% if product_categories %}
+                                        {% for category in product_categories %}
+                                            <a class="lynessa-menu-item-title" title="KURTAS" href="{% url 'shop:list_category' category.slug %}">KURTAS</a>
+                                        {% endfor %}
+                                    {% endif %}
                                 </li>
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">Categories</a>
+                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">FESTIVE
+                                        WEAR</a>
                                     <span class="toggle-submenu"></span>
                                     <div class="submenu megamenu megamenu-elements">
                                         <div class="row">
@@ -27,20 +33,20 @@
                                                     <div class="listitem-inner">
                                                         <h4 class="title">Categories</h4>
                                                         <ul class="listitem-list">
-                                                        {% if categories %}
-                                                            {% for category in categories %}
-                                                            <li>
-                                                                <a href="{% url 'shop:list_category' category.slug %}"
-                                                                   target="_self">{{ category.name }} </a>
-                                                            </li>
-                                                            {% endfor %}
-                                                        {% endif %}
+                                                            {% if product_categories %}
+                                                                {% for category in product_categories %}
+                                                                    <li>
+                                                                        <a href="{% url 'shop:list_category' category.slug %}"
+                                                                           target="_self">{{ category.name }} </a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            {% endif %}
                                                         </ul>
 
                                                     </div>
                                                 </div>
                                             </div>
-                                        {% comment %}
+                                            {% comment %}
                                             <div class="col-md-4">
                                                 <div class="lynessa-listitem style-01">
                                                     <div class="listitem-inner">
@@ -108,12 +114,25 @@
                                 <li id="menu-item-996"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu menu-item-has-children">
                                     <a class="lynessa-menu-item-title" title="Blog"
-                                       href="{% url 'home:blog' %}">Blog</a>
+                                       href="{% url 'home:blog' %}">NEW ARRIVALS</a>
 
                                 </li>
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
-                                    <a class="lynessa-menu-item-title" title="About Us" href="{% url 'home:about-us' %}">About Us</a>
+                                    <a class="lynessa-menu-item-title" title="About Us"
+                                       href="{% url 'home:about-us' %}">BOTTOMS</a>
+                                    <span class="toggle-submenu"></span>
+                                </li>
+                                <li id="menu-item-237"
+                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
+                                    <a class="lynessa-menu-item-title" title="About Us"
+                                       href="{% url 'home:about-us' %}">SALE</a>
+                                    <span class="toggle-submenu"></span>
+                                </li>
+                                <li id="menu-item-237"
+                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
+                                    <a class="lynessa-menu-item-title" title="About Us"
+                                       href="{% url 'home:about-us' %}">CELEB</a>
                                     <span class="toggle-submenu"></span>
                                 </li>
                             </ul>
@@ -128,8 +147,8 @@
                     </div>
                     <div class="header-logo">
                         <a href="{% url 'home:home' %}"><img alt="Lynessa"
-                                                  src="/static/images/MISKI_NEW_NAME@2x.png"
-                                                  class="logo"></a></div>
+                                                             src="/static/images/MISKI_NEW_NAME@2x.png"
+                                                             class="logo"></a></div>
                     <div class="header-control">
                         <div class="header-control-inner">
                             <div class="meta-dreaming">
@@ -226,47 +245,48 @@
                                         </ul>
                                     </div>
                                     <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
-                                    <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">
-                                        <a class="block-link link-dropdown" href="{% url 'shop:cart' %}">
-                                            <span class="pe-7s-shopbag"></span>
-                                            <span class="count">{{ request.user.cart.quantity }}</span>
-                                        </a>
-                                    </div>
-{#                                        <a class="block-link " href="{% url 'shop:cart' %}">#}
-{#                                            <span class="pe-7s-shopbag"></span>#}
-{#                                            <span class="count"#}
-{#                                                  id="header_count">{{ request.user.cart.quantity }}</span>#}
-{#                                        </a>#}
-                                    <div class="widget lynessa widget_shopping_cart">
-                                        <div class="widget_shopping_cart_content">
-                                            <h3 class="minicart-title">Your Cart<span
-                                                    class="minicart-number-items">3</span></h3>
-                                            <ul class="lynessa-mini-cart cart_list product_list_widget">
-                                                {% for item in request.user.cart.productss %}
-                                                <li class="lynessa-mini-cart-item mini_cart_item">
-                                                    <a href="#" class="remove remove_from_cart_button">×</a>
-                                                    <a href="#">
-                                                        <img src="{{ product.primary_image.original.url }}"
-                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">{{ item.product.name }}
-                                                    </a>
-                                                    <span class="quantity">{{ item.quantity }} × <span
-                                                            class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">₹</span>{{ item.product.price }}</span></span>
-                                                </li>
-                                                {% endfor %}
-                                            </ul>
-                                            <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>
-                                                <span class="lynessa-Price-amount amount"><span
-                                                        class="lynessa-Price-currencySymbol">₹</span>{{ request.user.cart.total_price }}</span>
-                                            </p>
-                                            <p class="lynessa-mini-cart__buttons buttons">
-                                                <a href="{% url 'shop:cart' %}" class="button lynessa-forward">Viewcart</a>
-                                                <a href="{% url 'shop:checkout' %}"
-                                                   class="button checkout lynessa-forward">Checkout</a>
-                                            </p>
+                                        <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">
+                                            <a class="block-link link-dropdown" href="{% url 'shop:cart' %}">
+                                                <span class="pe-7s-shopbag"></span>
+                                                <span class="count">{{ request.user.cart.quantity }}</span>
+                                            </a>
                                         </div>
-                                    </div>
+                                        {#                                        <a class="block-link " href="{% url 'shop:cart' %}">#}
+                                        {#                                            <span class="pe-7s-shopbag"></span>#}
+                                        {#                                            <span class="count"#}
+                                        {#                                                  id="header_count">{{ request.user.cart.quantity }}</span>#}
+                                        {#                                        </a>#}
+                                        <div class="widget lynessa widget_shopping_cart">
+                                            <div class="widget_shopping_cart_content">
+                                                <h3 class="minicart-title">Your Cart<span
+                                                        class="minicart-number-items">3</span></h3>
+                                                <ul class="lynessa-mini-cart cart_list product_list_widget">
+                                                    {% for item in request.user.cart.productss %}
+                                                        <li class="lynessa-mini-cart-item mini_cart_item">
+                                                            <a href="#" class="remove remove_from_cart_button">×</a>
+                                                            <a href="#">
+                                                                <img src="{{ product.primary_image.original.url }}"
+                                                                     class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
+                                                                     alt="img" width="600"
+                                                                     height="778">{{ item.product.name }}
+                                                            </a>
+                                                            <span class="quantity">{{ item.quantity }} × <span
+                                                                    class="lynessa-Price-amount amount"><span
+                                                                    class="lynessa-Price-currencySymbol">₹</span>{{ item.product.price }}</span></span>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>
+                                                    <span class="lynessa-Price-amount amount"><span
+                                                            class="lynessa-Price-currencySymbol">₹</span>{{ request.user.cart.total_price }}</span>
+                                                </p>
+                                                <p class="lynessa-mini-cart__buttons buttons">
+                                                    <a href="{% url 'shop:cart' %}" class="button lynessa-forward">Viewcart</a>
+                                                    <a href="{% url 'shop:checkout' %}"
+                                                       class="button checkout lynessa-forward">Checkout</a>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
                                 {% else %}
                                     <a href="{% url 'users:login' %}"> Login / Register </a>
@@ -384,11 +404,12 @@
                                 {% endif %}
                                 <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">
                                     <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">
-                                         {% if user.is_authenticated %}
-                                        <a class="block-link link-dropdown" href="cart.html">
-                                            <span class="pe-7s-like2"></span>
-                                            <span title="Your Wishlist" class="count">{{ request.user.wish_list.quantity }}</span>
-                                        </a>
+                                        {% if user.is_authenticated %}
+                                            <a class="block-link link-dropdown" href="cart.html">
+                                                <span class="pe-7s-like2"></span>
+                                                <span title="Your Wishlist"
+                                                      class="count">{{ request.user.wish_list.quantity }}</span>
+                                            </a>
                                         {% endif %}
                                     </div>
                                     <div class="widget lynessa widget_shopping_cart">
@@ -397,92 +418,95 @@
                                                     class="minicart-number-items">3</span></h3>
                                             <ul class="lynessa-mini-cart cart_list product_list_widget">
                                                 {% for item in request.user.wish_list.productss %}
-                                                <li class="lynessa-mini-cart-item mini_cart_item">
-                                                    <a href="#" class="remove remove_from_cart_button">×</a>
-                                                    <a href="#">
-                                                        <img src="{{ product.primary_image.original.url }}"
-                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
-                                                             alt="img" width="600" height="778">{{ item.product.name }}
-                                                    </a>
-                                                    <span class="quantity">1 × <span
-                                                            class="lynessa-Price-amount amount"><span
-                                                            class="lynessa-Price-currencySymbol">₹</span>{{ item.price }}</span></span>
-                                                </li>
+                                                    <li class="lynessa-mini-cart-item mini_cart_item">
+                                                        <a href="#" class="remove remove_from_cart_button">×</a>
+                                                        <a href="#">
+                                                            <img src="{{ product.primary_image.original.url }}"
+                                                                 class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
+                                                                 alt="img" width="600"
+                                                                 height="778">{{ item.product.name }}
+                                                        </a>
+                                                        <span class="quantity">1 × <span
+                                                                class="lynessa-Price-amount amount"><span
+                                                                class="lynessa-Price-currencySymbol">₹</span>{{ item.price }}</span></span>
+                                                    </li>
                                                 {% endfor %}
                                             </ul>
-                                        {% if user.is_authenticated %}
-                                        <p class="lynessa-mini-cart__buttons buttons">
-                                                <a href="{% url 'shop:wishlist_view' %}" class="button lynessa-forward">My Wishlist</a>
-{#                                                <a href="checkout.html"#}
-{#                                                   class="button checkout lynessa-forward">Checkout</a>#}
-                                        </p>
-                                        {% else %}
-                                        <p class="lynessa-mini-cart__buttons buttons">
-                                            <a href="{% url 'users:login' %}" class="button lynessa-forward">Login first</a>
-                                        </p>
-                                        {% endif %}
+                                            {% if user.is_authenticated %}
+                                                <p class="lynessa-mini-cart__buttons buttons">
+                                                    <a href="{% url 'shop:wishlist_view' %}"
+                                                       class="button lynessa-forward">My Wishlist</a>
+                                                    {#                                                <a href="checkout.html"#}
+                                                    {#                                                   class="button checkout lynessa-forward">Checkout</a>#}
+                                                </p>
+                                            {% else %}
+                                                <p class="lynessa-mini-cart__buttons buttons">
+                                                    <a href="{% url 'users:login' %}" class="button lynessa-forward">Login
+                                                        first</a>
+                                                </p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
-{#                                <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">#}
-{#                                    <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">#}
-{#                                        <a class="block-link link-dropdown" href="cart.html">#}
-{#                                            <span class="pe-7s-shopbag"></span>#}
-{#                                            <span class="count">133</span>#}
-{#                                        </a>#}
-{#                                    </div>#}
-{#                                    <div class="widget lynessa widget_shopping_cart">#}
-{#                                        <div class="widget_shopping_cart_content">#}
-{#                                            <h3 class="minicart-title">Your Cart<span#}
-{#                                                    class="minicart-number-items">3</span></h3>#}
-{#                                            <ul class="lynessa-mini-cart cart_list product_list_widget">#}
-{#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
-{#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
-{#                                                    <a href="#">#}
-{#                                                        <img src="/static/images/apro134-1-600x778.jpg"#}
-{#                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
-{#                                                             alt="img" width="600" height="778">T-shirt with skirt –#}
-{#                                                        Pink&nbsp;#}
-{#                                                    </a>#}
-{#                                                    <span class="quantity">1 × <span#}
-{#                                                            class="lynessa-Price-amount amount"><span#}
-{#                                                            class="lynessa-Price-currencySymbol">₹</span>150.00</span></span>#}
-{#                                                </li>#}
-{#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
-{#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
-{#                                                    <a href="#">#}
-{#                                                        <img src="/static/images/apro1113-600x778.jpg"#}
-{#                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
-{#                                                             alt="img" width="600" height="778">Abstract Sweatshirt&nbsp;#}
-{#                                                    </a>#}
-{#                                                    <span class="quantity">1 × <span#}
-{#                                                            class="lynessa-Price-amount amount"><span#}
-{#                                                            class="lynessa-Price-currencySymbol">₹</span>129.00</span></span>#}
-{#                                                </li>#}
-{#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
-{#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
-{#                                                    <a href="#">#}
-{#                                                        <img src="/static/images/apro201-1-600x778.jpg"#}
-{#                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
-{#                                                             alt="img" width="600" height="778">ELOISE SHIRRED&nbsp;#}
-{#                                                    </a>#}
-{#                                                    <span class="quantity">1 × <span#}
-{#                                                            class="lynessa-Price-amount amount"><span#}
-{#                                                            class="lynessa-Price-currencySymbol">₹</span>139.00</span></span>#}
-{#                                                </li>#}
-{#                                            </ul>#}
-{#                                            <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>#}
-{#                                                <span class="lynessa-Price-amount amount"><span#}
-{#                                                        class="lynessa-Price-currencySymbol">₹</span>418.00</span>#}
-{#                                            </p>#}
-{#                                            <p class="lynessa-mini-cart__buttons buttons">#}
-{#                                                <a href="cart.html" class="button lynessa-forward">Viewcart</a>#}
-{#                                                <a href="checkout.html"#}
-{#                                                   class="button checkout lynessa-forward">Checkout</a>#}
-{#                                            </p>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
+                                {#                                <div class="block-minicart block-dreaming lynessa-mini-cart lynessa-dropdown">#}
+                                {#                                    <div class="shopcart-dropdown block-cart-link" data-lynessa="lynessa-dropdown">#}
+                                {#                                        <a class="block-link link-dropdown" href="cart.html">#}
+                                {#                                            <span class="pe-7s-shopbag"></span>#}
+                                {#                                            <span class="count">133</span>#}
+                                {#                                        </a>#}
+                                {#                                    </div>#}
+                                {#                                    <div class="widget lynessa widget_shopping_cart">#}
+                                {#                                        <div class="widget_shopping_cart_content">#}
+                                {#                                            <h3 class="minicart-title">Your Cart<span#}
+                                {#                                                    class="minicart-number-items">3</span></h3>#}
+                                {#                                            <ul class="lynessa-mini-cart cart_list product_list_widget">#}
+                                {#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
+                                {#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
+                                {#                                                    <a href="#">#}
+                                {#                                                        <img src="/static/images/apro134-1-600x778.jpg"#}
+                                {#                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
+                                {#                                                             alt="img" width="600" height="778">T-shirt with skirt –#}
+                                {#                                                        Pink&nbsp;#}
+                                {#                                                    </a>#}
+                                {#                                                    <span class="quantity">1 × <span#}
+                                {#                                                            class="lynessa-Price-amount amount"><span#}
+                                {#                                                            class="lynessa-Price-currencySymbol">₹</span>150.00</span></span>#}
+                                {#                                                </li>#}
+                                {#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
+                                {#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
+                                {#                                                    <a href="#">#}
+                                {#                                                        <img src="/static/images/apro1113-600x778.jpg"#}
+                                {#                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
+                                {#                                                             alt="img" width="600" height="778">Abstract Sweatshirt&nbsp;#}
+                                {#                                                    </a>#}
+                                {#                                                    <span class="quantity">1 × <span#}
+                                {#                                                            class="lynessa-Price-amount amount"><span#}
+                                {#                                                            class="lynessa-Price-currencySymbol">₹</span>129.00</span></span>#}
+                                {#                                                </li>#}
+                                {#                                                <li class="lynessa-mini-cart-item mini_cart_item">#}
+                                {#                                                    <a href="#" class="remove remove_from_cart_button">×</a>#}
+                                {#                                                    <a href="#">#}
+                                {#                                                        <img src="/static/images/apro201-1-600x778.jpg"#}
+                                {#                                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail"#}
+                                {#                                                             alt="img" width="600" height="778">ELOISE SHIRRED&nbsp;#}
+                                {#                                                    </a>#}
+                                {#                                                    <span class="quantity">1 × <span#}
+                                {#                                                            class="lynessa-Price-amount amount"><span#}
+                                {#                                                            class="lynessa-Price-currencySymbol">₹</span>139.00</span></span>#}
+                                {#                                                </li>#}
+                                {#                                            </ul>#}
+                                {#                                            <p class="lynessa-mini-cart__total total"><strong>Subtotal:</strong>#}
+                                {#                                                <span class="lynessa-Price-amount amount"><span#}
+                                {#                                                        class="lynessa-Price-currencySymbol">₹</span>418.00</span>#}
+                                {#                                            </p>#}
+                                {#                                            <p class="lynessa-mini-cart__buttons buttons">#}
+                                {#                                                <a href="cart.html" class="button lynessa-forward">Viewcart</a>#}
+                                {#                                                <a href="checkout.html"#}
+                                {#                                                   class="button checkout lynessa-forward">Checkout</a>#}
+                                {#                                            </p>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
                             </div>
                         </div>
                     </div>
@@ -573,7 +597,8 @@
         </div>
         <div class="header-mobile-mid">
             <div class="header-logo">
-                <a href="{% url 'home:home' %}"><img alt="Lynessa" src="/static/images/MISKI_NEW_NAME@2x.png" class="logo"></a>
+                <a href="{% url 'home:home' %}"><img alt="Lynessa" src="/static/images/MISKI_NEW_NAME@2x.png"
+                                                     class="logo"></a>
             </div>
         </div>
         <div class="header-mobile-right">
@@ -655,7 +680,8 @@
                                 </p>
                                 <p class="lynessa-mini-cart__buttons buttons">
                                     <a href="{% url 'shop:cart' %}" class="button lynessa-forward">Viewcart</a>
-                                    <a href="{% url 'shop:checkout' %}" class="button checkout lynessa-forward">Checkout</a>
+                                    <a href="{% url 'shop:checkout' %}"
+                                       class="button checkout lynessa-forward">Checkout</a>
                                 </p>
                             </div>
                         </div>
