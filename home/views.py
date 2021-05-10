@@ -23,8 +23,10 @@ def test_page(request):
 
 
 def blog(request):
-    return render(request, 'home/blog.html')
+    context = {'product_categories': Category.objects.filter(is_public=True)}
+    return render(request, 'home/blog.html', context=context)
 
 
 def about_us(request):
-    return render(request, 'home/about-us.html')
+    context = {'product_categories': Category.objects.filter(is_public=True)}
+    return render(request, 'home/about-us.html', context=context)

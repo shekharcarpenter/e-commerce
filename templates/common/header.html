@@ -8,11 +8,11 @@
                         <div class="box-header-nav menu-nocenter">
                             <ul id="menu-primary-menu"
                                 class="clone-main-menu lynessa-clone-mobile-menu lynessa-nav main-menu">
-                                <li id="menu-item-230"
-                                    class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-230 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Home"
-                                       href="{% url 'home:home' %}">Home</a>
-                                </li>
+{#                                <li id="menu-item-230"#}
+{#                                    class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-230 parent parent-megamenu item-megamenu menu-item-has-children">#}
+{#                                    <a class="lynessa-menu-item-title" title="Home"#}
+{#                                       href="{% url 'home:home' %}">Home</a>#}
+{#                                </li>#}
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
                                     {% if product_categories %}
@@ -23,10 +23,9 @@
                                 </li>
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">FESTIVE
-                                        WEAR</a>
+                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">FESTIVE  WEAR</a>
                                     <span class="toggle-submenu"></span>
-                                    <div class="submenu megamenu megamenu-elements">
+                                    {% comment %}<div class="submenu megamenu megamenu-elements">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="lynessa-listitem style-01">
@@ -42,12 +41,10 @@
                                                                 {% endfor %}
                                                             {% endif %}
                                                         </ul>
-
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% comment %}
-                                            <div class="col-md-4">
+                                                                                        <div class="col-md-4">
                                                 <div class="lynessa-listitem style-01">
                                                     <div class="listitem-inner">
                                                         <h4 class="title">
@@ -107,9 +104,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        {% endcomment %}
+
                                         </div>
-                                    </div>
+                                    </div>{% endcomment %}
                                 </li>
                                 <li id="menu-item-996"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu menu-item-has-children">

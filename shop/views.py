@@ -51,16 +51,19 @@ def add_to_wishlist(request):
 @login_required(login_url='user.login')
 def cart_view(request):
     cart = request.user.cart
-    context = {'cart_products': cart.all_products(), 'cart': cart, 'product_categories': Category.objects.filter(is_public=True)}
+    context = {'cart_products': cart.all_products(), 'cart': cart,
+               'product_categories': Category.objects.filter(is_public=True)}
     context.update(default_context)
     return render(request, 'ecommerce/cart.html', context=context)
 
 
 @login_required(login_url='user.login')
 def checkout(request):
+    contexts = {'product_categories': Category.objects.filter(is_public=True)}
     cart = request.user.cart
     context = {'cart_products': cart.all_products(), 'cart': cart}
     context.update(default_context)
+    context.update(contexts)
     return render(request, 'ecommerce/checkout.html', context=context)
 
 
@@ -93,17 +96,17 @@ def orders_view(request, order_id=None):
         except Order.DoesNotExist:
             pass
     orders = Order.objects.filter(customer=request.user)
-    context = {'orders': orders}
+    context = {'orders': orders, 'product_categories': Category.objects.filter(is_public=True)}
     context.update(default_context)
     return render(request, 'accounts/orders.html', context=context)
 
 
 @login_required()
 def wishlist_view(request):
-    context = {}
+    context = {'product_categories': Category.objects.filter(is_public=True)}
     context.update(default_context)
 
-    return render(request, 'ecommerce/wishlist.html')
+    return render(request, 'ecommerce/wishlist.html', context=context)
 
 
 def list_category(request, category_slug):
@@ -117,6 +120,4 @@ def list_category(request, category_slug):
     except Category.DoesNotExist:
         return HttpResponse('404')
 
-
 #     todo add 404
-

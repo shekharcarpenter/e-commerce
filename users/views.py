@@ -3,12 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.shortcuts import render, redirect
 
+from shop.models import Category
 from .models import User, Address
 
 
 # Create your views here.
 
 def login_view(request):
+    context = {'product_categories': Category.objects.filter(is_public=True)}
     if request.method == 'POST':
         errors = []
         if not request.POST.get('email'):
@@ -26,7 +28,7 @@ def login_view(request):
             return render(request, 'auth/login-register.html', context={"errors": ["Invalid username or password."]},
                           status=401)
     else:
-        return render(request, 'auth/login-register.html', status=200)
+        return render(request, 'auth/login-register.html', status=200, context=context)
 
 
 @login_required(login_url='/login')
@@ -68,8 +70,10 @@ def register_view(request):
 
 @login_required(login_url='/login')
 def my_account(request):
+    context = {'product_categories': Category.objects.filter(is_public=True)}
     if request.method == 'GET':
-        return render(request, 'accounts/account.html')
+        return render(request, 'accounts/account.html',
+                      context=context)
     else:
         name = request.POST.get('account_display_name')
         account_email = request.POST.get('account_email')
@@ -92,7 +96,8 @@ def my_account(request):
         request.user.full_name = name
         request.user.email = account_email
         request.user.save()
-        return render(request, 'accounts/account.html')
+        return render(request, 'accounts/account.html',
+                      context={'product_categories': Category.objects.filter(is_public=True)})
 
 
 @login_required(login_url='/login')
@@ -101,11 +106,11 @@ def address_view(request, pk=None):
         try:
             if pk:
                 address_object = Address.objects.get(id=pk)
-                context = {'address': address_object}
+                context = {'address': address_object, 'product_categories': Category.objects.filter(is_public=True)}
                 return render(request, 'accounts/add-address.html', context=context)
             else:
                 address_object = Address.objects.filter(user=request.user)
-                context = {'addresses': address_object}
+                context = {'addresses': address_object, 'product_categories': Category.objects.filter(is_public=True)}
 
         except Address.DoesNotExist:
             context = {}
