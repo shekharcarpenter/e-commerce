@@ -17,13 +17,15 @@
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
                                     {% if product_categories %}
                                         {% for category in product_categories %}
-                                            <a class="lynessa-menu-item-title" title="KURTAS" href="{% url 'shop:list_category' category.slug %}">KURTAS</a>
+                                            {% if category.slug == 'kurtas' or category.slug == 'kurta' %}
+                                                <a class="lynessa-menu-item-title" title="KURTAS" href="{% url 'shop:list_category' category.slug %}">KURTAS</a>
+                                            {% endif %}
                                         {% endfor %}
                                     {% endif %}
                                 </li>
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">FESTIVE  WEAR</a>
+                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">FESTIVE WEAR</a>
                                     <span class="toggle-submenu"></span>
                                     {% comment %}<div class="submenu megamenu megamenu-elements">
                                         <div class="row">
@@ -111,9 +113,10 @@
                                 <li id="menu-item-996"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu menu-item-has-children">
                                     <a class="lynessa-menu-item-title" title="Blog"
-                                       href="{% url 'home:blog' %}">NEW ARRIVALS</a>
-
+                                       href="{% url 'shop:new_arrival' %}">NEW ARRIVALS</a>
                                 </li>
+
+
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
                                     <a class="lynessa-menu-item-title" title="About Us"

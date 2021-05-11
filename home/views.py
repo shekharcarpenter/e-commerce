@@ -12,7 +12,6 @@ def home_view(request):
                'new_arrivals': Product.objects.filter(is_public=True).order_by('-date_created')[:20],
                'deals_of_the_day': DealOfDay.objects.filter(date=timezone.now().date())}
     context.update(default_context)
-    print(context)
     return render(request, 'home/test-index.html', context=context)
 
 

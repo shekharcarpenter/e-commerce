@@ -10,7 +10,6 @@ from . import constants
 from .models import Order
 
 default_context = {'categories': Category.objects.filter(is_public=True)}
-print(default_context)
 razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_API_KEY))
 
 
@@ -22,7 +21,8 @@ def product_view(request, slug):
         cart_product = request.user.cart.all_products().filter(product=product).first()
         if cart_product:
             quantity = cart_product.quantity
-    context = {'product': product, 'quantity': quantity, 'related_products': product.recommended_products.all()}
+    context = {'product': product, 'quantity': quantity, 'related_products': product.recommended_products.all(),
+               'product_categories': Category.objects.filter(is_public=True)}
     context.update(default_context)
     return render(request, 'ecommerce/product_view.html', context=context)
 
@@ -115,9 +115,14 @@ def list_category(request, category_slug):
         context = {'products': ProductCategory.objects.filter(category=category),
                    'product_categories': Category.objects.filter(is_public=True)}
         context.update(default_context)
-        print(context)
         return render(request, 'ecommerce/products_list.html', context=context)
     except Category.DoesNotExist:
         return HttpResponse('404')
 
-#     todo add 404
+
+def new_arrival(request):
+    products = Product.objects.all()
+    context = {'products': products, 'product_categories': Category.objects.filter(is_public=True),
+               'new_arrivals': Product.objects.filter(is_public=True).order_by('-date_created')[:20],
+               }
+    return render(request, 'ecommerce/new_arrival.html', context=context)
