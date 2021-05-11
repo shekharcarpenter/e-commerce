@@ -49,7 +49,7 @@
                                                     class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
                                                     alt="img" width="600" height="778"></a></td>
                                         <td class="product-name" data-title="Product">
-                                            <a href="#">{{ product.product.name }}</a></td>
+                                            <a href="{% url 'shop:view_product' product.product.slug %}">{{ product.product.name }}</a></td>
                                         <td class="product-price" data-title="Price">
                                         <span class="lynessa-Price-amount amount"><span
                                                 class="lynessa-Price-currencySymbol">₹</span>{{ product.product.price }}</span></td>
