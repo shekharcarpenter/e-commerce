@@ -91,11 +91,18 @@
                                                        value="{{ product.id }}"
                                                        type="hidden"
                                                 >
-
+                                                {% if user.is_authenticated %}
                                                 <button onclick="updateCart()" type="submit"
                                                         class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
                                                     Add to cart
                                                 </button>
+                                                    {% else %}
+                                                    <a href="{% url 'users:login' %}">
+                                                    <button type="submit"
+                                                        class="single_add_to_cart_button button alt lynessa-variation-selection-needed">Add to cart (Login)
+                                                    </button>
+                                                    </a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </form>
@@ -199,7 +206,7 @@
                                 <div class="product-inner tooltip-left">
                                     <div class="product-thumb">
                                         <a class="thumb-link"
-                                           href="{% url 'shop:view_product' recommended_product.slug %}" tabindex="0">
+                                           href="{% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}" tabindex="0">
                                             <img class="img-responsive"
                                                  src="{{ recommended_product.primary_image.original.url }}"
                                                  width="600" height="778">
@@ -213,7 +220,7 @@
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <a href="{% url 'shop:view_product' recommended_product.slug %}"
+                                                <a href="{% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
                                                    class="button product_type_variable add_to_cart_button">Add to
                                                     cart</a>
                                             </div>
@@ -221,7 +228,7 @@
                                     </div>
                                     <div class="product-info equal-elem">
                                         <h3 class="product-name product_title">
-                                            <a href="{% url 'shop:view_product' recommended_product.slug %}"
+                                            <a href="{% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
                                                tabindex="0">{{ recommended_product.name }}</a>
                                         </h3>
                                         <div class="rating-wapper nostar">

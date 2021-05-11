@@ -34,7 +34,8 @@
                                                     {% endif %}
                                                 </a>
                                                 <div class="flash">
-                                                    <span class="onnew"><span class="text">New</span></span></div>
+                                                    <span class="onnew"><span class="text">New</span></span>
+                                                </div>
                                                 <form class="variations_form cart">
                                                     <table class="variations">
                                                         <tbody>
@@ -69,7 +70,7 @@
                                                                         <span class="change-value color"
                                                                               style="background: #3155e2;"
                                                                               data-value="blue">
-                                                            </span>
+                                                                        </span>
                                                                     </label>
                                                                     <label>
                                                                         <input type="radio" name="color">
@@ -93,8 +94,7 @@
                                                         </tbody>
                                                     </table>
                                                 </form>
-                                                <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick
-                                                    View</a>
+                                                <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick View</a>
                                                 <div class="group-button">
                                                     <div class="yith-wcwl-add-to-wishlist" onclick="add_to_wishlist({{ product.id }})">
                                                         <div class="yith-wcwl-add-button show">
@@ -331,6 +331,7 @@
         }
 
         function add_to_wishlist(product_id) {
+            console.log('add to wish called')
             var xhttp = new XMLHttpRequest();
             var params = 'product_id=' + product_id;
 

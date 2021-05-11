@@ -28,8 +28,10 @@ def product_view(request, slug):
 
 
 @csrf_exempt
-@login_required(login_url='user.login')
+# @login_required(login_url='user.login')
+@login_required(login_url='/account/login/')
 def add_to_cart(request):
+    print('hitting add to  cart')
     cart = request.user.cart
     product = Product.objects.get(id=int(request.POST.get('product_id')))
     print(request.POST.get('quantity', 1))
@@ -39,7 +41,8 @@ def add_to_cart(request):
     return redirect('shop:view_product', slug=product.slug)
 
 
-@login_required(login_url='user.login')
+# @login_required(login_url='user.login')
+@login_required(login_url='/account/login/')
 @csrf_exempt
 def add_to_wishlist(request):
     wish_list = request.user.wish_list
@@ -48,7 +51,8 @@ def add_to_wishlist(request):
     return HttpResponse(status=200)
 
 
-@login_required(login_url='user.login')
+# @login_required(login_url='user.login')
+@login_required(login_url='/account/login/')
 def cart_view(request):
     cart = request.user.cart
     context = {'cart_products': cart.all_products(), 'cart': cart,
@@ -57,7 +61,8 @@ def cart_view(request):
     return render(request, 'ecommerce/cart.html', context=context)
 
 
-@login_required(login_url='user.login')
+# @login_required(login_url='user.login')
+@login_required(login_url='/account/login/')
 def checkout(request):
     contexts = {'product_categories': Category.objects.filter(is_public=True)}
     cart = request.user.cart
@@ -67,7 +72,8 @@ def checkout(request):
     return render(request, 'ecommerce/checkout.html', context=context)
 
 
-@login_required(login_url='user.login')
+# @login_required(login_url='user.login')
+@login_required(login_url='/account/login/')
 def cache_payment(request):
     payment_id = request.POST.get('razorpay_payment_id')
     amount = request.POST.get('amount')
@@ -86,7 +92,8 @@ def cache_payment(request):
     return redirect('home:home')
 
 
-@login_required(login_url='user.login')
+# @login_required(login_url='user.login')
+@login_required(login_url='/account/login/')
 def orders_view(request, order_id=None):
     if order_id:
         try:
