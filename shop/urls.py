@@ -23,6 +23,7 @@ urlpatterns = [
     path('add-to-cart', views.add_to_cart, name='add_to_cart'),
     path('add-to-wish-list', views.add_to_wishlist, name='add_to_wish_list'),
     path('cart', views.cart_view, name='cart'),
+    path('cart-delete/<int:id>', views.cart_delete, name='cart-delete'),
     path('checkout', views.checkout, name='checkout'),
     path('cache_payment', views.cache_payment, name='cache_payment'),
     path('orders', views.orders_view, name='orders_view'),

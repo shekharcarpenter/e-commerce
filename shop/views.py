@@ -5,7 +5,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from shop.models import Product, ProductCategory, Category, OrderStatusUpdate
+from shop.models import Product, ProductCategory, Category, OrderStatusUpdate, Cart
 from . import constants
 from .models import Order
 
@@ -31,7 +31,6 @@ def product_view(request, slug):
 # @login_required(login_url='user.login')
 @login_required(login_url='/account/login/')
 def add_to_cart(request):
-    print('hitting add to  cart')
     cart = request.user.cart
     product = Product.objects.get(id=int(request.POST.get('product_id')))
     print(request.POST.get('quantity', 1))
@@ -58,6 +57,17 @@ def cart_view(request):
     context = {'cart_products': cart.all_products(), 'cart': cart,
                'product_categories': Category.objects.filter(is_public=True)}
     context.update(default_context)
+    return render(request, 'ecommerce/cart.html', context=context)
+
+
+def cart_delete(request, id):
+    cart = request.user.cart
+    cart_obj = cart.all_products()
+    print(cart_obj)
+    context = {'cart_products': cart.all_products(), 'cart': cart,
+               'product_categories': Category.objects.filter(is_public=True)}
+    cart = Cart.objects.get(id=id)
+    cart.delete()
     return render(request, 'ecommerce/cart.html', context=context)
 
 
