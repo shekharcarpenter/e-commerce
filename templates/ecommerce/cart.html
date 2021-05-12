@@ -7,7 +7,7 @@
     {% include 'common/header.html' %}
     <div class="banner-wrapper has_background">
         <img src="{% static 'images/banner-for-all2.jpg' %}"
-             class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+             class="img-responsive attachment-1920x447 size-1920x447" alt="">
         <div class="banner-wrapper-inner">
             <h1 class="page-title">Your Cart</h1>
             <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
@@ -74,9 +74,6 @@
                                                         class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>
                                             </td>
                                             <td class="product-subtotal" data-title="Total">
-                                                <h3>{{ cart.id }}</h3>
-                                                <h3>{{ product.id }}</h3>
-                                                <h3>{{ product.product.id }}</h3>
                                                 <a href="{% url 'shop:cart-delete' product.product.id %}">
                                                     <i class="fa fa-trash" style="font-size: 20px" aria-hidden="true">
                                                     </i>

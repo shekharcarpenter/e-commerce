@@ -3778,7 +3778,7 @@ a.backtotop {
 	-moz-transition: all 0.4s ease 0s;
 	-o-transition: all 0.4s ease 0s;
 	transition: all 0.4s ease 0s;
-	z-index: 999;
+	z-index: 1;
 	overflow: hidden;
 }
 a.backtotop:not(.active) {

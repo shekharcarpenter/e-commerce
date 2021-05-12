@@ -1,7 +1,7 @@
 {% extends 'common/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+
+<html>
 {% block body %}
     <body>
     {% include 'common/header.html' %}
@@ -50,9 +50,10 @@
                                     </div>
                                 </td>
                                 <td class="product-thumbnail">
-                                    <a href="">
                                     <a href="{% url 'shop:view_product' product.product.slug %}">
-                                        <img src="{{ product.product.primary_image.original.url }}" class="attachment-lynessa_thumbnail size-lynessa_thumbnail" alt="img" width="600" height="778"> </a>
+                                        <img src="{{ product.product.primary_image.original.url }}"
+                                             class="attachment-lynessa_thumbnail size-lynessa_thumbnail" alt="img" width="600" height="778">
+                                    </a>
                                 </td>
                                 <td class="product-name">
                                     <a href="{% url 'shop:view_product' product.product.slug %}">{{ product.product.name }}</a>
@@ -64,10 +65,18 @@
                                 <td class="product-add-to-cart">
                                     <!-- Date added -->
                                     <!-- Add to cart button -->
-                                    <a onclick="add_to_cart({{ product.product.id }})" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart add_to_cart button alt" data-product_id="29" data-product_sku="003D754" aria-label="Add “Abstract Sweatshirt” to your cart" rel="nofollow"> Add to
-                                        Cart</a>
+                                    <a onclick="add_to_cart({{ product.product.id }})" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart add_to_cart button alt"
+                                       data-product_id="" data-product_sku="003D754"
+                                       aria-label="Add “Abstract Sweatshirt” to your cart"
+                                       rel="nofollow"> Add to Cart</a>
                                     <!-- Change wishlist -->
+                                    <a onclick="add_to_cart({{ product.product.id }})" data-quantity="1"
+                                       class="button product_type_simple add_to_cart_button ajax_add_to_cart add_to_cart button alt"
+                                       data-product_id="29" data-product_sku="003D754"
+                                       aria-label="Add “Abstract Sweatshirt” to your cart"
+                                       rel="nofollow">Delete from Cart</a>
                                     <!-- Remove from wishlist -->
+
                                 </td>
                             </tr>
                             {% endfor %}
@@ -118,4 +127,3 @@
     <script src="{% static 'js/functions.js' %}"></script>
     </body>
 {% endblock %}
-</html>

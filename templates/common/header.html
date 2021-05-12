@@ -8,146 +8,71 @@
                         <div class="box-header-nav menu-nocenter">
                             <ul id="menu-primary-menu"
                                 class="clone-main-menu lynessa-clone-mobile-menu lynessa-nav main-menu">
-{#                                <li id="menu-item-230"#}
-{#                                    class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-230 parent parent-megamenu item-megamenu menu-item-has-children">#}
-{#                                    <a class="lynessa-menu-item-title" title="Home"#}
-{#                                       href="{% url 'home:home' %}">Home</a>#}
-{#                                </li>#}
+                                {#                                <li id="menu-item-230"#}
+                                {#                                    class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-230 parent parent-megamenu item-megamenu menu-item-has-children">#}
+                                {#                                    <a class="lynessa-menu-item-title" title="Home"#}
+                                {#                                       href="{% url 'home:home' %}">Home</a>#}
+                                {#                                </li>#}
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
                                     {% if product_categories %}
                                         {% for category in product_categories %}
                                             {% if category.slug == 'kurtas' or category.slug == 'kurta' %}
-                                                <a class="lynessa-menu-item-title" title="KURTAS" href="{% url 'shop:list_category' category.slug %}">KURTAS</a>
+                                                <a class="lynessa-menu-item-title" title="KURTAS"
+                                                   href="{% url 'shop:list_category' category.slug %}">KURTAS</a>
                                             {% endif %}
                                         {% endfor %}
                                     {% endif %}
                                 </li>
                                 <li id="menu-item-229"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-229 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Track Order" href="{% url 'home:home' %}">FESTIVE WEAR</a>
-                                    <span class="toggle-submenu"></span>
-                                    {% comment %}<div class="submenu megamenu megamenu-elements">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="lynessa-listitem style-01">
-                                                    <div class="listitem-inner">
-                                                        <h4 class="title">Categories</h4>
-                                                        <ul class="listitem-list">
-                                                            {% if product_categories %}
-                                                                {% for category in product_categories %}
-                                                                    <li>
-                                                                        <a href="{% url 'shop:list_category' category.slug %}"
-                                                                           target="_self">{{ category.name }} </a>
-                                                                    </li>
-                                                                {% endfor %}
-                                                            {% endif %}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                                                                        <div class="col-md-4">
-                                                <div class="lynessa-listitem style-01">
-                                                    <div class="listitem-inner">
-                                                        <h4 class="title">
-                                                            Element 2 </h4>
-                                                        <ul class="listitem-list">
-                                                            <li>
-                                                                <a href="client.html"
-                                                                   target="_self">
-                                                                    Client </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="product-layout.html"
-                                                                   target="_self">
-                                                                    Product Layout </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="google-map.html"
-                                                                   target="_self">
-                                                                    Google map </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="iconbox.html"
-                                                                   target="_self">
-                                                                    Icon Box </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="team.html"
-                                                                   target="_self">
-                                                                    Team </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="lynessa-listitem style-01">
-                                                    <div class="listitem-inner">
-                                                        <h4 class="title">
-                                                            Element 3 </h4>
-                                                        <ul class="listitem-list">
-                                                            <li>
-                                                                <a href="instagram-feed.html"
-                                                                   target="_self">
-                                                                    Instagram Feed </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="newsletter.html"
-                                                                   target="_self">
-                                                                    Newsletter </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="testimonials.html"
-                                                                   target="_self">
-                                                                    Testimonials </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>{% endcomment %}
+                                    <a class="lynessa-menu-item-title" title="FESTIVE WEAR"
+                                       href="{% url 'home:home' %}">FESTIVE WEAR</a>
                                 </li>
                                 <li id="menu-item-996"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-996 parent parent-megamenu item-megamenu menu-item-has-children">
-                                    <a class="lynessa-menu-item-title" title="Blog"
+                                    <a class="lynessa-menu-item-title" title="NEW ARRIVALS"
                                        href="{% url 'shop:new_arrival' %}">NEW ARRIVALS</a>
                                 </li>
 
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
-                                    <a class="lynessa-menu-item-title" title="About Us"
-                                       href="{% url 'home:about-us' %}">BOTTOMS</a>
-                                    <span class="toggle-submenu"></span>
+                                    {% if product_categories %}
+                                        {% for category in product_categories %}
+                                            {% if category.slug == 'bottoms' or category.slug == 'bottom' %}
+                                                <a class="lynessa-menu-item-title" title="BOTTOMS"
+                                                   href="{% url 'shop:list_category' category.slug %}">BOTTOMS</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    {#                                    <a class="lynessa-menu-item-title" title="About Us"#}
+                                    {#                                       href="{% url 'home:about-us' %}">BOTTOMS</a>#}
                                 </li>
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
-                                    <a class="lynessa-menu-item-title" title="About Us"
+                                    <a class="lynessa-menu-item-title" title="SALE"
                                        href="{% url 'home:about-us' %}">SALE</a>
-                                    <span class="toggle-submenu"></span>
                                 </li>
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
-                                    <a class="lynessa-menu-item-title" title="About Us"
+                                    <a class="lynessa-menu-item-title" title="CELEB"
                                        href="{% url 'home:about-us' %}">CELEB</a>
-                                    <span class="toggle-submenu"></span>
                                 </li>
                             </ul>
                         </div>
-                        <div class="block-menu-bar">
-                            <a class="menu-bar menu-toggle" href="#">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </a>
-                        </div>
+                        {#                        <div class="block-menu-bar">#}
+                        {#                            <a class="menu-bar menu-toggle" href="#">#}
+                        {#                                <span></span>#}
+                        {#                                <span></span>#}
+                        {#                                <span></span>#}
+                        {#                            </a>#}
+                        {#                        </div>#}
                     </div>
                     <div class="header-logo">
-                        <a href="{% url 'home:home' %}"><img alt="Lynessa"
-                                                             src="/static/images/MISKI_NEW_NAME@2x.png"
-                                                             class="logo"></a></div>
+                        <a href="{% url 'home:home' %}">
+                            <img alt="Lynessa" src="/static/images/MISKI_NEW_NAME@2x.png" class="logo">
+                        </a>
+                    </div>
                     <div class="header-control">
                         <div class="header-control-inner">
                             <div class="meta-dreaming">
