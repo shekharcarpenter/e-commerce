@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Product, Category, ProductRecommendation, ProductImages, ProductCategory, DealOfDay, \
-    OrderStatusUpdate, Order
+    OrderStatusUpdate, Order, Cart
 
 
 class ProductRecommendationInline(admin.TabularInline):
@@ -54,3 +54,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(DealOfDay)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(Cart)

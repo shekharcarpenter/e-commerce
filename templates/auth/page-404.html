@@ -1,0 +1,14 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block body %}
+{% include 'common/header.html' %}
+<div class="card-body">
+    <div class="ex-page-content text-center">
+        <img src="{% static 'images/error.svg' %}" alt="" class="" height="170">
+        <h1 class="mt-5 mb-4">404!</h1>
+        <h5 class="font-16 text-muted mb-5">Somthing went wrong!!</h5>
+    </div>
+</div>
+{% include 'common/footer.html' %}
+{% endblock %}

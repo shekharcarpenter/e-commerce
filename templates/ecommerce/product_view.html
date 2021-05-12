@@ -267,6 +267,24 @@
             xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send(params);
         }
+
+          function updateCart(e) {
+            var xhttp = new XMLHttpRequest();
+            var params = 'quantity=' + e.value;
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    e.value = this.responseText
+                    document.getElementById("total_price").innerHTML = "";
+                    document.getElementById("cart_total").innerHTML = "";
+                    var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});
+                    document.getElementById("total_price").innerHTML = x;
+                    document.getElementById("cart_total").innerHTML = x;
+                }
+            };
+            xhttp.open("POST", "update-cart", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
     </script>
     </body>
 {% endblock %}

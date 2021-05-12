@@ -32,4 +32,5 @@ urlpatterns = [
     path('category/<str:category_slug>', views.list_category, name='list_category'),
     path('<str:slug>', views.product_view, name='view_product'),
     path('new_arrival/', views.new_arrival, name='new_arrival'),
+    path('page404/', views.Page404, name='page404'),
 ]

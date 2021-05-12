@@ -62,13 +62,15 @@ def cart_view(request):
 
 def cart_delete(request, id):
     cart = request.user.cart
-    cart_obj = cart.all_products()
-    print(cart_obj)
     context = {'cart_products': cart.all_products(), 'cart': cart,
                'product_categories': Category.objects.filter(is_public=True)}
-    cart = Cart.objects.get(id=id)
-    cart.delete()
-    return render(request, 'ecommerce/cart.html', context=context)
+    cart.delete_cart_product(id)
+    return redirect('shop:cart')
+    # return render(request, 'ecommerce/cart.html', context=context)
+
+
+def Page404(request):
+    return render(request, 'auth/page-404.html')
 
 
 # @login_required(login_url='user.login')

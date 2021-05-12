@@ -8,6 +8,8 @@ import pytz
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import models
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template.defaultfilters import striptags
 from django.utils import timezone
 from django.utils.timezone import now
@@ -470,6 +472,10 @@ class Cart(models.Model):
             raise PermissionDenied("A frozen cart cannot be flushed")
         self.products.all().delete()
         self._products = None
+
+    def delete_cart_product(self, id):
+            cart_obj = self.products.get(product=id)
+            cart_obj.delete()
 
     def freeze(self):
         """

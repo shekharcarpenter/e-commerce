@@ -74,6 +74,9 @@
                                                         class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>
                                             </td>
                                             <td class="product-subtotal" data-title="Total">
+                                                <h3>{{ cart.id }}</h3>
+                                                <h3>{{ product.id }}</h3>
+                                                <h3>{{ product.product.id }}</h3>
                                                 <a href="{% url 'shop:cart-delete' product.product.id %}">
                                                     <i class="fa fa-trash" style="font-size: 20px" aria-hidden="true">
                                                     </i>
