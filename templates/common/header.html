@@ -187,9 +187,10 @@
                                                 <ul class="lynessa-mini-cart cart_list product_list_widget">
                                                     {% for item in request.user.cart.productss %}
                                                         <li class="lynessa-mini-cart-item mini_cart_item">
-                                                            <a href="" class="remove remove_from_cart_button">×</a>
-                                                            <a href="#">
-                                                                <img src="{{ product.primary_image.original.url }}"
+                                                            <a href="{% url 'shop:cart-delete' item.product.id %}" class="remove remove_from_cart_button">×</a>
+
+                                                            <a href="{% url 'shop:view_product' item.product.slug %}">
+                                                                <img src="{{ item.product.primary_image.original.url }}"
                                                                      class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
                                                                      alt="img" width="600"
                                                                      height="778">{{ item.product.name }}
@@ -343,9 +344,9 @@
                                             <ul class="lynessa-mini-cart cart_list product_list_widget">
                                                 {% for item in request.user.wish_list.productss %}
                                                     <li class="lynessa-mini-cart-item mini_cart_item">
-                                                        <a href="#" class="remove remove_from_cart_button">×</a>
-                                                        <a href="#">
-                                                            <img src="{{ product.primary_image.original.url }}"
+                                                        <a href="{% url 'shop:wishlist-delete' item.product.id %}" class="remove remove_from_cart_button">×</a>
+                                                        <a href="{% url 'shop:view_product' item.product.slug %}">
+                                                            <img src="{{ item.product.primary_image.original.url }}"
                                                                  class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
                                                                  alt="img" width="600"
                                                                  height="778">{{ item.product.name }}

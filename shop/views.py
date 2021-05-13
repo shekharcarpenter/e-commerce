@@ -62,11 +62,15 @@ def cart_view(request):
 
 def cart_delete(request, id):
     cart = request.user.cart
-    context = {'cart_products': cart.all_products(), 'cart': cart,
-               'product_categories': Category.objects.filter(is_public=True)}
     cart.delete_cart_product(id)
     return redirect('shop:cart')
     # return render(request, 'ecommerce/cart.html', context=context)
+
+
+def wishlist_delete(request, id):
+    wish_list = request.user.wish_list
+    wish_list.delete_wishlist_product(id)
+    return redirect('shop:wishlist_view')
 
 
 def Page404(request):
@@ -124,7 +128,6 @@ def orders_view(request, order_id=None):
 def wishlist_view(request):
     context = {'product_categories': Category.objects.filter(is_public=True)}
     context.update(default_context)
-
     return render(request, 'ecommerce/wishlist.html', context=context)
 
 

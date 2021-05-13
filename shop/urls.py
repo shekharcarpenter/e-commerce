@@ -29,6 +29,7 @@ urlpatterns = [
     path('orders', views.orders_view, name='orders_view'),
     path('orders/<int:order_id>', views.orders_view, name='orders_view'),
     path('wishlist', views.wishlist_view, name='wishlist_view'),
+    path('wishlist-delete/<int:id>', views.wishlist_delete, name='wishlist-delete'),
     path('category/<str:category_slug>', views.list_category, name='list_category'),
     path('<str:slug>', views.product_view, name='view_product'),
     path('new_arrival/', views.new_arrival, name='new_arrival'),

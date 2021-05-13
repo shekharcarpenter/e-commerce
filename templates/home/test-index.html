@@ -200,9 +200,8 @@
                                                 <div class="yith-wcwl-add-button show">
                                                     <a onclick="add_to_wishlist({{ product.id }})"
                                                        class="add_to_wishlist"
-                                                       data-product-type="variable"
-                                                       onclick="addToWishlist(this, {{ product.id }})"
-                                                    >Add to Wishlist</a>
+                                                       data-product-type="variable">Add to Wishlist
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -381,7 +380,21 @@
     </div>
     {% include 'common/footer.html' %}
     <script>
-               function add_to_wishlist(product_id) {
+        {#       function add_to_wishlist(product_id) {#}
+        {#    console.log('add to wish called')#}
+        {#    var xhttp = new XMLHttpRequest();#}
+        {#    var params = 'product_id=' + product_id;#}
+        {##}
+        {#    xhttp.onreadystatechange = function () {#}
+        {#        if (this.readyState == 4 && this.status == 200) {#}
+        {#        }#}
+        {#    };#}
+            {#xhttp.open("POST", "add-to-cart", true);#}
+        {#    xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);#}
+        {#    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');#}
+        {#    xhttp.send(params);#}
+
+         function add_to_wishlist(product_id) {
             console.log('add to wish called')
             var xhttp = new XMLHttpRequest();
             var params = 'product_id=' + product_id;

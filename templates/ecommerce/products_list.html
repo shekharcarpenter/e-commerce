@@ -95,7 +95,7 @@
                                                 <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick
                                                     View</a>
                                                 <div class="group-button">
-                                                    <div class="yith-wcwl-add-to-wishlist" onclick="add_to_wishlist({{ product.id }})">
+                                                    <div class="yith-wcwl-add-to-wishlist" onclick="add_to_wishlist({{ product.product.id }})">
                                                         <div class="yith-wcwl-add-button show">
                                                             <a href="" class="add_to_wishlist">Add to Wishlist</a>
                                                         </div>
@@ -328,7 +328,21 @@
             xhttp.send(params);
         }
 
-        function add_to_wishlist(product_id) {
+        {#function add_to_wishlist(product_id) {#}
+        {#    var xhttp = new XMLHttpRequest();#}
+        {#    var params = 'product_id=' + product_id;#}
+        {##}
+        {#    xhttp.onreadystatechange = function () {#}
+        {#        if (this.readyState == 4 && this.status == 200) {#}
+        {#        }#}
+        {#    };#}
+            {#xhttp.open("POST", "add-to-cart", true);#}
+        {#    xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);#}
+        {#    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');#}
+        {#    xhttp.send(params);#}
+
+       function add_to_wishlist(product_id) {
+            console.log('add to wish called')
             var xhttp = new XMLHttpRequest();
             var params = 'product_id=' + product_id;
 

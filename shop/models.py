@@ -474,8 +474,14 @@ class Cart(models.Model):
         self._products = None
 
     def delete_cart_product(self, id):
-            cart_obj = self.products.get(product=id)
-            cart_obj.delete()
+        cart_obj = self.products.get(product=id)
+        cart_obj.delete()
+
+    def delete_wishlist_product(self, id):
+        print('check id', id)
+        wishlist_obj = self.products.get(product=id)
+        wishlist_obj.delete()
+        print('deleted inner function')
 
     def freeze(self):
         """

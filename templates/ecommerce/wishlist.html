@@ -70,13 +70,11 @@
                                        aria-label="Add “Abstract Sweatshirt” to your cart"
                                        rel="nofollow"> Add to Cart</a>
                                     <!-- Change wishlist -->
-                                    <a onclick="add_to_cart({{ product.product.id }})" data-quantity="1"
-                                       class="button product_type_simple add_to_cart_button ajax_add_to_cart add_to_cart button alt"
-                                       data-product_id="29" data-product_sku="003D754"
-                                       aria-label="Add “Abstract Sweatshirt” to your cart"
-                                       rel="nofollow">Delete from Cart</a>
-                                    <!-- Remove from wishlist -->
-
+                                </td>
+                                <td>
+                                    <a href="{% url 'shop:wishlist-delete' product.product.id %}">
+                                        <i class="fa fa-trash" style="font-size: 20px" aria-hidden="true"></i>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}
