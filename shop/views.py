@@ -1,7 +1,7 @@
 import razorpay
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
@@ -63,14 +63,15 @@ def cart_view(request):
 def cart_delete(request, id):
     cart = request.user.cart
     cart.delete_cart_product(id)
-    return redirect('shop:cart')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     # return render(request, 'ecommerce/cart.html', context=context)
 
 
 def wishlist_delete(request, id):
     wish_list = request.user.wish_list
     wish_list.delete_wishlist_product(id)
-    return redirect('shop:wishlist_view')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    # return redirect('shop:wishlist_view')
 
 
 def Page404(request):

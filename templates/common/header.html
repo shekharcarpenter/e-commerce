@@ -183,12 +183,11 @@
                                         <div class="widget lynessa widget_shopping_cart">
                                             <div class="widget_shopping_cart_content">
                                                 <h3 class="minicart-title">Your Cart<span
-                                                        class="minicart-number-items">3</span></h3>
+                                                        class="minicart-number-items">{{ request.user.cart.productss.count }}</span></h3>
                                                 <ul class="lynessa-mini-cart cart_list product_list_widget">
                                                     {% for item in request.user.cart.productss %}
                                                         <li class="lynessa-mini-cart-item mini_cart_item">
-                                                            <a href="{% url 'shop:cart-delete' item.product.id %}" class="remove remove_from_cart_button">×</a>
-
+                                                        <a href="{% url 'shop:cart-delete' item.product.id %}" class="remove remove_from_cart_button">×</a>
                                                             <a href="{% url 'shop:view_product' item.product.slug %}">
                                                                 <img src="{{ item.product.primary_image.original.url }}"
                                                                      class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
@@ -340,11 +339,12 @@
                                     <div class="widget lynessa widget_shopping_cart">
                                         <div class="widget_shopping_cart_content">
                                             <h3 class="minicart-title">Your Wishlist<span
-                                                    class="minicart-number-items">3</span></h3>
+                                                    class="minicart-number-items">{{ request.user.wish_list.productss.count }}</span></h3>
                                             <ul class="lynessa-mini-cart cart_list product_list_widget">
                                                 {% for item in request.user.wish_list.productss %}
                                                     <li class="lynessa-mini-cart-item mini_cart_item">
-                                                        <a href="{% url 'shop:wishlist-delete' item.product.id %}" class="remove remove_from_cart_button">×</a>
+                                                        <a href="{% url 'shop:wishlist-delete' item.product.id %}"
+                                                           class="remove remove_from_cart_button">×</a>
                                                         <a href="{% url 'shop:view_product' item.product.slug %}">
                                                             <img src="{{ item.product.primary_image.original.url }}"
                                                                  class="attachment-lynessa_thumbnail size-lynessa_thumbnail"
@@ -564,7 +564,7 @@
                         </div>
                         <div class="widget lynessa widget_shopping_cart">
                             <div class="widget_shopping_cart_content">
-                                <h3 class="minicart-title">Your Cart<span class="minicart-number-items">3</span></h3>
+                                <h3 class="minicart-title">Your Cart<span class="minicart-number-items"></span></h3>
                                 <ul class="lynessa-mini-cart cart_list product_list_widget">
                                     <li class="lynessa-mini-cart-item mini_cart_item">
                                         <a href="#" class="remove remove_from_cart_button">×</a>
@@ -617,3 +617,4 @@
         </div>
     </div>
 </header>
+
