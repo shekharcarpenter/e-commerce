@@ -5,9 +5,21 @@
                 <div class="lynessa-menu-wapper"></div>
                 <div class="header-middle-inner">
                     <div class="header-menu">
+{#                        <div class="header-logo">#}
+{#                            <a href="{% url 'home:home' %}">#}
+{#                                #}
+{#                            </a>#}
+{#                        </div>#}
                         <div class="box-header-nav menu-nocenter">
                             <ul id="menu-primary-menu"
                                 class="clone-main-menu lynessa-clone-mobile-menu lynessa-nav main-menu">
+                                <li id="menu-item-230"
+                                    class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-230 parent parent-megamenu item-megamenu menu-item-has-children">
+                                    <a class="lynessa-menu-item-title" title="Home"
+                                       href="{% url 'home:home' %}">
+                                        <img alt="Lynessa" src="/static/images/MISKI_NEW_NAME@2x.png" class="logo">
+                                    </a>
+                                </li>
                                 <li id="menu-item-230"
                                     class="menu-item menu-item-type-post_type menu-item-object-megamenu menu-item-230 parent parent-megamenu item-megamenu menu-item-has-children">
                                     <a class="lynessa-menu-item-title" title="Home"
@@ -55,8 +67,8 @@
                                 </li>
                                 <li id="menu-item-237"
                                     class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-237 parent">
-                                    <a class="lynessa-menu-item-title" title="CELEB"
-                                       href="{% url 'home:about-us' %}">CELEB</a>
+                                    <a class="lynessa-menu-item-title" title="ABOUT US"
+                                       href="{% url 'home:about-us' %}">ABOUT US</a>
                                 </li>
                             </ul>
                         </div>
@@ -68,11 +80,7 @@
                         {#                            </a>#}
                         {#                        </div>#}
                     </div>
-                    <div class="header-logo">
-                        <a href="{% url 'home:home' %}">
-                            <img alt="Lynessa" src="/static/images/MISKI_NEW_NAME@2x.png" class="logo">
-                        </a>
-                    </div>
+
                     <div class="header-control">
                         <div class="header-control-inner">
                             <div class="meta-dreaming">
@@ -356,8 +364,10 @@
                                                                  height="778">{{ item.product.name }}
                                                         </a>
                                                         <span class="quantity">1 × <span
-                                                                class="lynessa-Price-amount amount"><span
-                                                                class="lynessa-Price-currencySymbol">₹</span>{{ item.price }}</span>
+                                                                class="lynessa-Price-amount amount">
+
+
+                                                            <span class="lynessa-Price-currencySymbol">₹</span>{{ item.price }}</span>
                                                         </span>
                                                     </li>
                                                 {% endfor %}

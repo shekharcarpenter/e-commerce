@@ -75,7 +75,11 @@ def wishlist_delete(request, id):
 
 
 def Page404(request):
-    return render(request, 'auth/page-404.html')
+    cart = request.user.cart
+    context = {'cart_products': cart.all_products(), 'cart': cart,
+               'product_categories': Category.objects.filter(is_public=True)}
+    context.update(default_context)
+    return render(request, 'auth/page-404.html', context=context)
 
 
 # @login_required(login_url='user.login')

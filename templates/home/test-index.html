@@ -18,7 +18,7 @@
                                  tabindex="0">
                                 <div class="banner-inner lynessa-tooltip">
                                     <figure class="banner-thumb">
-                                        <a target="_self" href="#45" tabindex="0">
+                                        <a target="_self" href="{% url 'shop:new_arrival' %}" tabindex="0">
                                             <img src="/static/images/h5-banner1.jpg" class="attachment-full size-full"
                                                  alt="img"></a></figure>
                                     <div class="banner-info lynessa-tooltip-inner" style="top: 286px; left: 259.5px;">
@@ -189,20 +189,35 @@
                                                  alt="{{ product.name }}" width="270" height="350">
                                         </a>
                                         <div class="flash">
-                                            <span class="onnew"><span class="text">New</span></span></div>
+                                            <span class="onnew"><span class="text">New</span></span>
+                                        </div>
+                                        {#                                        <div class="group-button">#}
+                                        {#                                            <div class="add-to-cart">#}
+                                        {#                                                <a onclick="add_to_cart({{ product.id }})"#}
+                                        {#                                                   class="button product_type_simple add_to_cart_button ajax_add_to_cart">Add#}
+                                        {#                                                    to cart</a>#}
+                                        {#                                            </div>#}
+                                        {#                                            <div class="yith-wcwl-add-to-wishlist">#}
+                                        {#                                                <div class="yith-wcwl-add-button show">#}
+                                        {#                                                    <a onclick="add_to_wishlist({{ product.id }})"#}
+                                        {#                                                       class="add_to_wishlist"#}
+                                        {#                                                       data-product-type="variable">Add to Wishlist#}
+                                        {#                                                    </a>#}
+                                        {#                                                </div>#}
+                                        {##}
+                                        {#                                            </div>#}
+                                        {#                                        </div>#}
+                                        <a class="button yith-wcqv-button" data-product_id="24">Quick
+                                            View</a>
                                         <div class="group-button">
-                                            <div class="add-to-cart">
-                                                <a onclick="add_to_cart({{ product.id }})"
-                                                   class="button product_type_simple add_to_cart_button ajax_add_to_cart">Add
-                                                    to cart</a>
-                                            </div>
-                                            <div class="yith-wcwl-add-to-wishlist">
+                                            <div class="yith-wcwl-add-to-wishlist"
+                                                 onclick="add_to_wishlist({{ product.id }})">
                                                 <div class="yith-wcwl-add-button show">
-                                                    <a onclick="add_to_wishlist({{ product.id }})"
-                                                       class="add_to_wishlist"
-                                                       data-product-type="variable">Add to Wishlist
-                                                    </a>
+                                                    <a href="" class="add_to_wishlist">Add to Wishlist</a>
                                                 </div>
+                                            </div>
+                                            <div class="add-to-cart" onclick="add_to_cart({{ product.id }})">
+                                                <a href="" class="button product_type_variable add_to_cart_button">Select options</a>
                                             </div>
                                         </div>
                                     </div>
@@ -211,8 +226,12 @@
                                             <a href="{% url 'shop:view_product' product.slug %}"
                                                tabindex="0">{{ product.name }}</a>
                                         </h3>
-                                        <span class="price"><span class="lynessa-Price-amount amount"><span
-                                                class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span></span>
+                                        <span class="price">
+                                            <span class="lynessa-Price-amount amount">
+                                                <span class="lynessa-Price-currencySymbol" style="text-decoration: line-through; color: gray">₹ {{ product.actual_price }}</span>
+                                                <span class="lynessa-Price-currencySymbol">&nbsp ₹ {{ product.price }}</span>
+                                            </span>
+                                        </span>
                                         <div class="rating-wapper nostar">
                                             <div class="star-rating"><span style="width:0%">Rated <strong
                                                     class="rating">0</strong> out of 5</span></div>
@@ -380,21 +399,8 @@
     </div>
     {% include 'common/footer.html' %}
     <script>
-        {#       function add_to_wishlist(product_id) {#}
-        {#    console.log('add to wish called')#}
-        {#    var xhttp = new XMLHttpRequest();#}
-        {#    var params = 'product_id=' + product_id;#}
-        {##}
-        {#    xhttp.onreadystatechange = function () {#}
-        {#        if (this.readyState == 4 && this.status == 200) {#}
-        {#        }#}
-        {#    };#}
-            {#xhttp.open("POST", "add-to-cart", true);#}
-        {#    xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);#}
-        {#    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');#}
-        {#    xhttp.send(params);#}
 
-         function add_to_wishlist(product_id) {
+        function add_to_wishlist(product_id) {
             console.log('add to wish called')
             var xhttp = new XMLHttpRequest();
             var params = 'product_id=' + product_id;
@@ -405,6 +411,22 @@
             };
             {#xhttp.open("POST", "add-to-cart", true);#}
             xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+
+         function add_to_cart(product_id) {
+            var xhttp = new XMLHttpRequest();
+            var params = 'product_id=' + product_id + ';is_ajax=1';
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this)
+                    document.getElementById('header_count').innerHTML = this.response
+                }
+            };
+            {#xhttp.open("POST", "add-to-cart", true);#}
+            xhttp.open("POST", "{% url 'shop:add_to_cart' %}", true);
             xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send(params);
         }
