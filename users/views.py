@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from shop.models import Category
@@ -124,15 +125,20 @@ def address_view(request, pk=None):
             if not request.POST.get(field):
                 errors.append(f'{field} is required.')
         if errors:
-            return render(request, 'auth/address.html', context={"error": errors}, status=400)
+            # return render(request, 'auth/address.html', context={"error": errors}, status=400)
+            return render(request, 'accounts/address.html')
         address_object = Address.objects.create(house_number=request.POST.get('house_number'),
                                                 street=request.POST.get('street'),
                                                 city=request.POST.get('city'),
                                                 state=request.POST.get('state'),
                                                 user=request.user)
 
-        context = {'address': address_object}
-        return render(request, 'auth/address.html', context=context)
+        address_object = Address.objects.filter(user=request.user)
+        context = {'addresses': address_object, 'product_categories': Category.objects.filter(is_public=True)}
+
+        return render(request, 'accounts/address.html', context)
+
+        # return render(request, 'auth/address.html', context=context)
 
 
 @login_required(login_url='/login')
@@ -178,6 +184,7 @@ def add_address(request, address_id=None):
             address_object.state = state
             address_object.pin_code = pin_code
             address_object.save()
+        # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         return redirect('users:address')
 
 

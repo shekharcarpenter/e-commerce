@@ -2329,6 +2329,9 @@ th, td {
 	-o-transform: translateY(-50%);
 	transform: translateY(-50%);
 }
+
+
+
 @media (max-width: 1499px) {
 	.box-header-nav .main-menu > .menu-item {
 		padding: 0 5px !important;

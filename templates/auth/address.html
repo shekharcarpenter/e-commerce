@@ -28,7 +28,9 @@
                                             class="required">*</span></label>
                                     <input type="text" class="lynessa-Input lynessa-Input--text input-text"
                                            name="account_display_name" id="account_display_name"
-                                           value="{{ request.user.full_name }}">
+                                           value="{{ request.user.full_name }}"
+                                           required
+                                    >
                                     <span><em>This will be how your name will be displayed in the account section and in reviews</em></span>
                                 </p>
                                 <div class="clear"></div>
