@@ -60,8 +60,14 @@
                                     <div class="flash">
                                         <span class="onnew"><span class="text">New</span></span></div>
                                     <h1 class="product_title entry-title">{{ product.name }}</h1>
-                                    <p class="price"><span class="lynessa-Price-amount amount"><span
-                                            class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>
+                                    <p class="price"><span class="lynessa-Price-amount amount">
+                                        <span class="lynessa-Price-currencySymbol"
+                                        style="text-decoration: line-through; color: gray"
+                                        >₹ {{ product.actual_price }}</span>
+                                        </span>
+                                        <span class="lynessa-Price-currencySymbol">₹</span>
+                                            {{ product.price }}
+                                        </span>
                                         <span
                                                 class="lynessa-Price-amount amount"><span
                                                 class="lynessa-Price-currencySymbol"></span></span></p>
@@ -94,15 +100,16 @@
                                                        type="hidden"
                                                 >
                                                 {% if user.is_authenticated %}
-                                                <button onclick="updateCart()" type="submit"
-                                                        class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
-                                                    Add to cart
-                                                </button>
-                                                    {% else %}
-                                                    <a href="{% url 'users:login' %}">
-                                                    <button type="submit"
-                                                        class="single_add_to_cart_button button alt lynessa-variation-selection-needed">Add to cart
+                                                    <button onclick="updateCart()" type="submit"
+                                                            class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
+                                                        Add to cart
                                                     </button>
+                                                {% else %}
+                                                    <a href="{% url 'users:login' %}">
+                                                        <button type="submit"
+                                                                class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
+                                                            Add to cart
+                                                        </button>
                                                     </a>
                                                 {% endif %}
                                             </div>
@@ -209,7 +216,9 @@
                                 <div class="product-inner tooltip-left">
                                     <div class="product-thumb">
                                         <a class="thumb-link"
-                                           href="{% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}" tabindex="0">
+                                           href="
+                                                   {% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
+                                           tabindex="0">
                                             <img class="img-responsive"
                                                  src="{{ recommended_product.primary_image.original.url }}"
                                                  width="600" height="778">
@@ -223,7 +232,8 @@
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <a href="{% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
+                                                <a href="
+                                                        {% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
                                                    class="button product_type_variable add_to_cart_button">Add to
                                                     cart</a>
                                             </div>
@@ -231,7 +241,8 @@
                                     </div>
                                     <div class="product-info equal-elem">
                                         <h3 class="product-name product_title">
-                                            <a href="{% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
+                                            <a href="
+                                                    {% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
                                                tabindex="0">{{ recommended_product.name }}</a>
                                         </h3>
                                         <div class="rating-wapper nostar">
@@ -271,7 +282,7 @@
             xhttp.send(params);
         }
 
-          function updateCart(e) {
+        function updateCart(e) {
             var xhttp = new XMLHttpRequest();
             var params = 'quantity=' + e.value;
             xhttp.onreadystatechange = function () {
