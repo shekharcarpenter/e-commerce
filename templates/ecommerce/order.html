@@ -1,0 +1,107 @@
+{% extends 'common/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">Order #{{ order.id }}</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            </div>
+        </div>
+    </div>
+    <main class="site-main main-container no-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="page-main-content">
+                        <div class="lynessa">
+                            <div class="lynessa-notices-wrapper"></div>
+                            <form class="lynessa-cart-form">
+                                <table class="shop_table shop_table_responsive cart lynessa-cart-form__contents"
+                                       cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th class="product-name">Your Magic Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">Quantity</th>
+                                        <th class="product-subtotal">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for product in cart_products %}
+                                        <tr class="lynessa-cart-form__cart-item cart_item">
+                                            <td class="product-name" data-title="Product">
+                                                <a href="#">{{ product.product.name }} * {{ product.quantity }}</a></td>
+                                            <td class="product-price" data-title="Price">
+                                        <span class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span></td>
+                                            <td class="product-price" data-title="Quantity">
+                                                <div class="control">
+                                                    <span
+                                                            class="lynessa-Price-currencySymbol">{{ order.cart.quantity }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal" data-title="Total">
+                                        <span class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td colspan="6" class="actions">
+                                            </h4>
+                                            <button type="submit" class="button" name="update_cart" value="Update cart"
+                                                    disabled="">Total : {{ order.cart.total_price }}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                            <div class="cart-collaterals">
+                                <div class="cart_totals ">
+                                    <h2>Order Status</h2>
+                                    <table class="shop_table shop_table_responsive" cellspacing="0">
+                                        <tbody>
+
+                                        {% for status_update in order.order_histories %}
+                                            <tr class="order-total">
+                                                <th>{{ status_update.status_text }}</th>
+                                                <td data-title="Total Investment"><strong><span
+                                                        class="lynessa-Price-amount amount"><span
+                                                        class="lynessa-Price-currencySymbol"></span>{{ status_update.updated_at }}</span></strong>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include 'common/footer.html' %}
+    <script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/chosen.min.js' %}"></script>
+    <script src="{% static 'js/countdown.min.js' %}"></script>
+    <script src="{% static 'js/jquery.scrollbar.min.js' %}"></script>
+    <script src="{% static 'js/lightbox.min.js' %}"></script>
+    <script src="{% static 'js/magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/slick.js' %}"></script>
+    <script src="{% static 'js/jquery.zoom.min.js' %}"></script>
+    <script src="{% static 'js/threesixty.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/mobilemenu.js' %}"></script>
+    <script src="{% static 'js/functions.js' %}"></script>
+    </body>
+{% endblock %}
+</html>

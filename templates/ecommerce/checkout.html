@@ -1,0 +1,160 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">Checkout</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+                <ul class="trail-items breadcrumb">
+                    <li class="trail-item trail-begin"><a href="indexs.html"><span>Home</span></a></li>
+                    <li class="trail-item trail-end active"><span>Cart</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <main class="site-main  main-container no-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="page-main-content">
+                        <div class="lynessa">
+                            <div class="lynessa-notices-wrapper"></div>
+                            <div name="checkout" method="post" class="checkout lynessa-checkout"
+                                 action="#" enctype="multipart/form-data"
+                                 novalidate="novalidate">
+                                <h3 id="order_review_heading">Your order</h3>
+                                <div id="order_review" class="lynessa-checkout-review-order">
+                                    <table class="shop_table lynessa-checkout-review-order-table">
+                                        <thead>
+                                        <tr>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-total">Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for product in cart_products %}
+                                        <tr class="cart_item">
+                                            <td class="product-name">
+                                                {{ product.product.name }}&nbsp;&nbsp; <strong class="product-quantity">×
+                                                {{ product.quantity }}</strong></td>
+                                            <td class="product-total">
+                                            <span class="lynessa-Price-amount amount"><span
+                                                    class="lynessa-Price-currencySymbol">₹</span>{{ product.price }}</span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr class="cart-subtotal">
+                                            <th>Subtotal</th>
+                                            <td><span class="lynessa-Price-amount amount"><span
+                                                    class="lynessa-Price-currencySymbol">₹</span>{{ cart.total_price }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="order-total">
+                                            <th>Total</th>
+                                            <td><strong><span class="lynessa-Price-amount amount"><span
+                                                    class="lynessa-Price-currencySymbol">₹</span>{{ cart.total_price }}</span></strong>
+                                            </td>
+                                        </tr>
+{#                                        <tr class="order-total">#}
+{#                                            <th>Choose Address</th>#}
+{#                                            <td>#}
+{#                                                <select class="order-total" name="cars" id="cars">#}
+{#                                                    <option value="volvo">Volvo</option>#}
+{#                                                    <option value="saab">Saab</option>#}
+{#                                                    <option value="opel">Opel</option>#}
+{#                                                    <option value="audi">Audi</option>#}
+{#                                                </select>#}
+{#                                            </td>#}
+{#                                        </tr>#}
+                                        </tfoot>
+                                    </table>
+                                    <input type="hidden" name="lang" value="en">
+                                    <form class="order-total"
+                                          action="{% url 'shop:cache_payment' %}"
+                                          method="POST">
+
+                                        <script
+                                                src="https://checkout.razorpay.com/v1/checkout.js"
+                                                data-key="rzp_test_TF1tA8adBOjAEx"
+                                                data-amount="{{ cart.total_price_in_paise }}"
+                                                data-buttontext="Buy Now"
+                                                data-name="Ayush Ecomm"
+                                                data-description=""
+                                                data-image="http://206.189.141.238/static/AdminPanel/icon.png"
+                                                data-prefill.name="{{ request.user.name }}"
+                                                data-prefill.email="{{ request.user.email }}"
+                                                data-prefill.contact="8461034077"
+                                                data-theme.color="#256d7b"
+                                        ></script>
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ cart.price_in_paise }}" name="amount">
+                                        <input type="hidden" value="{{ cart.id }}" name="cart">
+
+                                        <input type="hidden" value="Hidden Element" name="hidden">
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer id="footer" class="footer style-01">
+
+        <div class="section-010">
+
+        </div>
+    </footer>
+    <div class="footer-device-mobile">
+        <div class="wapper">
+            <div class="footer-device-mobile-item device-home">
+                <a href="index.html">
+					<span class="icon">
+						<span class="pe-7s-home"></span>
+					</span>
+                    Home
+                </a>
+            </div>
+            <div class="footer-device-mobile-item device-home device-wishlist">
+                <a href="wishlist.html">
+					<span class="icon">
+						<span class="pe-7s-like"></span>
+					</span>
+                    Wishlist
+                </a>
+            </div>
+            <div class="footer-device-mobile-item device-home device-cart">
+                <a href="cart.html">
+					<span class="icon">
+						<span class="pe-7s-shopbag"></span>
+						<span class="count-icon">
+							0
+						</span>
+					</span>
+                    <span class="text">Cart</span>
+                </a>
+            </div>
+            <div class="footer-device-mobile-item device-home device-user">
+                <a href="my-account.html">
+					<span class="icon">
+						<span class="pe-7s-user"></span>
+					</span>
+                    Account
+                </a>
+            </div>
+        </div>
+    </div>
+    {% include 'common/footer.html' %}
+    </body>
+{% endblock %}
+<!-- Mirrored from ledthanhdat.vn/html/lynessa/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Oct 2020 17:06:03 GMT -->
+</html>

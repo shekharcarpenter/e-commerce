@@ -1,0 +1,372 @@
+{% extends 'common/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+{#    <div class="banner-wrapper has_background">#}
+{#        <img src="/static/images/banner-for-all2.jpg" class="img-responsive attachment-1920x447 size-1920x447"#}
+{#             alt="">#}
+{#    </div>#}
+    <main class="site-main main-container no-sidebar">
+        <div class="lynessa-heading style-01">
+                    <div class="heading-inner">
+                        <h3 class="title">
+                            <span></span>
+                        </h3>
+                        <div class="subtitle">
+
+                        </div>
+                    </div>
+    </div>
+        <div class="main-container shop-page right-sidebar">
+            <div class="container">
+                <div class="row">
+                    <div class="main-content col-xl-9 col-lg-8 col-md-8 col-sm-12 has-sidebar">
+                        <div class=" auto-clear lynessa-products">
+                            <ul class="row products columns-3">
+                                {% for product in products %}
+                                    <li class="product-item wow fadeInUp product-item rows-space-30 post-24 product type-product status-publish has-post-thumbnail product_cat-chair product_cat-table product_cat-new-arrivals product_tag-light product_tag-hat product_tag-sock first instock featured shipping-taxable purchasable product-type-variable has-default-attributes col-bg-4 col-xl-4 col-lg-6 col-md-6 col-sm-6 col-ts-6 style-01"
+                                        data-wow-duration="1s" data-wow-delay="0ms" data-wow="fadeInUp">
+                                        <div class="product-inner tooltip-left">
+                                            <div class="product-thumb">
+                                                <a class="thumb-link"
+                                                   href="{% url 'shop:view_product' product.product.slug %}">
+                                                    {% if product.product.primary_image %}
+                                                        <img class="img-responsive"
+                                                             src="{{ product.product.primary_image.original.url }}"
+                                                             alt="{{ product.product.name }}" width="600" height="778">
+                                                    {% else %}
+                                                        <img src="{% static 'images/default.png' %}"
+                                                             alt="">
+                                                    {% endif %}
+                                                </a>
+                                                <div class="flash">
+                                                    <span class="onnew"><span class="text">New</span></span></div>
+                                                <form class="variations_form cart">
+                                                    <table class="variations">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="value">
+                                                                <select title="box_style" data-attributetype="box_style"
+                                                                        data-id="pa_color" class="attribute-select "
+                                                                        name="attribute_pa_color"
+                                                                        data-attribute_name="attribute_pa_color"
+                                                                        data-show_option_none="yes">
+                                                                    <option data-type="" data-pa_color="" value="">
+                                                                        Choose an
+                                                                        option
+                                                                    </option>
+                                                                    <option data-width="30" data-height="30"
+                                                                            data-type="color" data-pa_color="#3155e2"
+                                                                            value="blue" class="attached enabled">Blue
+                                                                    </option>
+                                                                    <option data-width="30" data-height="30"
+                                                                            data-type="color" data-pa_color="#52b745"
+                                                                            value="green" class="attached enabled">Green
+                                                                    </option>
+                                                                    <option data-width="30" data-height="30"
+                                                                            data-type="color" data-pa_color="#ffe59e"
+                                                                            value="pink" class="attached enabled">Pink
+                                                                    </option>
+                                                                </select>
+                                                                <div class="data-val attribute-pa_color"
+                                                                     data-attributetype="box_style">
+                                                                    <label>
+                                                                        <input type="radio" name="color">
+                                                                        <span class="change-value color"
+                                                                              style="background: #3155e2;"
+                                                                              data-value="blue">
+                                                            </span>
+                                                                    </label>
+                                                                    <label>
+                                                                        <input type="radio" name="color">
+                                                                        <span class="change-value color"
+                                                                              style="background: #52b745;"
+                                                                              data-value="green">
+                                                            </span>
+                                                                    </label>
+                                                                    <label>
+                                                                        <input type="radio" name="color">
+                                                                        <span class="change-value color"
+                                                                              style="background: #ffe59e;"
+                                                                              data-value="pink">
+                                                            </span>
+                                                                    </label>
+                                                                </div>
+                                                                <a class="reset_variations" href="#"
+                                                                   style="visibility: hidden;">Clear</a>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </form>
+                                                <a href="#" class="button yith-wcqv-button" data-product_id="24">Quick
+                                                    View</a>
+                                                <div class="group-button">
+                                                    <div class="yith-wcwl-add-to-wishlist" onclick="add_to_wishlist({{ product.product.id }})">
+                                                        <div class="yith-wcwl-add-button show">
+                                                            <a href="" class="add_to_wishlist">Add to Wishlist</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="add-to-cart"
+                                                         onclick="add_to_cart({{ product.product.id }})">
+                                                        <a href=""
+                                                           class="button product_type_variable add_to_cart_button">Select
+                                                            options</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-info equal-elem">
+                                                <h3 class="product-name product_title">
+                                                    <a href="{% url 'shop:view_product' product.product.slug %}">{{ product.product.name }}</a>
+                                                </h3>
+                                                <div class="rating-wapper nostar">
+                                                    <div class="star-rating"><span style="width:0%">Rated <strong
+                                                            class="rating">0</strong> out of 5</span></div>
+                                                    <span class="review">(0)</span></div>
+                                                <span class="price"><span class="lynessa-Price-amount amount"><span
+                                                        class="lynessa-Price-currencySymbol">₹</span>{{ product.product.price }}</span></span>
+                                                {#                                                – <span#}
+                                                {#                                                    class="lynessa-Price-amount amount"><span#}
+                                                {#                                                    class="lynessa-Price-currencySymbol">₹</span>54.00</span></span>#}
+
+                                            </div>
+                                            <div class="group-button">
+                                                <div class="group-button-inner">
+                                                    <div class="yith-wcwl-add-to-wishlist"
+                                                         onclick="add_to_wishlist({{ product.product.id }})">
+                                                        <div class="yith-wcwl-add-button show">
+                                                            <a class="add_to_wishlist">Add to Wishlist</a>
+                                                        </div>
+                                                    </div>
+                                                    <div onclick="add_to_wishlist({{ product.product.id }})"
+                                                         class="lynessa product compare-button">
+                                                        <a class="compare button">Compare</a>
+                                                    </div>
+                                                    <div class="add-to-cart"
+                                                         onclick="add_to_cart({{ product.product.id }})">
+                                                        <p Class="button product_type_variable add_to_cart_button">
+                                                            Select
+                                                            options</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sidebar col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                        <div id="widget-area" class="widget-area shop-sidebar">
+                            <div id="lynessa_product_search-2" class="widget lynessa widget_product_search">
+                                <form class="lynessa-product-search">
+                                    <input id="lynessa-product-search-field-0" class="search-field"
+                                           placeholder="Search products…" value="" name="s" type="search">
+                                    <button type="submit" value="Search">Search</button>
+                                </form>
+                            </div>
+                            <div id="lynessa_price_filter-2" class="widget lynessa widget_price_filter"><h2
+                                    class="widgettitle">Filter By Price<span class="arrow"></span></h2>
+                                <form method="get" action="#">
+                                    <div class="price_slider_wrapper">
+                                        <div data-label-reasult="Range:" data-min="0" data-max="1000" data-unit="₹"
+                                             class="price_slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
+                                             data-value-min="100" data-value-max="800">
+                                            <div class="ui-slider-range ui-widget-header ui-corner-all"
+                                                 style="left: 10%; width: 70%;"></div>
+                                            <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
+                                                  style="left: 10%;"></span><span
+                                                class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
+                                                style="left: 80%;"></span></div>
+                                        <div class="price_slider_amount">
+                                            <button type="submit" class="button">Filter</button>
+                                            <div class="price_label">
+                                                Price: <span class="from">₹100</span> — <span class="to">₹800</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="lynessa_lynessa_layered_nav-4"
+                                 class="widget lynessa_widget_layered_nav widget_layered_nav">
+                                <h2 class="widgettitle">Filter By Color<span class="arrow"></span></h2>
+                                <form class="color-group">
+                                    <label class="term-color">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #000000"></i>
+                                        <span class="term-name">Black</span>
+                                        <span class="count">(4)</span> </label>
+                                    <label class="term-color ">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #337fdd"></i>
+                                        <span class="term-name">Blue</span>
+                                        <span class="count">(3)</span> </label>
+                                    <label class="term-color ">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #ffe59e"></i>
+                                        <span class="term-name">Light</span>
+                                        <span class="count">(1)</span> </label>
+                                    <label class="term-color ">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #b6b8ba"></i>
+                                        <span class="term-name">Gray</span>
+                                        <span class="count">(3)</span> </label>
+                                    <label class="term-color ">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #52b745"></i>
+                                        <span class="term-name">Green</span>
+                                        <span class="count">(1)</span> </label>
+                                    <label class="term-color ">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #cc7b4a"></i>
+                                        <span class="term-name">Brown</span>
+                                        <span class="count">(5)</span> </label>
+                                    <label class="term-color ">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #dd333f"></i>
+                                        <span class="term-name">Red</span>
+                                        <span class="count">(2)</span> </label>
+                                    <label class="term-color">
+                                        <input type="checkbox" name="term-color">
+                                        <i style="color: #e8e120"></i>
+                                        <span class="term-name">Yellow</span>
+                                        <span class="count">(2)</span> </label>
+                                </form>
+                            </div>
+                            <div id="lynessa_layered_nav-6"
+                                 class="widget lynessa widget_layered_nav lynessa-widget-layered-nav"><h2
+                                    class="widgettitle">Filter By Size<span class="arrow"></span></h2>
+                                <ul class="lynessa-widget-layered-nav-list">
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>14.0 mm</span>
+                                            <span class="count">(1)</span></label>
+                                    </li>
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>14.4 mm</span>
+                                            <span class="count">(4)</span></label></li>
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>14.8 mm</span>
+                                            <span class="count">(2)</span></label></li>
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>15.2 mm</span>
+                                            <span class="count">(3)</span></label></li>
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>15.6 mm</span>
+                                            <span class="count">(1)</span></label></li>
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>16.0 mm</span>
+                                            <span class="count">(4)</span></label></li>
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>16.4 mm</span>
+                                            <span class="count">(4)</span></label></li>
+                                    <li class="lynessa-widget-layered-nav-list__item lynessa-layered-nav-term ">
+                                        <label><input type="checkbox" name="size">
+                                            <span>16.8 mm</span>
+                                            <span class="count">(3)</span></label></li>
+                                </ul>
+                            </div>
+                            <div id="lynessa_product_categories-3" class="widget lynessa widget_product_categories"><h2
+                                    class="widgettitle">Product categories<span class="arrow"></span></h2>
+                                <ul class="product-categories">
+                                    <li class="cat-item cat-item-22"><label><input type="checkbox" name="cate"><span>Just In</span>
+                                        <span class="count">(11)</span></label></li>
+                                    <li class="cat-item cat-item-16"><label><input type="checkbox" name="cate"><span>Restock</span>
+                                        <span class="count">(9)</span></label></li>
+                                    <li class="cat-item cat-item-24"><label><input type="checkbox" name="cate"><span>Dresses</span>
+                                        <span class="count">(6)</span></label></li>
+                                    <li class="cat-item cat-item-27"><label><input type="checkbox" name="cate"><span>Shirts</span>
+                                        <span class="count">(6)</span></label></li>
+                                    <li class="cat-item cat-item-19"><label><input type="checkbox" name="cate"><span>New arrivals</span>
+                                        <span class="count">(7)</span></label></li>
+                                    <li class="cat-item cat-item-17"><label><input type="checkbox" name="cate"><span>Leggings</span>
+                                        <span class="count">(6)</span></label></li>
+                                    <li class="cat-item cat-item-26"><label><input type="checkbox" name="cate"><span>Knit Tops</span>
+                                        <span class="count">(4)</span></label></li>
+                                    <li class="cat-item cat-item-18"><label><input type="checkbox" name="cate"><span>Bodysuits</span>
+                                        <span class="count">(6)</span></label></li>
+                                </ul>
+                            </div>
+                        </div><!-- .widget-area -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include 'common/footer.html' %}
+    <script>
+        function updateCart(e) {
+            var xhttp = new XMLHttpRequest();
+            var params = 'quantity=' + e.value;
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    e.value = this.responseText
+                    document.getElementById("total_price").innerHTML = "";
+                    document.getElementById("cart_total").innerHTML = "";
+                    var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});
+                    document.getElementById("total_price").innerHTML = x;
+                    document.getElementById("cart_total").innerHTML = x;
+                }
+            };
+            xhttp.open("POST", "update-cart", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+
+        function add_to_cart(product_id) {
+            var xhttp = new XMLHttpRequest();
+            var params = 'product_id=' + product_id + ';is_ajax=1';
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this)
+                    document.getElementById('header_count').innerHTML = this.response
+                }
+            };
+            {#xhttp.open("POST", "add-to-cart", true);#}
+            xhttp.open("POST", "{% url 'shop:add_to_cart' %}", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+
+        {#function add_to_wishlist(product_id) {#}
+        {#    var xhttp = new XMLHttpRequest();#}
+        {#    var params = 'product_id=' + product_id;#}
+        {##}
+        {#    xhttp.onreadystatechange = function () {#}
+        {#        if (this.readyState == 4 && this.status == 200) {#}
+        {#        }#}
+        {#    };#}
+            {#xhttp.open("POST", "add-to-cart", true);#}
+        {#    xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);#}
+        {#    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');#}
+        {#    xhttp.send(params);#}
+
+       function add_to_wishlist(product_id) {
+            console.log('add to wish called')
+            var xhttp = new XMLHttpRequest();
+            var params = 'product_id=' + product_id;
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                }
+            };
+            {#xhttp.open("POST", "add-to-cart", true);#}
+            xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+    </script>
+    </body>
+{% endblock %}
+
+</html>

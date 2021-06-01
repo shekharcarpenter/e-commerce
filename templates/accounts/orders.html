@@ -1,0 +1,95 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">My Account</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            </div>
+        </div>
+    </div>
+    <main class="site-main  main-container no-sidebar">
+
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="page-main-content">
+                        <div class="lynessa">
+                            <nav class="lynessa-MyAccount-navigation">
+                                <ul>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--orders is-active">
+                                        <a href="{% url 'shop:orders_view' %}">Orders</a>
+                                    </li>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-address">
+                                        <a href="{% url 'users:address' %}">Shipping Address</a>
+                                    </li>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--edit-account ">
+                                        <a href="{% url 'users:my_account' %}">Account details</a>
+                                    </li>
+                                    <li class="lynessa-MyAccount-navigation-link lynessa-MyAccount-navigation-link--customer-logout">
+                                        <a href="{% url 'users:logout' %}">Logout</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="lynessa-MyAccount-content">
+                                <div class="lynessa-notices-wrapper"></div>
+                                <table class="lynessa-orders-table lynessa-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="lynessa-orders-table__header lynessa-orders-table__header-order-number">
+                                            <span class="nobr">Order</span></th>
+                                        <th class="lynessa-orders-table__header lynessa-orders-table__header-order-date">
+                                            <span class="nobr">Date</span></th>
+                                        <th class="lynessa-orders-table__header lynessa-orders-table__header-order-status">
+                                            <span class="nobr">Status</span></th>
+                                        <th class="lynessa-orders-table__header lynessa-orders-table__header-order-total">
+                                            <span class="nobr">Total</span></th>
+                                        <th class="lynessa-orders-table__header lynessa-orders-table__header-order-actions">
+                                            <span class="nobr">Actions</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for order in orders %}
+                                    <tr class="lynessa-orders-table__row lynessa-orders-table__row--status-on-hold order">
+                                        <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-number"
+                                            data-title="Order">
+                                            <a href="#">#{{ order.id }}</a>
+                                        </td>
+                                        <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-date"
+                                            data-title="Date">
+                                            <time datetime="2020-01-21T16:35:44+00:00">{{ order.created_at }}</time>
+                                        </td>
+                                        <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-status"
+                                            data-title="Status">
+                                            {{ order.status_text }}
+                                        </td>
+                                        <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-total"
+                                            data-title="Total">
+                                        <span class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ order.cart.total_price }}</span> for {{ order.cart.quantity }} items
+                                        </td>
+                                        <td class="lynessa-orders-table__cell lynessa-orders-table__cell-order-actions"
+                                            data-title="Actions">
+                                            <a href="{% url 'shop:orders_view' order.id %}" class="lynessa-button button view">View</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'common/footer.html' %}
+    </body>
+{% endblock %}
+</html>

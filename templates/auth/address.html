@@ -1,0 +1,90 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpeg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="img">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">My Account</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            </div>
+        </div>
+    </div>
+    <main class="site-main main-container no-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="page-main-content">
+                        <div class="lynessa">
+                            <form class="lynessa-EditAccountForm edit-account" action="{% url 'users:address' %}"
+                                  method="post">
+                                {% csrf_token %}
+                                <div class="lynessa-notices-wrapper"></div>
+                                <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                    <label for="account_display_name">Your Name&nbsp;<span
+                                            class="required">*</span></label>
+                                    <input type="text" class="lynessa-Input lynessa-Input--text input-text"
+                                           name="account_display_name" id="account_display_name"
+                                           value="{{ request.user.full_name }}">
+                                    <span><em>This will be how your name will be displayed in the account section and in reviews</em></span>
+                                </p>
+                                <div class="clear"></div>
+                                <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                    <label for="account_email">Email address&nbsp;<span
+                                            class="required">*</span></label>
+                                    <input type="email" class="lynessa-Input lynessa-Input--email input-text"
+                                           name="account_email" id="account_email" autocomplete="email"
+                                           value="{{ request.user.email }}">
+                                </p>
+                                <fieldset>
+                                    <legend>Please Update your Address here</legend>
+                                    <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                        <label for="password_current">House Number</label>
+                                        <input type="text" class="lynessa-Input lynessa-Input--password input-text"
+                                               name="house_number" value="{{ address.house_number }}"
+                                               id="password_current" autocomplete="off"
+                                        >
+                                    </p>
+                                    <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                        <label for="password_1">Street</label>
+                                        <input type="text" class="lynessa-Input lynessa-Input--password input-text"
+                                               name="street" value="{{ address.street }}" id="street"
+                                               autocomplete="off">
+                                    </p>
+                                    <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                        <label for="password_2">City</label>
+                                        <input type="text" class="lynessa-Input lynessa-Input--password input-text"
+                                               name="city" value="{{ address.city }}" id="city" autocomplete="off">
+                                    </p>
+                                    <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                        <label for="password_2">State</label>
+                                        <input type="text" class="lynessa-Input lynessa-Input--password input-text"
+                                               name="state" id="state" value="{{ address.state }}" autocomplete="off">
+                                    </p>
+                                </fieldset>
+                                <div class="clear" style="padding-top: 10px"></div>
+                                <p>
+                                    <input type="hidden" id="save-account-details-nonce"
+                                           name="save-account-details-nonce"
+                                           value="">
+                                    <input type="hidden" name="_wp_http_referer" value="">
+                                    <button type="submit" class="lynessa-Button button" name="save_account_details"
+                                            value="Save changes">Save changes
+                                    </button>
+                                    <input type="hidden" name="action" value="save_account_details">
+                                </p>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include 'common/footer.html' %}
+    </body>
+{% endblock %}
+</html>

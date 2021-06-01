@@ -1,0 +1,123 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block body %}
+    <body>
+    {% include 'common/header.html' %}
+
+    <div class="banner-wrapper has_background">
+        <img src="{% static 'images/banner-for-all2.jpg' %}"
+             class="img-responsive attachment-1920x447 size-1920x447" alt="">
+        <div class="banner-wrapper-inner">
+            <h1 class="page-title">My Account</h1>
+            <div role="navigation" aria-label="Breadcrumbs" class="breadcrumb-trail breadcrumbs">
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .input-style .user-input {
+            border: 1px solid #f2a285;
+        }
+    </style>
+
+    <main class="site-main  main-container no-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="page-main-content">
+                        <div class="lynessa">
+                            <div class="lynessa-notices-wrapper"></div>
+                            <div class="u-columns col2-set" id="customer_login">
+                                <div class="u-column1 col-1 ">
+
+                                    <h2>Login</h2>
+                                    <form class="lynessa-form lynessa-form-login login input-style"
+                                          action="{% url 'users:login' %}" method="post">
+                                        {% csrf_token %}
+
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="username">Username or email address&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text"
+                                                   class="lynessa-Input lynessa-Input--text input-text user-input"
+                                                   name="email" id="username" name="email" autocomplete="username"
+                                                   value="" placeholder="Username or email address"/>
+                                        </p>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="password">Password&nbsp;<span class="required">*</span></label>
+                                            <input class="lynessa-Input lynessa-Input--text input-text user-input"
+                                                   type="password" name="password" id="password"
+                                                   autocomplete="current-password" placeholder="Password"
+                                            >
+                                        </p>
+                                        <ul>
+{#                                            {% for error in errors %}#}
+{#                                                <li style="color: red">{{ error }}</li>#}
+{#                                            {% endfor %}#}
+                                        </ul>
+                                        <p class="form-row">
+                                            <button type="submit" class="lynessa-Button button" name="login"
+                                                    value="Log in">Log in
+                                            </button>
+                                        </p>
+
+                                    </form>
+                                </div>
+                                <div class="u-column2 col-2">
+                                    <h2>Register</h2>
+                                    <form method="post" action="{% url 'users:register' %}"
+                                          class="lynessa-form lynessa-form-register register input-style">
+                                        {% csrf_token %}
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="reg_email">Full Name&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="text"
+                                                   class="lynessa-Input lynessa-Input--text input-text user-input"
+                                                   name="full_name" id="reg_email" autocomplete="" value=""
+                                                   placeholder="Full Name">
+                                        </p>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="reg_email">Email address&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="email"
+                                                   class="lynessa-Input lynessa-Input--text input-text user-input"
+                                                   name="email" id="reg_email" autocomplete="email" value="" placeholder="Email address">
+                                        </p>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="reg_email">Password&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="password"
+                                                   class="lynessa-Input lynessa-Input--text input-text user-input"
+                                                   name="confirm_password" id="reg_email" autocomplete="email" value=""
+                                                   placeholder="Password">
+                                        </p>
+                                        <p class="lynessa-form-row lynessa-form-row--wide form-row form-row-wide">
+                                            <label for="reg_email">Confirm Password&nbsp;<span
+                                                    class="required">*</span></label>
+                                            <input type="password"
+                                                   class="lynessa-Input lynessa-Input--text input-text user-input"
+                                                   name="password" id="reg_email" autocomplete="email" value=""
+                                                    placeholder="Confirm Password">
+                                        </p>
+                                    {% if errors %}
+                                        {% for error in errors %}
+                                            <li style="color: red">{{ error }}</li>
+                                        {% endfor %}
+                                    {% endif %}
+                                        <p class="lynessa-FormRow form-row">
+                                            <button type="submit" class="lynessa-Button button" name="register"
+                                                    value="Register">Register
+                                            </button>
+                                        </p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include 'common/footer.html' %}
+    </body>
+{% endblock %}

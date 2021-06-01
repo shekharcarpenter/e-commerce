@@ -1,0 +1,305 @@
+{% extends 'common/base.html' %}
+{% load static %}
+<link href="https://fonts.googleapis.com/css2?family=Hind&display=swap" rel="stylesheet">
+{% block body %}
+    <body class="single single-product">
+    {% include 'common/header.html' %}
+    <div class="single-thumb-vertical main-container shop-page no-sidebar">
+        <div class="container">
+            <div class="row">
+                <div class="main-content col-md-12">
+                    <div class="lynessa-notices-wrapper"></div>
+                    <div id="product-27"
+                         class="post-27 product type-product status-publish has-post-thumbnail product_cat-table
+                         product_cat-new-arrivals product_cat-lamp product_tag-table product_tag-sock first
+                          instock shipping-taxable purchasable product-type-variable has-default-attributes">
+                        <div class="main-contain-summary">
+                            <div class="contain-left has-gallery">
+                                <div class="single-left">
+                                    <div class="lynessa-product-gallery lynessa-product-gallery--with-images lynessa-product-gallery--columns-4 images">
+                                        <a href="#" class="lynessa-product-gallery__trigger">
+                                            <img draggable="false" class="emoji" alt="🔍"
+                                                 src="https://s.w.org/images/core/emoji/11/svg/1f50d.svg"></a>
+                                        <div class="flex-viewport">
+                                            <figure class="lynessa-product-gallery__wrapper">
+                                                {% if product.get_all_images %}
+                                                    {% for product_image in product.get_all_images %}
+                                                        <div class="lynessa-product-gallery__image">
+                                                            <img alt="img"
+                                                                 src="{{ product_image.original.url }}">
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="lynessa-product-gallery__image">
+                                                        <img alt="img"
+                                                             src="{% static 'images/default.png' %}">
+                                                    </div>
+                                                {% endif %}
+                                            </figure>
+                                        </div>
+                                        <ol class="flex-control-nav flex-control-thumbs">
+
+                                            {% if product.get_all_images %}
+                                                {% for product_image in product.get_all_images %}
+                                                    <li>
+                                                        <img
+                                                                src="{{ product_image.original.url }}"
+                                                                {#                                                        src="{% get_media_prefix %}{{ product_image.original }}"#}
+                                                                alt="img">
+                                                    </li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <img src="{% static 'images/default.png' %}"
+                                                     alt="">
+                                            {% endif %}
+
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="summary entry-summary">
+                                    <div class="flash">
+                                        <span class="onnew"><span class="text">New</span></span></div>
+                                    <h1 class="product_title entry-title">{{ product.name }}</h1>
+                                    <p class="price"><span class="lynessa-Price-amount amount">
+                                        <span class="lynessa-Price-currencySymbol"
+                                        style="text-decoration: line-through; color: gray"
+                                        >₹ {{ product.actual_price }}</span>
+                                        </span>
+                                        <span class="lynessa-Price-currencySymbol">₹</span>
+                                            {{ product.price }}
+                                        </span>
+                                        <span
+                                                class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol"></span></span></p>
+                                    <p class="stock in-stock">
+                                        Availability: <span> In stock</span>
+                                    </p>
+                                    <div class="lynessa-product-details__short-description">
+                                        <p>{{ product.description }}</p>
+                                    </div>
+                                    <form class="variations_form cart" action="{% url 'shop:add_to_cart' %}"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <div class="single_variation_wrap">
+                                            <div class="lynessa-variation single_variation"></div>
+                                            <div class="lynessa-variation-add-to-cart variations_button ">
+                                                <div class="quantity">
+                                                    <span class="qty-label">Quantity:</span>
+                                                    <div class="control">
+                                                        <a class="btn-number qtyminus quantity-minus" href="#">-</a>
+                                                        <input type="text" data-step="1" min="0" max=""
+                                                               name="quantity"
+                                                               value="{{ quantity }}" title="Qty"
+                                                               class="input-qty input-text qty text"
+                                                               size="4" pattern="[0-9]*" inputmode="numeric">
+                                                        <a class="btn-number qtyplus quantity-plus" href="#">+</a>
+                                                    </div>
+                                                </div>
+                                                <input name="product_id"
+                                                       value="{{ product.id }}"
+                                                       type="hidden"
+                                                >
+                                                {% if user.is_authenticated %}
+                                                    <button onclick="updateCart()" type="submit"
+                                                            class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
+                                                        Add to cart
+                                                    </button>
+                                                {% else %}
+                                                    <a href="{% url 'users:login' %}">
+                                                        <button type="submit"
+                                                                class="single_add_to_cart_button button alt lynessa-variation-selection-needed">
+                                                            Add to cart
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {#                                    todo make it red when added to wishlist#}
+                                    <div class="yith-wcwl-add-to-wishlist">
+                                        <div class="yith-wcwl-add-button show">
+                                            <a href="#" rel="nofollow"
+                                               product_id="{{ product.id }}" data-product-type="variable"
+                                               class="add_to_wishlist" onclick="addToWishlist(this, {{ product.id }})">
+                                                Add to Wishlist </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="clear"></div>
+                                    <div class="product_meta">
+                                        <div class="wcml-dropdown product wcml_currency_switcher">
+                                            <ul>
+                                                <li class="wcml-cs-active-currency">
+                                                    <a class="wcml-cs-item-toggle"></a>
+                                                    <ul class="wcml-cs-submenu">
+                                                        <li>
+                                                            <a></a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <span class="sku_wrapper">SKU: <span class="sku">{{ product.sku }}</span></span>
+                                        <span class="posted_in">Categories: <a
+                                                href="#"
+                                                rel="tag">Dresses</a>, <a
+                                                href="#" rel="tag">New arrivals</a>, <a
+                                                href="#" rel="tag">Leggings</a></span>
+                                        {% if product.material %}
+                                            <span class="tagged_as">Material Type:
+                                                <a href="#" rel="tag">{{ product.material }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.fabrics %}
+                                            <span class="tagged_as">Fabrics:
+                                                <a href="#" rel="tag">{{ product.fabrics }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.fit_type %}
+                                            <span class="tagged_as">Fit Type:
+                                                <a href="#" rel="tag">{{ product.fit_type }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.fabric_composition %}
+                                            <span class="tagged_as">Fabric Composition:
+                                                <a href="#" rel="tag">{{ product.fabric_composition }}</a>
+                                            </span>
+                                        {% endif %}
+                                        {% if product.model_height %}
+                                            <span class="tagged_as">Model Height:
+                                                <a href="#" rel="tag">{{ product.model_height }}</a>
+                                            </span>
+                                        {% endif %}
+
+
+                                    </div>
+                                    <div class="lynessa-share-socials">
+                                        <h5 class="social-heading">Share: </h5>
+                                        <a target="_blank" class="facebook" href="#">
+                                            <i class="fa fa-facebook-f"></i>
+                                        </a>
+                                        <a target="_blank" class="twitter"
+                                           href="#"><i class="fa fa-twitter"></i>
+                                        </a>
+                                        <a target="_blank" class="pinterest"
+                                           href="#"> <i class="fa fa-pinterest"></i>
+                                        </a>
+                                        <a target="_blank" class="googleplus"
+                                           href="#"><i class="fa fa-google-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lynessa-tabs lynessa-tabs-wrapper">
+                            <ul class="tabs dreaming-tabs" role="tablist">
+                                <li class="reviews_tab" id="tab-title-reviews" role="tab" aria-controls="tab-reviews">
+                                    <a href="#tab-reviews">Reviews (0)</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 dreaming_related-product">
+                    <div class="block-title">
+                        <h2 class="product-grid-title">
+                            Related Products
+                            <span></span>
+                        </h2>
+                    </div>
+                    <div class="owl-slick owl-products equal-container better-height"
+                         data-slick="{&quot;arrows&quot;:false,&quot;slidesMargin&quot;:30,&quot;dots&quot;:true,&quot;infinite&quot;:false,&quot;slidesToShow&quot;:4}"
+                         data-responsive="[{&quot;breakpoint&quot;:480,&quot;settings&quot;:{&quot;slidesToShow&quot;:2,&quot;slidesMargin&quot;:&quot;10&quot;}},{&quot;breakpoint&quot;:768,&quot;settings&quot;:{&quot;slidesToShow&quot;:2,&quot;slidesMargin&quot;:&quot;10&quot;}},{&quot;breakpoint&quot;:992,&quot;settings&quot;:{&quot;slidesToShow&quot;:3,&quot;slidesMargin&quot;:&quot;20&quot;}},{&quot;breakpoint&quot;:1200,&quot;settings&quot;:{&quot;slidesToShow&quot;:3,&quot;slidesMargin&quot;:&quot;20&quot;}},{&quot;breakpoint&quot;:1500,&quot;settings&quot;:{&quot;slidesToShow&quot;:3,&quot;slidesMargin&quot;:&quot;30&quot;}}]">
+                        {% for recommended_product in related_products %}
+
+                            <div class="product-item style-01 post-27 product type-product status-publish has-post-thumbnail product_cat-table product_cat-new-arrivals product_cat-lamp product_tag-table product_tag-sock  instock shipping-taxable purchasable product-type-variable has-default-attributes ">
+                                <div class="product-inner tooltip-left">
+                                    <div class="product-thumb">
+                                        <a class="thumb-link"
+                                           href="
+                                                   {% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
+                                           tabindex="0">
+                                            <img class="img-responsive"
+                                                 src="{{ recommended_product.primary_image.original.url }}"
+                                                 width="600" height="778">
+                                        </a>
+                                        <div class="flash"><span class="onnew"><span class="text">New</span></span>
+                                        </div>
+                                        <div class="group-button">
+                                            <div class="yith-wcwl-add-to-wishlist">
+                                                <div class="yith-wcwl-add-button show">
+                                                    <a href="#" class="add_to_wishlist">Add to Wishlist</a>
+                                                </div>
+                                            </div>
+                                            <div class="add-to-cart">
+                                                <a href="
+                                                        {% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
+                                                   class="button product_type_variable add_to_cart_button">Add to
+                                                    cart</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-info equal-elem">
+                                        <h3 class="product-name product_title">
+                                            <a href="
+                                                    {% if user.is_authenticated %}{% url 'shop:view_product' recommended_product.slug %}{% endif %}"
+                                               tabindex="0">{{ recommended_product.name }}</a>
+                                        </h3>
+                                        <div class="rating-wapper nostar">
+                                            <div class="star-rating"><span style="width:0%">Rated <strong
+                                                    class="rating">0</strong> out of 5</span></div>
+                                            <span class="review">(0)</span></div>
+                                        <span class="price"><span class="lynessa-Price-amount amount"><span
+                                                class="lynessa-Price-currencySymbol">₹</span>{{ recommended_product.price }}</span></span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'common/footer.html' %}
+    <script>
+        function addToWishlist(e, product_id) {
+            console.log(e)
+            var xhttp = new XMLHttpRequest();
+            var params = 'product_id=' + product_id;
+            {#var params = 'product_id=' + e.product_id;#}
+            console.log(params)
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    e.value = this.responseText
+                }
+            };
+            xhttp.open("POST", "{% url 'shop:add_to_wish_list' %}", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+
+        function updateCart(e) {
+            var xhttp = new XMLHttpRequest();
+            var params = 'quantity=' + e.value;
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    e.value = this.responseText
+                    document.getElementById("total_price").innerHTML = "";
+                    document.getElementById("cart_total").innerHTML = "";
+                    var x = "₹ " + parseInt(this.responseText) * parseInt({{ price }});
+                    document.getElementById("total_price").innerHTML = x;
+                    document.getElementById("cart_total").innerHTML = x;
+                }
+            };
+            xhttp.open("POST", "update-cart", true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send(params);
+        }
+    </script>
+    </body>
+{% endblock %}
+</html>
